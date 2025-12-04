@@ -20,7 +20,7 @@
   entry: "ghcr.io/ministryofjustice/pre-commit-hook:latest"
   language: "docker_image"
   fail_fast: true
-  pass_filenames: false
   always_run: true
   verbose: true
+  stages: [pre-commit, pre-push]
   exclude: "^\\..*|/\\..*"
