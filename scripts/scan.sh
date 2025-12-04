@@ -26,7 +26,7 @@
 #!/bin/sh
 set -eu
 
-echo -e "\n⚡️ MoJ scanner ${VERSION}⚡️\n";
+echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 
 # Dependencies
 if ! command -v gitleaks >/dev/null 2>&1; then
