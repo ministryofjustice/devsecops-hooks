@@ -1,0 +1,41 @@
+# Variables
+.env
+.env.prod
+
+# Configurations
+.config
+
+# NPM
+.npm
+dist
+**/node_modules/*
+
+# Secrets
+secrets/**
+jwt_key
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Library/
+
+# Tests
+coverage
+**/cypress/videos/*
+**/cypress/screenshots/*
+**/cypress/downloads/*
+
+# IDE - VSCode
+.vscode/*
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json

@@ -15,10 +15,12 @@
 #            from being scanned by this hook
 #
 - id: baseline
-  name: "🔐 MoJ security scan - Secrets"
-  description: "Pre commit hooks scans for hardcoded secrets and credentials using myriads of CLI tools"
-  entry: "https://ghcr.io/devsecops-hooks:latest"
+  name: "🔐 Ministry of Justice - Scanner"
+  description: "MoJ's pre commit hooks scans for hardcoded secrets and credentials using myriads of CLI tools."
+  entry: "ghcr.io/ministryofjustice/pre-commit-hook:latest"
   language: "docker_image"
   fail_fast: true
-  pass_filenames: false
+  always_run: true
+  verbose: true
+  stages: [pre-commit, pre-push]
   exclude: "^\\..*|/\\..*"

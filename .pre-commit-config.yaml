@@ -1,0 +1,5 @@
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: feat/AS001-pre-commit-git-hook
+    hooks:
+      - id: baseline
