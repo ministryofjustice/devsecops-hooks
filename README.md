@@ -158,7 +158,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
     ○ ░
     ░    gitleaks
 
-Finding:     export API_KEY="sk-1234567890abcdef"
+Finding:     export API_KEY=""
 Secret:      sk-1234567890abcdef
 RuleID:      generic-api-key
 Entropy:     4.5

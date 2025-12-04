@@ -17,6 +17,6 @@
 #   4. To run manually: pre-commit run --all-files
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: c0cb847a655552c639b6e03fdd30eb1620bda347
+    rev: a5bd873c96a914b5be53d35085f8f554ff9c4720
     hooks:
       - id: baseline
