@@ -1,5 +1,22 @@
+# Pre-commit configuration file for DevSecOps security hooks
+# 
+# This configuration integrates the Ministry of Justice DevSecOps hooks
+# to perform security baseline checks before commits are allowed.
+#
+# Repository: https://github.com/ministryofjustice/devsecops-hooks
+# Revision: c0cb847a655552c639b6e03fdd30eb1620bda347 (pinned commit SHA)
+#
+# Hooks:
+#   - baseline: Performs security baseline scans and checks to ensure
+#               code meets minimum security standards before committing
+#
+# Usage:
+#   1. Install pre-commit: pip install pre-commit
+#   2. Install hooks: pre-commit install
+#   3. Hooks will run automatically on git commit
+#   4. To run manually: pre-commit run --all-files
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: main
+    rev: c0cb847a655552c639b6e03fdd30eb1620bda347
     hooks:
       - id: baseline
