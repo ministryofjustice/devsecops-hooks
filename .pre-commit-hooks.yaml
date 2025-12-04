@@ -22,5 +22,5 @@
   fail_fast: true
   always_run: true
   verbose: true
-  stages: [pre-commit, pre-push]
+  stages: [pre-commit, pre-push, commit-msg]
   exclude: "^\\..*|/\\..*"
