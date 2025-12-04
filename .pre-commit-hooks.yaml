@@ -21,5 +21,6 @@
   language: "docker_image"
   fail_fast: true
   pass_filenames: false
+  always_run: true
   verbose: true
   exclude: "^\\..*|/\\..*"
