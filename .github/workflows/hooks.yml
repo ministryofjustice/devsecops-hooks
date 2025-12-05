@@ -57,7 +57,7 @@ permissions:
   pull-requests: read
 
 on:
-  push:
+  pull_request:
     branches: ["*"]
 
 env:
