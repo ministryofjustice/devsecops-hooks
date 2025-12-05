@@ -1,0 +1,25 @@
+{
+  "name": "moj-hooks",
+  "version": "1.0.0",
+  "description": "A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.",
+  "keywords": [
+    "devsecops",
+    "hooks"
+  ],
+  "homepage": "https://github.com/ministryofjustice/devsecops-hooks#readme",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/devsecops-hooks/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/devsecops-hooks.git"
+  },
+  "license": "MIT",
+  "author": "Abhi Markan",
+  "scripts": {
+    "spellcheck": "cspell lint --gitignore --no-must-find-files --unique --no-progress --show-suggestions --color **/*"
+  },
+  "dependencies": {
+    "cspell": "^9.4.0"
+  }
+}
