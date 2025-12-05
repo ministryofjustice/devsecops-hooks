@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.0.0...v1.1.0) (2025-12-05)
+
+
+### Features
+
+* **devsecops-9:** update githook version to v1.0.0 ([c882451](https://github.com/ministryofjustice/devsecops-hooks/commit/c8824511622ddc8e919c8b59fb9c1f5feb04b9d2))
+* **devsecops-9:** update githook version to v1.0.0 ([f74dda1](https://github.com/ministryofjustice/devsecops-hooks/commit/f74dda1c3c8fa9d00a7dd2dbd2533c23218c3189))
+
 ## 1.0.0 (2025-12-05)
 
 
