@@ -96,8 +96,15 @@ jobs:
         with:
           python-version: ${{ VARS.PYTHON_VERSION }}
 
+      - name: Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
       - name: Install
-        run: pip install pre-commit
+        run: |
+          pip install pre-commit
+          npm ci
 
       - name: Execute
         run: pre-commit run --all-files
