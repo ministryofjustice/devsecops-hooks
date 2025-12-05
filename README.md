@@ -5,6 +5,8 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](Dockerfile)
 
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/devsecops-hooks/badge)](https://github-community.service.justice.gov.uk/repository-standards/devsecops-hooks)
+
 ## 📋 Overview
 
 A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
@@ -40,7 +42,7 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: c0cb847a655552c639b6e03fdd30eb1620bda347  # Update to latest commit SHA
+       rev: v1.0.0
        hooks:
          - id: baseline
    ```
