@@ -3,8 +3,8 @@
 # This configuration integrates the Ministry of Justice DevSecOps hooks
 # to perform security baseline checks before commits are allowed.
 #
-# Repository: https://github.com/ministryofjustice/devsecops-hooks
-# Revision: c0cb847a655552c639b6e03fdd30eb1620bda347 (pinned commit SHA)
+# Repository: https://github.com/ministryofjustice/devsecops-hooks/releases
+# Revision: v1.0.0
 #
 # Hooks:
 #   - baseline: Performs security baseline scans and checks to ensure
@@ -17,7 +17,7 @@
 #   4. To run manually: pre-commit run --all-files
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: a5bd873c96a914b5be53d35085f8f554ff9c4720
+    rev: v1.0.0
     hooks:
       - id: baseline
         name: MoJ baseline security hook
