@@ -1,5 +1,5 @@
 # Pre-commit configuration file for DevSecOps security hooks
-# 
+#
 # This configuration integrates the Ministry of Justice DevSecOps hooks
 # to perform security baseline checks before commits are allowed.
 #
@@ -20,3 +20,12 @@ repos:
     rev: a5bd873c96a914b5be53d35085f8f554ff9c4720
     hooks:
       - id: baseline
+        name: MoJ baseline security hook
+
+  - repo: local
+    hooks:
+      - id: spellcheck
+        name: Spell check in British English
+        entry: npm run spellcheck
+        language: system
+        pass_filenames: false
