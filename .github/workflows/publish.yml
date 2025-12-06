@@ -10,10 +10,7 @@
 name: Automated release
 run-name: Executing release on ${{ github.repository }} 🚀
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+permissions: {}
 
 on:
   push:
@@ -42,16 +39,24 @@ jobs:
   release:
     name: Release ✨
     needs: setup
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     environment:
       name: ${{ needs.setup.outputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository
-        uses: actions/checkout@v6
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
-      - name: Create
-        uses: googleapis/release-please-action@v4
+      - name: Release
+        id: release
+        uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           release-type: node

@@ -1,85 +1,53 @@
-###################
-# 0. BASE
-###################
-ARG VERSION=1.0.0
-ARG GIT_LEAKS_VERSION=8.30.0
-ARG GIT_LEAKS_SHA512="3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58"
-ARG ROOT=/app
+FROM docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375
 
-###################
-# 1. BUILD
-###################
+ARG VERSION="local" \ 
+    GIT_LEAKS_VERSION="8.30.0" \
+    GIT_LEAKS_SHA512="3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58"
 
-# Image
-FROM alpine:3.22 AS build
+ENV CONTAINER_GID="65532" \
+    CONTAINER_GROUP="scanner" \
+    CONTAINER_UID="65532" \
+    CONTAINER_USER="scanner" \
+    CONTAINER_WORKDIR="/scanner" \
+    VERSION="${VERSION}"
 
-# Shell
-SHELL ["/bin/sh", "-c"]
-
-# Variables
-ARG VERSION
-ARG GIT_LEAKS_VERSION
-ARG GIT_LEAKS_SHA512
-ARG ROOT
-ENV VERSION=$VERSION
-ENV GIT_LEAKS_VERSION=$GIT_LEAKS_VERSION
-ENV GIT_LEAKS_SHA512=$GIT_LEAKS_SHA512
-ENV ROOT=$ROOT
-
-# Root
-WORKDIR ${ROOT}
-
-# Scripts
-COPY ./scripts ./scripts
-
-# Permissions
-RUN chmod -R +x ${ROOT}/scripts
-
-# GitLeak
-RUN ${ROOT}/scripts/gitleaks.sh
-
-
-# ###################
-# # 2. PRODUCTION
-# ###################
-
-# Image
-FROM alpine:3.22 AS production
+LABEL org.opencontainers.image.title="MoJ Secret Scan" \
+      org.opencontainers.image.description="Pre-commit hook scanning for hardcoded secrets and credentials" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.vendor="Ministry of Justice" \
+      org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/ministryofjustice/devsecops-actions"
 
 # Shell
-SHELL ["/bin/sh", "-c"]
+SHELL ["/bin/sh", "-e", "-u", "-o", "pipefail", "-c"]
 
-# Variables
-ARG VERSION
-ARG GIT_LEAKS_VERSION
-ARG GIT_LEAKS_SHA512
-ARG ROOT
-ENV VERSION=$VERSION
-ENV GIT_LEAKS_VERSION=$GIT_LEAKS_VERSION
-ENV GIT_LEAKS_SHA512=$GIT_LEAKS_SHA512
-ENV ROOT=$ROOT
+# Create non-root user and group, and working directory
+RUN <<EOF
+addgroup -g "${CONTAINER_GID}" -S "${CONTAINER_GROUP}"
 
-# Labels
-LABEL org.opencontainers.image.title="MoJ Secret Scan"
-LABEL org.opencontainers.image.description="Pre-commit hook scanning for hardcoded secrets and credentials"
-LABEL org.opencontainers.image.version=$VERSION
-LABEL org.opencontainers.image.vendor="Ministry of Justice"
-LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-commit-hook"
+adduser -u "${CONTAINER_UID}" -D -S -G "${CONTAINER_GROUP}" "${CONTAINER_USER}"
 
-# Root
-WORKDIR ${ROOT}
+install --directory --owner "${CONTAINER_USER}" --group "${CONTAINER_GROUP}" --mode 0755 "${CONTAINER_WORKDIR}"
+EOF
 
-# Executables
-COPY --from=build ${ROOT}/scripts/scan.sh ./scripts/scan.sh
-COPY --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
+# Install GitLeaks
+RUN <<EOF
+wget -O /tmp/gitleaks.tar.gz "https://github.com/gitleaks/gitleaks/releases/download/v${GIT_LEAKS_VERSION}/gitleaks_${GIT_LEAKS_VERSION}_linux_x64.tar.gz"
 
-# Permissions
-RUN chmod +x ${ROOT}/scripts/scan.sh
+tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
 
-# User
-RUN adduser -D scanner
-USER scanner
+echo "${GIT_LEAKS_SHA512}  /tmp/gitleaks.tar.gz" | sha512sum -c -
+    
+install --owner root --group root --mode 0755 /tmp/gitleaks /usr/local/bin/gitleaks
 
-# Execute
-ENTRYPOINT ["sh", "-c", "exec \"$ROOT/scripts/scan.sh\""]
+rm -rf /tmp/gitleaks /tmp/gitleaks.tar.gz
+EOF
+
+# Copy scripts
+COPY --chown=nobody:nogroup --chmod=0755 scripts/ "${CONTAINER_WORKDIR}/scripts/"
+
+# Switch to non-root user and set working directory
+USER "${CONTAINER_USER}"
+WORKDIR "${CONTAINER_WORKDIR}"
+
+ENTRYPOINT ["sh", "-c", "exec ${CONTAINER_WORKDIR}/scripts/scan.sh"]

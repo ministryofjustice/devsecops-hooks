@@ -10,6 +10,7 @@
 #
 # ENVIRONMENT VARIABLES:
 #   VERSION: Version number of the MoJ scanner to be displayed
+#   SCAN_SOURCE: Directory to scan for secrets (default: /src)
 #
 # USAGE:
 #   ./scan.sh
@@ -26,7 +27,9 @@
 #!/bin/sh
 set -eu
 
-echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
+SCAN_SOURCE="${SCAN_SOURCE:-/src}"
+
+echo -e "\n⚡️ Ministry of Justice - Scanner [ ${VERSION} ] ⚡️\n";
 
 # Dependencies
 if ! command -v gitleaks >/dev/null 2>&1; then
@@ -35,7 +38,7 @@ if ! command -v gitleaks >/dev/null 2>&1; then
 fi
 
 # GitLeaks
-gitleaks detect --source=/src --exit-code 1 --no-git --verbose
+gitleaks detect --source="${SCAN_SOURCE}" --exit-code 1 --no-git --verbose
 
 # Successful
 echo "✅ No secrets have been detected."
