@@ -10,7 +10,7 @@
 
 A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
 
-* [GitLeaks](https://github.com/gitleaks/gitleaks)
+- [GitLeaks](https://github.com/gitleaks/gitleaks)
 
 ## ✨ Features
 
@@ -33,20 +33,23 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 ### Installation
 
 1. **Install pre-commit** (if not already installed):
+
    ```bash
    pip install pre-commit
    ```
 
 2. **Add to your repository** by creating or updating `.pre-commit-config.yaml`:
+
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: c0cb847a655552c639b6e03fdd30eb1620bda347  # Update to latest commit SHA
+       rev: c0cb847a655552c639b6e03fdd30eb1620bda347 # Update to latest commit SHA
        hooks:
          - id: baseline
    ```
 
 3. **Install the hook**:
+
    ```bash
    pre-commit install
    ```
@@ -72,29 +75,27 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `VERSION` | `1.0.0` | Scanner version number |
-| `GIT_LEAKS_VERSION` | `8.30.0` | GitLeaks version to install |
-| `GIT_LEAKS_SHA512` | (specified) | SHA-512 checksum for verification |
-| `ROOT` | `/app` | Application root directory |
+| Argument            | Default     | Description                       |
+| ------------------- | ----------- | --------------------------------- |
+| `VERSION`           | `local`     | Scanner version number            |
+| `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
 
 ## 🏗️ Architecture
 
 ### Components
 
-1. **gitleaks.sh** - Downloads, verifies, and installs GitLeaks
-2. **scan.sh** - Executes the security scan using CLI commands
-3. **Dockerfile** - Multi-stage build for optimised container image
-4. **.pre-commit-hooks.yaml** - Hook configuration for pre-commit framework
+1. **scan.sh** - Executes the security scan using GitLeaks
+2. **Dockerfile** - Single-stage build for optimised container image
+3. **.pre-commit-hooks.yaml** - Hook configuration for pre-commit framework
 
 ### Docker Image
 
-Built using a multi-stage Alpine Linux approach:
+Built using Alpine Linux 3.23:
 
-- **Build Stage**: Downloads and verifies binary
-- **Production Stage**: Minimal runtime image with scanner scripts
-- **User**: Runs as non-root `scanner` user for security
+- Downloads and verifies GitLeaks binary with SHA-512 checksum
+- Minimal runtime image with scanner scripts
+- Runs as non-root `scanner` user (UID/GID: 65532) for security
 
 ## 📦 Usage
 
@@ -135,7 +136,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
 ### ✅ Success (No Secrets Detected)
 
 ```
-⚡️ MoJ scanner 1.0.0⚡️
+⚡️ Ministry of Justice - Scanner [ 1.0.0 ] ⚡️
 
 ○
     │╲
@@ -181,34 +182,31 @@ docker build -t devsecops-hooks:local .
 ### Testing Locally
 
 ```bash
-# Test the GitLeaks installation script
-docker run --rm -it alpine:3.22 sh -c "
-  export GIT_LEAKS_VERSION=8.30.0
-  export GIT_LEAKS_SHA512=3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58
-  ./scripts/gitleaks.sh
-"
-
 # Test the scanner
 docker run --rm -v $(pwd):/src devsecops-hooks:local
+
+# Test with custom source directory
+docker run --rm -v $(pwd):/code -e SCAN_SOURCE=/code devsecops-hooks:local
 ```
 
 ## 📝 Environment Variables
 
-### Required for Installation
+### Build Arguments
 
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (e.g., `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
+- `VERSION` - Scanner version number (default: `local`)
 
 ### Runtime
 
 - `VERSION` - Scanner version displayed in output
-- `ROOT` - Application root directory (default: `/app`)
+- `SCAN_SOURCE` - Directory to scan for secrets (default: `/src`)
 
 ## 📄 Licence
 
 This project is licensed under the MIT Licence - see the [LICENSE](LICENSE) file for details.
 
-**Copyright © 2025 Ministry of Justice**
+**Copyright © 2025 Crown Copyright (Ministry of Justice)**
 
 ## 🔗 Links
 
