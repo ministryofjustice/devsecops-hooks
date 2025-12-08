@@ -51,14 +51,11 @@
 name: Git hooks
 run-name: Executing pre-commit on ${{ github.repository }} 🚀
 
-permissions:
-  contents: read
-  issues: read
-  pull-requests: read
-
 on:
   pull_request:
     branches: ["*"]
+
+permissions: {}
 
 env:
   environment: base
@@ -81,6 +78,11 @@ jobs:
 
   # 2. Execute pre-commit hooks
   hooks:
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+
     name: Hooks 🪝
     needs: setup
     environment:

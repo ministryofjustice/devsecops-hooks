@@ -34,10 +34,7 @@
 name: Automated release
 run-name: Executing release on ${{ github.repository }} 🚀
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+permissions: {}
 
 on:
   push:
@@ -64,6 +61,11 @@ jobs:
 
   # 2. Update files
   release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
     name: Release ✨
     needs: setup
     environment:
