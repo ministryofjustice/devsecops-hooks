@@ -1,0 +1,112 @@
+# GitHub Actions Workflow Documentation
+#
+# Purpose:
+#   Automates the execution of pre-commit hooks on every push to any branch
+#   in the repository to ensure code quality and consistency.
+#
+# Workflow Name: Git hooks
+#
+# Trigger:
+#   - Event: push
+#   - Branches: All branches (wildcard "*")
+#
+# Permissions:
+#   - contents: read - Access to repository contents
+#   - issues: read - Access to repository issues
+#   - pull-requests: read - Access to pull requests
+#
+# Environment Variables:
+#   - environment: Set to "base" - defines the deployment environment
+#   - timezone: Retrieved from repository variable TIMEZONE
+#
+# Jobs:
+#
+#   1. setup (Infrastructure 🔧):
+#      Description: Prepares the workflow environment and validates configuration
+#      Runs on: ubuntu-latest
+#      Outputs:
+#        - environment: The environment name for downstream jobs
+#        - timezone: The timezone setting for the workflow
+#      Steps:
+#        - Echoes the configured environment name
+#        - Echoes the configured timezone setting
+#
+#   2. hooks (Hooks 🪝):
+#      Description: Executes pre-commit hooks against all files in the repository
+#      Dependencies: Requires successful completion of 'setup' job
+#      Runs on: ubuntu-latest
+#      Environment: Uses environment output from setup job
+#      Steps:
+#        - Checks out the repository code
+#        - Sets up Python using version specified in VARS.PYTHON_VERSION
+#        - Installs pre-commit package via pip
+#        - Runs all pre-commit hooks against all files in the repository
+#
+# Notes:
+#   - The workflow will fail if any pre-commit hooks fail
+#   - Python version must be defined in repository variables as PYTHON_VERSION
+#   - TIMEZONE variable should be configured in repository variables
+#
+
+name: Git hooks
+run-name: Executing pre-commit on ${{ github.repository }} 🚀
+
+on:
+  pull_request:
+    branches: ["*"]
+
+permissions: {}
+
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE }}
+
+jobs:
+  # 1. Setup test infrastructure
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
+
+  # 2. Execute pre-commit hooks
+  hooks:
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+
+    name: Hooks 🪝
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@v6
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ VARS.PYTHON_VERSION }}
+
+      - name: Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
+      - name: Install
+        run: |
+          pip install pre-commit
+          npm ci
+
+      - name: Execute
+        run: pre-commit run --all-files

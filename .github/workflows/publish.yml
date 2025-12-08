@@ -1,19 +1,40 @@
-# Git Hub Actions
-#####################################
-# This GHA is responsible for creating automated
-# GitHub release based PR. Once the PR is merged
-# Google release please will update the `CHANGELOG.md`
-# `README.md` and `package.json` files.
-# Followed by tagging the commit with the appropriate version
-# number (as per SemVer) and create a GitHub release on the tag.
+# GitHub Actions workflow for automated releases
+#
+# This workflow automates the release process using Google's release-please action.
+# It triggers on pushes to the main branch and creates versioned releases based on
+# conventional commits.
+#
+# Workflow Structure:
+#   1. setup: Configures the infrastructure and environment settings
+#      - Outputs: environment name and timezone for downstream jobs
+#      - Sets up base environment configuration
+#
+#   2. release: Executes the release process
+#      - Dependencies: Requires setup job to complete
+#      - Uses release-please-action to automate version bumps and changelog generation
+#      - Requires RELEASE_TOKEN secret for repository write access
+#
+# Permissions:
+#   - contents: write - Required for creating releases and tags
+#   - issues: write - Required for closing/updating release-related issues
+#   - pull-requests: write - Required for managing release PRs
+#
+# Configuration:
+#   - Environment: base (configurable via env vars)
+#   - Timezone: Configurable via repository variables (TIMEZONE)
+#   - Release type: node (follows Node.js versioning conventions)
+#
+# Required Secrets:
+#   - RELEASE_TOKEN: GitHub token with appropriate permissions for release operations
+#
+# Required Variables:
+#   - TIMEZONE: Repository variable defining the timezone for operations
+#
 
 name: Automated release
 run-name: Executing release on ${{ github.repository }} 🚀
 
-permissions:
-  contents: write
-  issues: write
-  pull-requests: write
+permissions: {}
 
 on:
   push:
@@ -26,7 +47,7 @@ env:
 jobs:
   # 1. Setup test infrastructure
   setup:
-    name: Infrastructure setup 🔧
+    name: Infrastructure 🔧
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ env.environment }}
@@ -40,6 +61,11 @@ jobs:
 
   # 2. Update files
   release:
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
     name: Release ✨
     needs: setup
     environment:
