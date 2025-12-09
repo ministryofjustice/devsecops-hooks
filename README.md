@@ -78,6 +78,34 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ## 🔧 Configuration
 
+### Exclusion list
+
+One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
+
+Ignore everything under `reports` and `docs` directories for `baseline` hook as an example.
+
+```yaml
+   repos:
+     - repo: https://github.com/ministryofjustice/devsecops-hooks
+       rev: v1.0.0
+       hooks:
+         - id: baseline
+            exclude: |
+            ^reports/|
+            ^docs/
+```
+
+Or one can also create a file with list of exclusions.
+
+```yaml
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.0.0
+    hooks:
+      - id: baseline
+        exclude: .pre-commit-ignore
+```
+
 ### Hook Configuration
 
 The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
