@@ -53,13 +53,13 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    Linux / MacOS
 
    ```bash
-   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.sh | sh
+   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.sh | sh
    ```
 
    Windows
 
    ```bash
-   powershell -ExecutionPolicy ByPass -c "irm https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.ps1 | iex"
+   powershell -ExecutionPolicy ByPass -c "irm https://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.ps1 | iex"
    ```
 
 3. **Activate**
