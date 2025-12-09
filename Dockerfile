@@ -11,7 +11,7 @@ ARG ROOT=/app
 ###################
 
 # Image
-FROM alpine:3.22 AS build
+FROM alpine:3.23 AS build
 
 # Shell
 SHELL ["/bin/sh", "-c"]
@@ -44,7 +44,7 @@ RUN ${ROOT}/scripts/gitleaks.sh
 # ###################
 
 # Image
-FROM alpine:3.22 AS production
+FROM alpine:3.23 AS production
 
 # Shell
 SHELL ["/bin/sh", "-c"]
