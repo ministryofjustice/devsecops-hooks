@@ -1,6 +1,7 @@
 {
   "ignorePaths": [
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "prek/**"
   ],
   "language": "en",
   "noConfigSearch": true,
