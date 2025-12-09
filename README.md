@@ -59,7 +59,7 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    Windows
 
    ```bash
-   powershell -ExecutionPolicy ByPass -c "irm hhttps://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.ps1 | iex"
+   powershell -ExecutionPolicy ByPass -c "irm https://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.ps1 | iex"
    ```
 
 3. **Activate**
