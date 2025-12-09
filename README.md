@@ -25,7 +25,7 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Development prerequisites
 
 - [pre-commit](https://pre-commit.com/) framework installed
 - Docker (for running the containerised scanner)
@@ -33,13 +33,10 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ### Installation
 
-1. **Install pre-commit** (if not already installed):
+1. **Add**
 
-   ```bash
-   pip install pre-commit
-   ```
-
-2. **Add to your repository** by creating or updating `.pre-commit-config.yaml`:
+   - Filename: `.pre-commit-config.yaml`
+   - Location: Root of your project
 
    ```yaml
    repos:
@@ -49,16 +46,34 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
          - id: baseline
    ```
 
-3. **Install the hook**:
+2. **Install**:
+
+   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) is installed globally
+
+   Linux / MacOS
 
    ```bash
-   pre-commit install
+   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.sh | sh
    ```
 
-4. **Run manually** (optional):
+   Windows
 
    ```bash
-   pre-commit run --all-files
+   powershell -ExecutionPolicy ByPass -c "irm https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.ps1 | iex"
+   ```
+
+3. **Activate**
+
+   Execute the following command in the repository directory
+
+   ```bash
+   prek install
+   ```
+
+4. **Test**
+
+   ```bash
+   prek run
    ```
 
 ## 🔧 Configuration
@@ -77,12 +92,12 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `VERSION` | `1.0.0` | Scanner version number |
-| `GIT_LEAKS_VERSION` | `8.30.0` | GitLeaks version to install |
-| `GIT_LEAKS_SHA512` | (specified) | SHA-512 checksum for verification |
-| `ROOT` | `/app` | Application root directory |
+| Argument            | Default     | Description                       |
+| ------------------- | ----------- | --------------------------------- |
+| `VERSION`           | `1.0.0`     | Scanner version number            |
+| `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
+| `ROOT`              | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
