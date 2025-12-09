@@ -11,7 +11,7 @@
 
 A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
 
-* [GitLeaks](https://github.com/gitleaks/gitleaks)
+- [GitLeaks](https://github.com/gitleaks/gitleaks)
 
 ## ✨ Features
 
@@ -25,7 +25,7 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Development prerequisites
 
 - [pre-commit](https://pre-commit.com/) framework installed
 - Docker (for running the containerised scanner)
@@ -33,12 +33,11 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ### Installation
 
-1. **Install pre-commit** (if not already installed):
-   ```bash
-   pip install pre-commit
-   ```
+1. **Add**
 
-2. **Add to your repository** by creating or updating `.pre-commit-config.yaml`:
+   - Filename: `.pre-commit-config.yaml`
+   - Location: Root of your project
+
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
@@ -47,14 +46,34 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
          - id: baseline
    ```
 
-3. **Install the hook**:
+2. **Install**:
+
+   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) is installed globally
+
+   Linux / MacOS
+
    ```bash
-   pre-commit install
+   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.sh | sh
    ```
 
-4. **Run manually** (optional):
+   Windows
+
    ```bash
-   pre-commit run --all-files
+   powershell -ExecutionPolicy ByPass -c "irm https://github.com/j178/prek/releases/download/v0.2.21/prek-installer.ps1 | iex"
+   ```
+
+3. **Activate**
+
+   Execute the following command in the repository directory
+
+   ```bash
+   prek install
+   ```
+
+4. **Test**
+
+   ```bash
+   prek run
    ```
 
 ## 🔧 Configuration
@@ -73,12 +92,12 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `VERSION` | `1.0.0` | Scanner version number |
-| `GIT_LEAKS_VERSION` | `8.30.0` | GitLeaks version to install |
-| `GIT_LEAKS_SHA512` | (specified) | SHA-512 checksum for verification |
-| `ROOT` | `/app` | Application root directory |
+| Argument            | Default     | Description                       |
+| ------------------- | ----------- | --------------------------------- |
+| `VERSION`           | `1.0.0`     | Scanner version number            |
+| `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
+| `ROOT`              | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
@@ -135,8 +154,8 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
 
 ### ✅ Success (No Secrets Detected)
 
-```
-⚡️ MoJ scanner 1.0.0⚡️
+```bash
+⚡️ Ministry of Justice - Scanner 1.0.0⚡️
 
 ○
     │╲
@@ -151,7 +170,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
 
 ### ❌ Failure (Secrets Detected)
 
-```
+```bash
 ⚡️ MoJ scanner 1.0.0⚡️
 
 ○
@@ -195,7 +214,7 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 ## 📝 Environment Variables
 
-### Required for Installation
+### Build Arguments
 
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (e.g., `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
@@ -209,7 +228,7 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 This project is licensed under the MIT Licence - see the [LICENSE](LICENSE) file for details.
 
-**Copyright © 2025 Ministry of Justice**
+Copyright © 2025 Crown Copyright (Ministry of Justice)
 
 ## 🔗 Links
 
@@ -234,4 +253,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Made with ❤️ by the Ministry of Justice**
+Made with ❤️ by the Ministry of Justice
