@@ -20,12 +20,12 @@ repos:
     rev: v1.0.0
     hooks:
       - id: baseline
-        name: MoJ baseline security hook
+        name: Ministry of Justice - Security scan
 
   - repo: local
     hooks:
       - id: spellcheck
-        name: Spell check in British English
+        name: Spell check
         entry: npm run spellcheck
         language: system
         pass_filenames: false

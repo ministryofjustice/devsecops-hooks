@@ -1,9 +1,17 @@
 {
-  "ignorePaths": ["**/node_modules/**"],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "prek/**"
+  ],
   "language": "en",
   "noConfigSearch": true,
   "allowCompoundWords": true,
-  "words": ["Abhi", "Markan"],
+  "words": [
+    "Abhi",
+    "cves",
+    "Markan",
+    "prek"
+  ],
   "dictionaries": [
     "en-gb",
     "companies",
@@ -18,7 +26,9 @@
   "languageSettings": [
     {
       "languageId": "commit-msg",
-      "ignoreRegExpList": ["/^#.*/gm"]
+      "ignoreRegExpList": [
+        "/^#.*/gm"
+      ]
     }
   ],
   "version": "0.2"

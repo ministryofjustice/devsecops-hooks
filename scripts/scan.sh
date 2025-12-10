@@ -22,9 +22,10 @@
 #   - The script scans the /src directory
 #   - GitLeaks runs in no-git mode (doesn't require a git repository)
 #   - Verbose output is enabled for detailed scanning information
+#
 
 #!/bin/sh
-set -eu
+set -euo pipefail
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 

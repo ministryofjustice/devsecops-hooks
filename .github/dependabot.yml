@@ -1,0 +1,53 @@
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+    commit-message:
+      prefix: ":dependabot: GitHub Actions"
+      include: "scope"
+    labels:
+      - "chore"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    assignees:
+      - "dev-sec-ops"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+    commit-message:
+      prefix: ":dependabot: Dockerfile"
+      include: "scope"
+    labels:
+      - "chore"
+    groups:
+      docker-packages:
+        patterns:
+          - "*"
+    assignees:
+      - "dev-sec-ops"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "00:00"
+    commit-message:
+      prefix: ":dependabot: NPM"
+      include: "scope"
+    labels:
+      - "chore"
+    groups:
+      npm-packages:
+        patterns:
+          - "*"
+    assignees:
+      - "dev-sec-ops"

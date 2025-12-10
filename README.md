@@ -5,11 +5,13 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](Dockerfile)
 
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/devsecops-hooks/badge)](https://github-community.service.justice.gov.uk/repository-standards/devsecops-hooks)
+
 ## 📋 Overview
 
 A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
 
-* [GitLeaks](https://github.com/gitleaks/gitleaks)
+- [GitLeaks](https://github.com/gitleaks/gitleaks)
 
 ## ✨ Features
 
@@ -23,7 +25,7 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### Development prerequisites
 
 - [pre-commit](https://pre-commit.com/) framework installed
 - Docker (for running the containerised scanner)
@@ -31,31 +33,78 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
 
 ### Installation
 
-1. **Install pre-commit** (if not already installed):
-   ```bash
-   pip install pre-commit
-   ```
+1. **Add**
 
-2. **Add to your repository** by creating or updating `.pre-commit-config.yaml`:
+   - Filename: `.pre-commit-config.yaml`
+   - Location: Root of your project
+
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: c0cb847a655552c639b6e03fdd30eb1620bda347  # Update to latest commit SHA
+       rev: v1.0.0
        hooks:
          - id: baseline
    ```
 
-3. **Install the hook**:
+2. **Install**:
+
+   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) is installed globally
+
+   Linux / MacOS
+
    ```bash
-   pre-commit install
+   curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
    ```
 
-4. **Run manually** (optional):
+   Windows
+
    ```bash
-   pre-commit run --all-files
+   powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
+   ```
+
+3. **Activate**
+
+   Execute the following command in the repository directory
+
+   ```bash
+   prek install
+   ```
+
+4. **Test**
+
+   ```bash
+   prek run
    ```
 
 ## 🔧 Configuration
+
+### Exclusion list
+
+One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
+
+Ignore everything under `reports` and `docs` directories for `baseline` hook as an example.
+
+```yaml
+   repos:
+     - repo: https://github.com/ministryofjustice/devsecops-hooks
+       rev: v1.0.0
+       hooks:
+         - id: baseline
+            exclude: |
+            ^reports/|
+            ^docs/
+```
+
+Or one can also create a file with list of exclusions.
+
+```yaml
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.0.0
+    hooks:
+      - id: baseline
+        exclude: .pre-commit-ignore
+```
 
 ### Hook Configuration
 
@@ -64,19 +113,19 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **ID**: `baseline`
 - **Stages**: `pre-commit`, `pre-push`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/pre-commit-hook:latest`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:latest`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 
 ### Docker Build Arguments
 
 The Docker image supports the following build arguments:
 
-| Argument | Default | Description |
-|----------|---------|-------------|
-| `VERSION` | `1.0.0` | Scanner version number |
-| `GIT_LEAKS_VERSION` | `8.30.0` | GitLeaks version to install |
-| `GIT_LEAKS_SHA512` | (specified) | SHA-512 checksum for verification |
-| `ROOT` | `/app` | Application root directory |
+| Argument            | Default     | Description                       |
+| ------------------- | ----------- | --------------------------------- |
+| `VERSION`           | `1.0.0`     | Scanner version number            |
+| `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
+| `WORKDIR`              | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
@@ -103,7 +152,7 @@ Once installed, the hook runs automatically:
 
 ```bash
 git add .
-git commit -m "Your commit message"
+git commit -S -m "Your commit message"
 # Hook runs automatically and blocks commit if secrets detected
 ```
 
@@ -126,15 +175,15 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```bash
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
 ```
 
 ## 🎯 Example Output
 
 ### ✅ Success (No Secrets Detected)
 
-```
-⚡️ MoJ scanner 1.0.0⚡️
+```bash
+⚡️ Ministry of Justice - Scanner 1.0.0⚡️
 
 ○
     │╲
@@ -149,7 +198,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
 
 ### ❌ Failure (Secrets Detected)
 
-```
+```bash
 ⚡️ MoJ scanner 1.0.0⚡️
 
 ○
@@ -169,7 +218,7 @@ Commit:      a1b2c3d4
 12:34PM WRN leaks found: 1
 ```
 
-## 🛠️ Development
+## 🛠️ Local
 
 ### Building the Docker Image
 
@@ -180,20 +229,30 @@ docker build -t devsecops-hooks:local .
 ### Testing Locally
 
 ```bash
-# Test the GitLeaks installation script
-docker run --rm -it alpine:3.22 sh -c "
-  export GIT_LEAKS_VERSION=8.30.0
-  export GIT_LEAKS_SHA512=3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58
-  ./scripts/gitleaks.sh
-"
-
-# Test the scanner
 docker run --rm -v $(pwd):/src devsecops-hooks:local
 ```
 
+## 📦 Docker
+
+The dockerfile pulls `docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375` which when analysed using `scout` presented the following findings on `10/12/2025 09:50:28 UTC`.
+
+```bash
+docker scout cves docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375   
+```
+
+| Field           | Value                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| Target          | alpine:3.23                                                                                |
+| Digest          | ed4a87b21407                                                                               |
+| Platform        | linux/arm64/v8                                                                             |
+| Provenance      | https:// github.com/alpinelinux/docker-alpine.git 24735c621e78574b49bb05b10dddac2497e423c2 |
+| Vulnerabilities | 0C 0H 0M 0L                                                                                |
+| Size            | 4.2 MB                                                                                     |
+| Packages        | 20                                                                                         |
+
 ## 📝 Environment Variables
 
-### Required for Installation
+### Build Arguments
 
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (e.g., `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
@@ -201,13 +260,13 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 ### Runtime
 
 - `VERSION` - Scanner version displayed in output
-- `ROOT` - Application root directory (default: `/app`)
+- `WORKDIR` - Application root directory (default: `/app`)
 
 ## 📄 Licence
 
 This project is licensed under the MIT Licence - see the [LICENSE](LICENSE) file for details.
 
-**Copyright © 2025 Ministry of Justice**
+Copyright © 2025 Crown Copyright (Ministry of Justice)
 
 ## 🔗 Links
 
@@ -232,4 +291,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Made with ❤️ by the Ministry of Justice**
+Made with ❤️ by the Ministry of Justice UK
