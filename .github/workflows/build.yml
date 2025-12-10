@@ -74,7 +74,7 @@ jobs:
       contents: read
       pull-requests: read
 
-    name: Build ⚒️
+    name: Docker 📦
     needs: setup
     environment:
       name: ${{ needs.setup.outputs.environment }}
@@ -84,7 +84,7 @@ jobs:
       - name: Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-      - name: Docker
+      - name: Build
         run: docker build -t devsecops-hooks:local ./
 
       - name: Run
