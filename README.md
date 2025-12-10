@@ -113,7 +113,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **ID**: `baseline`
 - **Stages**: `pre-commit`, `pre-push`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/pre-commit-hook:latest`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:latest`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 
 ### Docker Build Arguments
@@ -175,7 +175,7 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```bash
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/pre-commit-hook:latest
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
 ```
 
 ## 🎯 Example Output
@@ -291,4 +291,4 @@ If you encounter any issues or have questions:
 
 ---
 
-Made with ❤️ by the Ministry of Justice
+Made with ❤️ by the Ministry of Justice UK

@@ -62,8 +62,8 @@ ENV WORKDIR=$WORKDIR
 # Labels
 LABEL org.opencontainers.image.title="MoJ Secret Scan"
 LABEL org.opencontainers.image.description="Pre-commit hook scanning for hardcoded secrets and credentials"
-LABEL org.opencontainers.image.version=$VERSION
-LABEL org.opencontainers.image.vendor="Ministry of Justice"
+LABEL org.opencontainers.image.version="${VERSION}"
+LABEL org.opencontainers.image.vendor="Ministry of Justice UK"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-commit-hook"
 
