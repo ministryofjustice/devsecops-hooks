@@ -125,7 +125,7 @@ The Docker image supports the following build arguments:
 | `VERSION`           | `1.0.0`     | Scanner version number            |
 | `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
 | `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
-| `ROOT`              | `/app`      | Application root directory        |
+| `WORKDIR`              | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
@@ -260,7 +260,7 @@ docker scout cves docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9
 ### Runtime
 
 - `VERSION` - Scanner version displayed in output
-- `ROOT` - Application root directory (default: `/app`)
+- `WORKDIR` - Application root directory (default: `/app`)
 
 ## 📄 Licence
 
