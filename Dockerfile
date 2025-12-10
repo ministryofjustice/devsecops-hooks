@@ -11,10 +11,10 @@ ARG ROOT=/app
 ###################
 
 # Image
-FROM alpine:3.22 AS build
+FROM docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375 AS build
 
 # Shell
-SHELL ["/bin/sh", "-c"]
+SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
 
 # Variables
 ARG VERSION
@@ -44,10 +44,10 @@ RUN ${ROOT}/scripts/gitleaks.sh
 # ###################
 
 # Image
-FROM alpine:3.22 AS production
+FROM docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375 AS production
 
 # Shell
-SHELL ["/bin/sh", "-c"]
+SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
 
 # Variables
 ARG VERSION

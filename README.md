@@ -152,7 +152,7 @@ Once installed, the hook runs automatically:
 
 ```bash
 git add .
-git commit -m "Your commit message"
+git commit -S -m "Your commit message"
 # Hook runs automatically and blocks commit if secrets detected
 ```
 
@@ -218,7 +218,7 @@ Commit:      a1b2c3d4
 12:34PM WRN leaks found: 1
 ```
 
-## 🛠️ Development
+## 🛠️ Local
 
 ### Building the Docker Image
 
@@ -229,16 +229,26 @@ docker build -t devsecops-hooks:local .
 ### Testing Locally
 
 ```bash
-# Test the GitLeaks installation script
-docker run --rm -it alpine:3.22 sh -c "
-  export GIT_LEAKS_VERSION=8.30.0
-  export GIT_LEAKS_SHA512=3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58
-  ./scripts/gitleaks.sh
-"
-
-# Test the scanner
 docker run --rm -v $(pwd):/src devsecops-hooks:local
 ```
+
+## 📦 Docker
+
+The dockerfile pulls `docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375` which when analysed using `scout` presented the following findings on `10/12/2025 09:50:28 UTC`.
+
+```bash
+docker scout cves docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375   
+```
+
+| Field           | Value                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| Target          | alpine:3.23                                                                                |
+| Digest          | ed4a87b21407                                                                               |
+| Platform        | linux/arm64/v8                                                                             |
+| Provenance      | https:// github.com/alpinelinux/docker-alpine.git 24735c621e78574b49bb05b10dddac2497e423c2 |
+| Vulnerabilities | 0C 0H 0M 0L                                                                                |
+| Size            | 4.2 MB                                                                                     |
+| Packages        | 20                                                                                         |
 
 ## 📝 Environment Variables
 
