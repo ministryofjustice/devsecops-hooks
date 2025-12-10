@@ -53,13 +53,13 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    Linux / MacOS
 
    ```bash
-   curl --proto '=https' --tlsv1.2 -LsSf https://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.sh | sh
+   curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
    ```
 
    Windows
 
    ```bash
-   powershell -ExecutionPolicy ByPass -c "irm https://github.com/ministryofjustice/devsecops-hooks/prek/prek-installer.ps1 | iex"
+   powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
    ```
 
 3. **Activate**
@@ -77,6 +77,34 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    ```
 
 ## 🔧 Configuration
+
+### Exclusion list
+
+One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
+
+Ignore everything under `reports` and `docs` directories for `baseline` hook as an example.
+
+```yaml
+   repos:
+     - repo: https://github.com/ministryofjustice/devsecops-hooks
+       rev: v1.0.0
+       hooks:
+         - id: baseline
+            exclude: |
+            ^reports/|
+            ^docs/
+```
+
+Or one can also create a file with list of exclusions.
+
+```yaml
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.0.0
+    hooks:
+      - id: baseline
+        exclude: .pre-commit-ignore
+```
 
 ### Hook Configuration
 
@@ -97,7 +125,7 @@ The Docker image supports the following build arguments:
 | `VERSION`           | `1.0.0`     | Scanner version number            |
 | `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
 | `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
-| `ROOT`              | `/app`      | Application root directory        |
+| `WORKDIR`              | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
@@ -124,7 +152,7 @@ Once installed, the hook runs automatically:
 
 ```bash
 git add .
-git commit -m "Your commit message"
+git commit -S -m "Your commit message"
 # Hook runs automatically and blocks commit if secrets detected
 ```
 
@@ -190,7 +218,7 @@ Commit:      a1b2c3d4
 12:34PM WRN leaks found: 1
 ```
 
-## 🛠️ Development
+## 🛠️ Local
 
 ### Building the Docker Image
 
@@ -201,16 +229,26 @@ docker build -t devsecops-hooks:local .
 ### Testing Locally
 
 ```bash
-# Test the GitLeaks installation script
-docker run --rm -it alpine:3.22 sh -c "
-  export GIT_LEAKS_VERSION=8.30.0
-  export GIT_LEAKS_SHA512=3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58
-  ./scripts/gitleaks.sh
-"
-
-# Test the scanner
 docker run --rm -v $(pwd):/src devsecops-hooks:local
 ```
+
+## 📦 Docker
+
+The dockerfile pulls `docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375` which when analysed using `scout` presented the following findings on `10/12/2025 09:50:28 UTC`.
+
+```bash
+docker scout cves docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375   
+```
+
+| Field           | Value                                                                                      |
+| --------------- | ------------------------------------------------------------------------------------------ |
+| Target          | alpine:3.23                                                                                |
+| Digest          | ed4a87b21407                                                                               |
+| Platform        | linux/arm64/v8                                                                             |
+| Provenance      | https:// github.com/alpinelinux/docker-alpine.git 24735c621e78574b49bb05b10dddac2497e423c2 |
+| Vulnerabilities | 0C 0H 0M 0L                                                                                |
+| Size            | 4.2 MB                                                                                     |
+| Packages        | 20                                                                                         |
 
 ## 📝 Environment Variables
 
@@ -222,7 +260,7 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 ### Runtime
 
 - `VERSION` - Scanner version displayed in output
-- `ROOT` - Application root directory (default: `/app`)
+- `WORKDIR` - Application root directory (default: `/app`)
 
 ## 📄 Licence
 

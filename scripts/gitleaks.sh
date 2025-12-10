@@ -28,8 +28,10 @@
 #   export GIT_LEAKS_VERSION="8.18.0"
 #   export GIT_LEAKS_SHA512="<checksum-value>"
 #   ./gitleaks.sh
+#
+
 #!/bin/sh
-set -eu
+set -euo pipefail
 
 # Environment variable definition
 if [ -z "${GIT_LEAKS_VERSION:-}" ]; then
