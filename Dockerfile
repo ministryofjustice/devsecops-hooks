@@ -71,11 +71,16 @@ LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-
 WORKDIR ${WORKDIR}
 
 # Executables
-COPY --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
-COPY --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
+COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
+COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
+COPY --chown=scanner:scanner --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
 
 # Permissions
+RUN chmod +x ${WORKDIR}/scripts/git.sh
 RUN chmod +x ${WORKDIR}/scripts/scan.sh
+
+# Execute
+RUN ${WORKDIR}/scripts/git.sh
 
 # User
 RUN adduser -D scanner
