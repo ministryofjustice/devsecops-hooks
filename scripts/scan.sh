@@ -60,9 +60,7 @@ else
 fi
 
 # GitLeaks
-gitleaks git --pre-commit --exit-code 1 --verbose \
-    $CONFIGURATION_ARGUMENT \
-    $IGNORE_ARGUMENT
+gitleaks git --pre-commit --redact --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
 
 # Successful
 echo "✅ No secrets have been detected."
