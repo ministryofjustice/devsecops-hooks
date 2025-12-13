@@ -4,7 +4,6 @@
 # to perform security baseline checks before commits are allowed.
 #
 # Repository: https://github.com/ministryofjustice/devsecops-hooks/releases
-# Revision: v1.1.0
 #
 # Hooks:
 #   - baseline: Performs security baseline scans and checks to ensure
