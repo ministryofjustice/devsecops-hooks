@@ -1,0 +1,17 @@
+{
+    "extends": [
+        "config:base"
+    ],
+    "dependencyDashboard": true,
+    "pre-commit": {
+        "enabled": true
+    },
+    "packageRules": [
+        {
+            "matchManagers": [
+                "pre-commit"
+            ],
+            "groupName": "renovate: pre-commit"
+        }
+    ]
+}

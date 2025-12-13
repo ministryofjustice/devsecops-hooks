@@ -23,13 +23,6 @@ renovate.json
 .eslintrc.json
 .eslintrc.js
 
-# Git
-.git
-.gitattributes
-.github
-.gitignore
-.husky
-
 # Editor
 .prettierignore
 .whitesource

@@ -1,7 +1,7 @@
 ###################
 # 0. BASE
 ###################
-ARG VERSION=1.0.0
+ARG VERSION=1.2.0
 ARG GIT_LEAKS_VERSION=8.30.0
 ARG GIT_LEAKS_SHA512="3ae7b3e80a19ee9dd16098577d61f280b6b87d908ead1660deef27911aa407165ac68dbed0d60fbe16dc8e1d7f2e5f9f2945b067f54f0f64725070d16e0dbb58"
 ARG WORKDIR=/app
@@ -71,11 +71,16 @@ LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-
 WORKDIR ${WORKDIR}
 
 # Executables
-COPY --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
-COPY --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
+COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
+COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
+COPY --chown=scanner:scanner --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
 
 # Permissions
+RUN chmod +x ${WORKDIR}/scripts/git.sh
 RUN chmod +x ${WORKDIR}/scripts/scan.sh
+
+# Execute
+RUN ${WORKDIR}/scripts/git.sh
 
 # User
 RUN adduser -D scanner

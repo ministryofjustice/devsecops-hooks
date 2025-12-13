@@ -4,7 +4,6 @@
 # to perform security baseline checks before commits are allowed.
 #
 # Repository: https://github.com/ministryofjustice/devsecops-hooks/releases
-# Revision: v1.0.0
 #
 # Hooks:
 #   - baseline: Performs security baseline scans and checks to ensure
@@ -17,7 +16,7 @@
 #   4. To run manually: pre-commit run --all-files
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.0.0
+    rev: v1.1.0
     hooks:
       - id: baseline
         name: Ministry of Justice - Security scan

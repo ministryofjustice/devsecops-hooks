@@ -74,7 +74,7 @@ tar -xzf "$FILE" -C /usr/local/bin
 command -v gitleaks >/dev/null 2>&1 || { echo "❌ Missing gitleaks executable."; exit 1; }
 
 # Cleanup
-# rm -f "$FILE"
+rm -f "$FILE"
 
 echo "✅ GitLeaks ${GIT_LEAKS_VERSION} has been installed."
 exit 0;
