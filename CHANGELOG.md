@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.1.0...v1.2.0) (2025-12-15)
+
+
+### Features
+
+* **22-gitleaks-for-staged-files-only:** GitLeaks for staged files only ([#23](https://github.com/ministryofjustice/devsecops-hooks/issues/23)) ([ca36746](https://github.com/ministryofjustice/devsecops-hooks/commit/ca36746802cb6f24f0e9f208a85f561b6ec9a53f))
+
 ## [1.1.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.0.0...v1.1.0) (2025-12-05)
 
 
