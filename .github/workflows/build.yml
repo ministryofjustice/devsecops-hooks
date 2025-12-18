@@ -40,8 +40,8 @@
 #   - No secrets or credentials exposed in workflow
 #
 
-name: Docker build
-run-name: Executing docker build on ${{ github.repository }} 🚀
+name: Docker build 🚀
+run-name: Docker build 🚀
 
 on:
   pull_request:

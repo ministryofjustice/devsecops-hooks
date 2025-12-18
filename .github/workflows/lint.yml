@@ -41,8 +41,8 @@
 #   - Minimal permissions granted (read-only content access for lint job)
 #
 
-name: Lint check
-run-name: Evaluating linting on ${{ github.event.pull_request.number }} ✏️
+name: Lint check ✏️
+run-name: Lint check ✏️
 
 on:
   pull_request:
@@ -83,6 +83,9 @@ jobs:
     steps:
       - name: Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Install
+        run: npm ci
 
       - name: YML
         run: npm run validate:yml

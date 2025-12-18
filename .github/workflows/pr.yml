@@ -32,8 +32,8 @@
 #   - Automated dependency scanning helps prevent vulnerable dependencies
 #
 
-name: Pull request
-run-name: Evaluating pull request dependencies on ${{ github.event.pull_request.number }} 🔎
+name: PR Review 🔎
+run-name: PR Review 🔎
 
 on:
   pull_request:
