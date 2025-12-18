@@ -11,7 +11,7 @@ ARG WORKDIR=/app
 ###################
 
 # Image
-FROM docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375 AS build
+FROM docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62 AS build
 
 # Shell
 SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
@@ -44,7 +44,7 @@ RUN ${WORKDIR}/scripts/gitleaks.sh
 # ###################
 
 # Image
-FROM docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375 AS production
+FROM docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62 AS production
 
 # Shell
 SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
