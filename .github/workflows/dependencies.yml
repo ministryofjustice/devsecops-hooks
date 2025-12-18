@@ -1,0 +1,93 @@
+# Dependencies Review Workflow
+# 
+# This GitHub Actions workflow automates the process of reviewing and updating
+# project dependencies using Renovate.
+#
+# Triggers:
+#   - schedule: Runs daily at midnight (UTC) via cron
+#   - workflow_dispatch: Allows manual triggering from GitHub UI
+#
+# Permissions:
+#   - Root level: None (explicit empty permissions for security)
+#   - dependencies job: contents:write, pull-requests:write (for creating PRs)
+#
+# Environment Variables:
+#   - environment: Deployment environment name (default: "base")
+#   - timezone: Timezone for workflow execution (from repository variable)
+#
+# Jobs:
+#   1. setup:
+#      - Configures infrastructure settings
+#      - Outputs environment and timezone for downstream jobs
+#      - Runs on: ubuntu-latest
+#
+#   2. dependencies:
+#      - Executes Renovate dependency scanner
+#      - Requires: setup job completion
+#      - Uses GitHub token for authentication
+#      - Requires Renovate configuration file in repository
+#      - Runs on: ubuntu-latest
+#
+# Security:
+#   - Uses pinned action versions with SHA commits
+#   - Minimal permissions principle applied
+#   - Requires Renovate config to prevent unconfigured runs
+#
+# Dependencies:
+#   - actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 (v6.0.1)
+#   - renovate (installed via npm)
+#
+
+name: Dependencies review ⚡️
+run-name: Dependencies review ⚡️
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE }}
+
+jobs:
+  # 1. Setup test infrastructure
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
+
+  # 2. Dependencies review
+  dependencies:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    name: Dependencies ⚡️
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Install
+        run: npm ci
+
+      - name: Renovate
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx renovate --require-config=true

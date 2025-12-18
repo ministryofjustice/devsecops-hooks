@@ -31,8 +31,8 @@
 #   - TIMEZONE: Repository variable defining the timezone for operations
 #
 
-name: Automated release
-run-name: Executing release on ${{ github.repository }} 🚀
+name: Automated release 🚀
+run-name: Automated release 🚀
 
 permissions: {}
 

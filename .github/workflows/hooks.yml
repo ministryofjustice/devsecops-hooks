@@ -48,8 +48,8 @@
 #   - TIMEZONE variable should be configured in repository variables
 #
 
-name: Git hooks
-run-name: Executing pre-commit on ${{ github.repository }} 🚀
+name: Git hooks 🪝
+run-name: Git hooks 🪝
 
 on:
   pull_request:

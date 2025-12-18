@@ -2,6 +2,7 @@
     "extends": [
         "config:base"
     ],
+    "platform": "github",
     "dependencyDashboard": true,
     "pre-commit": {
         "enabled": true
@@ -9,9 +10,30 @@
     "packageRules": [
         {
             "matchManagers": [
+                "github-actions"
+            ],
+            "fileMatch": [
+                "^\\.github/**/.*\\.yml$"
+            ],
+            "groupName": "renovate: github-actions"
+        },
+        {
+            "matchManagers": [
                 "pre-commit"
             ],
             "groupName": "renovate: pre-commit"
+        },
+        {
+            "matchDatasources": [
+                "docker"
+            ],
+            "groupName": "renovate: docker"
+        },
+        {
+            "matchDatasources": [
+                "npm"
+            ],
+            "groupName": "renovate: npm"
         }
     ]
 }
