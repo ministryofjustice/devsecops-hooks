@@ -2,7 +2,6 @@
     "extends": [
         "config:base"
     ],
-    "platform": "github",
     "dependencyDashboard": true,
     "pre-commit": {
         "enabled": true
