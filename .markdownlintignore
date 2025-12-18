@@ -1,0 +1,7 @@
+# NPM
+.npm
+**/node_modules/*
+
+# CHANGELOGS
+CHANGELOG.md
+**/CHANGELOG.md

@@ -1,0 +1,96 @@
+# Dependencies Review Workflow
+#
+# Description:
+#   Automated workflow to evaluate and review dependencies in the repository using Renovate.
+#   Runs on a scheduled basis and can be manually triggered.
+#
+# Triggers:
+#   - schedule: Executes every minute (cron: "* * * * *")
+#   - workflow_dispatch: Manual trigger available
+#
+# Permissions:
+#   - Global: None (empty permissions object)
+#   - Dependencies job: read contents, write pull-requests
+#
+# Environment Variables:
+#   - environment: Set to 'base' (default environment)
+#   - timezone: Retrieved from repository variable TIMEZONE
+#
+# Jobs:
+#   1. setup:
+#      - Purpose: Establishes infrastructure and environment configuration
+#      - Runner: ubuntu-latest
+#      - Outputs: environment name and timezone for downstream jobs
+#      - Steps: Echoes environment and timezone settings
+#
+#   2. dependencies:
+#      - Purpose: Performs dependency review using Renovate
+#      - Runner: ubuntu-latest
+#      - Depends on: setup job
+#      - Steps:
+#        a. Checks out repository code (actions/checkout@v6.0.1)
+#        b. Runs Renovate CLI with repository-specific configuration
+#      - Requires: GITHUB_TOKEN secret for authentication
+#      - Configuration: Requires Renovate config file to be present
+#
+# Security Considerations:
+#   - Uses pinned action versions with commit SHA for supply chain security
+#   - Minimal permissions granted (principle of least privilege)
+#   - Requires explicit Renovate configuration file
+#
+# Notes:
+#   - Consider adjusting cron schedule ("* * * * *") as it runs every minute
+#   - Renovate requires a configuration file in the repository
+#   - TIMEZONE variable should be defined in repository variables
+#
+
+name: Dependencies review
+run-name: Evaluating dependencies on ${{ github.repository }} ⚡️
+
+on:
+  schedule:
+    - cron: "* * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE }}
+
+jobs:
+  # 1. Setup test infrastructure
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
+
+  # 2. Dependencies review
+  dependencies:
+    permissions:
+      contents: read
+      pull-requests: write
+
+    name: Dependencies ⚡️
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Renovate
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx renovate --require-config=true

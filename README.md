@@ -9,7 +9,8 @@
 
 ## 📋 Overview
 
-A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
+A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository.
+Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.
 
 - [GitLeaks](https://github.com/gitleaks/gitleaks)
 
@@ -53,13 +54,15 @@ A lightweight, Docker-based security scanner that integrates seamlessly with Git
    Linux / MacOS
 
    ```bash
-   curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
+   curl --proto '=https' --tlsv1.2 \
+   -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
    ```
 
    Windows
 
    ```bash
-   powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
+   powershell -ExecutionPolicy ByPass \
+   -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
    ```
 
 3. **Activate**
@@ -125,7 +128,7 @@ The Docker image supports the following build arguments:
 | `VERSION`           | `1.0.0`     | Scanner version number            |
 | `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
 | `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
-| `WORKDIR`              | `/app`      | Application root directory        |
+| `WORKDIR`           | `/app`      | Application root directory        |
 
 ## 🏗️ Architecture
 
@@ -234,7 +237,8 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 ## 📦 Docker
 
-The dockerfile pulls `docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375` which when analysed using `scout` presented the following findings on `10/12/2025 09:50:28 UTC`.
+The dockerfile pulls `docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375` which when analysed using `scout`
+presented the following findings on `10/12/2025 09:50:28 UTC`.
 
 ```bash
 docker scout cves docker.io/alpine:3.23@sha256:51183f2cfa6320055da30872f211093f9ff1d3cf06f39a0bdb212314c5dc7375   
