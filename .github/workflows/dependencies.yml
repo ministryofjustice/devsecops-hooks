@@ -1,5 +1,5 @@
 # Dependencies Review Workflow
-# 
+#
 # This GitHub Actions workflow performs automated dependency management and review using Renovate.
 # It runs on a daily schedule and on pull requests to any branch.
 #
@@ -41,6 +41,8 @@ on:
 
   pull_request:
     branches: ["*"]
+
+permissions: {}
 
 env:
   environment: base
