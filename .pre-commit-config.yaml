@@ -16,7 +16,7 @@
 #   4. To run manually: pre-commit run --all-files
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.1.0
+    rev: v1.2.0
     hooks:
       - id: baseline
         name: Ministry of Justice - Security scan
