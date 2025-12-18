@@ -42,8 +42,6 @@ on:
   pull_request:
     branches: ["*"]
 
-permissions: {}
-
 env:
   environment: base
   timezone: ${{ vars.TIMEZONE }}
@@ -66,7 +64,7 @@ jobs:
   # 2. Dependencies review
   dependencies:
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
 
     name: Dependencies ⚡️
