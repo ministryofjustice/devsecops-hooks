@@ -26,7 +26,6 @@
   "devDependencies": {
     "cspell": "^9.4.0",
     "markdownlint-cli": "^0.47.0",
-    "renovate": "^42.64.1",
     "yaml-lint": "^1.7.0"
   }
 }
