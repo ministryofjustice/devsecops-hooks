@@ -1,6 +1,6 @@
 {
     "extends": [
-        "config:base"
+        "config:recommended"
     ],
     "dependencyDashboard": true,
     "pre-commit": {
@@ -10,9 +10,6 @@
         {
             "matchManagers": [
                 "github-actions"
-            ],
-            "fileMatch": [
-                "^\\.github/**/.*\\.yml$"
             ],
             "groupName": "renovate: github-actions"
         },
