@@ -43,7 +43,7 @@ run-name: Dependencies review ⚡️
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "47 10 * * *"
   workflow_dispatch:
 
 permissions: {}
@@ -83,11 +83,16 @@ jobs:
       - name: Repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
+      - name: Node
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
       - name: Install
         run: npm ci --ignore-scripts
 
       - name: Renovate
         env:
           RENOVATE_REPOSITORIES: ${{ github.repository }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RENOVATE_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx renovate --require-config=true --platform=github
