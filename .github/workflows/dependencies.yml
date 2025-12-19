@@ -1,17 +1,17 @@
 # Dependencies Review Workflow
 #
 # Purpose:
-#   Automated workflow to review and manage project dependencies using Renovate bot.
-#   Runs on a daily schedule, manual trigger, or when pull requests are created.
+#   Automates dependency management and security review for the repository using Renovate.
+#   Runs on a schedule, manually via workflow dispatch, or on pull requests.
 #
 # Triggers:
-#   - schedule: Daily at midnight (00:00 UTC)
-#   - workflow_dispatch: Manual execution via GitHub UI
-#   - pull_request: On any branch when PR is opened/updated
+#   - schedule: Daily at midnight (UTC)
+#   - workflow_dispatch: Manual trigger
+#   - pull_request: On pull requests to any branch
 #
 # Environment Variables:
-#   - environment: Deployment environment (set to 'base')
-#   - timezone: Timezone configuration from repository variables
+#   - environment: Set to 'base' - defines the deployment environment
+#   - timezone: Retrieved from repository variable TIMEZONE
 #
 # Jobs:
 #   1. setup:
@@ -20,23 +20,26 @@
 #      - Runs on: ubuntu-latest
 #
 #   2. dependencies:
-#      - Performs dependency review using Renovate bot
-#      - Permissions: Requires write access to contents and pull-requests
-#      - Dependencies: Requires 'setup' job completion
+#      - Performs dependency review and updates using Renovate
+#      - Requires: setup job completion
+#      - Permissions: contents (write), pull-requests (write), issues (write), security-events (read)
 #      - Steps:
-#        a. Checks out repository code
-#        b. Sets up Node.js environment using configured version
-#        c. Installs npm dependencies (without running scripts)
-#        d. Executes Renovate bot to analyze and update dependencies
+#        * Checks out repository code
+#        * Sets up Node.js environment with configured version
+#        * Installs npm dependencies (excluding scripts)
+#        * Runs Renovate bot for automated dependency updates
+#      - Runs on: ubuntu-latest
 #
 # Security:
-#   - Uses pinned action versions with commit SHAs for security
-#   - Minimal permissions granted (write only where needed)
-#   - Uses GITHUB_TOKEN for authentication
+#   - Uses pinned action versions with commit SHAs for supply chain security
+#   - Minimal permissions granted at workflow level (none by default)
+#   - Job-specific permissions explicitly defined where needed
 #
-# Notes:
-#   - Renovate requires a valid configuration file in the repository
-#   - Node version is pulled from repository variables (vars.NODE_VERSION)
+# Dependencies:
+#   - actions/checkout@v6.0.1
+#   - actions/setup-node@v6.1.0
+#   - renovatebot/github-action@v44.2.0
+#   - Renovate version: 42.64.1
 #
 
 name: Dependencies review ⚡️
