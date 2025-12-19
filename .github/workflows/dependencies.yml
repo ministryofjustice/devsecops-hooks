@@ -1,19 +1,17 @@
 # Dependencies Review Workflow
 #
-# This GitHub Actions workflow automates the process of reviewing and updating
-# project dependencies using Renovate.
+# Purpose:
+#   Automated workflow to review and manage project dependencies using Renovate bot.
+#   Runs on a daily schedule, manual trigger, or when pull requests are created.
 #
 # Triggers:
-#   - schedule: Runs daily at midnight (UTC) via cron
-#   - workflow_dispatch: Allows manual triggering from GitHub UI
-#
-# Permissions:
-#   - Root level: None (explicit empty permissions for security)
-#   - dependencies job: contents:write, pull-requests:write (for creating PRs)
+#   - schedule: Daily at midnight (00:00 UTC)
+#   - workflow_dispatch: Manual execution via GitHub UI
+#   - pull_request: On any branch when PR is opened/updated
 #
 # Environment Variables:
-#   - environment: Deployment environment name (default: "base")
-#   - timezone: Timezone for workflow execution (from repository variable)
+#   - environment: Deployment environment (set to 'base')
+#   - timezone: Timezone configuration from repository variables
 #
 # Jobs:
 #   1. setup:
@@ -22,20 +20,23 @@
 #      - Runs on: ubuntu-latest
 #
 #   2. dependencies:
-#      - Executes Renovate dependency scanner
-#      - Requires: setup job completion
-#      - Uses GitHub token for authentication
-#      - Requires Renovate configuration file in repository
-#      - Runs on: ubuntu-latest
+#      - Performs dependency review using Renovate bot
+#      - Permissions: Requires write access to contents and pull-requests
+#      - Dependencies: Requires 'setup' job completion
+#      - Steps:
+#        a. Checks out repository code
+#        b. Sets up Node.js environment using configured version
+#        c. Installs npm dependencies (without running scripts)
+#        d. Executes Renovate bot to analyze and update dependencies
 #
 # Security:
-#   - Uses pinned action versions with SHA commits
-#   - Minimal permissions principle applied
-#   - Requires Renovate config to prevent unconfigured runs
+#   - Uses pinned action versions with commit SHAs for security
+#   - Minimal permissions granted (write only where needed)
+#   - Uses GITHUB_TOKEN for authentication
 #
-# Dependencies:
-#   - actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 (v6.0.1)
-#   - renovate (installed via npm)
+# Notes:
+#   - Renovate requires a valid configuration file in the repository
+#   - Node version is pulled from repository variables (vars.NODE_VERSION)
 #
 
 name: Dependencies review ⚡️
@@ -98,3 +99,5 @@ jobs:
         uses: renovatebot/github-action@822441559e94f98b67b82d97ab89fe3003b0a247 # frozen: v44.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          repositories: ${{ github.repository }}
+          require-config: true
