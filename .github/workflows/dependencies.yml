@@ -76,6 +76,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      issues: write
+      security-events: read
 
     name: Dependencies ⚡️
     needs: setup
