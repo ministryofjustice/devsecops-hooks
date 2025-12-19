@@ -89,7 +89,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # frozen: v6.0.1
 
       - name: Node
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # frozen: v6.1.0
+        uses: actions/setup-node@65d868f8d4d85d7d4abb7de0875cde3fcc8798f5 # frozen: v6.1.0
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
@@ -97,7 +97,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Renovate
-        uses: renovatebot/github-action@822441559e94f98b67b82d97ab89fe3003b0a247 # frozen: v44.2.0
+        uses: renovatebot/github-action@65f8b67f77a057933e8e37115b7d13f83b1ea5c1 # frozen: v44.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate-version: 42.64.1
