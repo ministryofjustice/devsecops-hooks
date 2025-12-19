@@ -74,9 +74,9 @@ jobs:
 
     steps:
       - name: Repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # frozen: v6.0.1
 
       - name: Review
-        uses: actions/dependency-review-action@774d14bf50b7a2e2460f9f49e25c52503ecab125 #v4.8.3
+        uses: actions/dependency-review-action@774d14bf50b7a2e2460f9f49e25c52503ecab125 # frozen: v4.8.3
         with:
           comment-summary-in-pr: always
