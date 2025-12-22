@@ -97,7 +97,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Renovate
-        uses: renovatebot/github-action@6ffffc27bd735ccf37a9eef3462cc5ea8bbf5562 # frozen: v44.2.0
+        uses: renovatebot/github-action@ffe582e3352e844dfef40b305f093bdb062ff1e0 # frozen: v44.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           renovate-version: 42.64.1
