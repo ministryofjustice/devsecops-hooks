@@ -45,7 +45,7 @@ jobs:
       issues: write
       security-events: read
 
-    uses: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml@feat/dependency-workflow
+    uses: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml@d8493ab01fa460ecc4a4324adca1415212e0f03e
     with:
       dependency-review-config-file: "./.github/dependency-review-config.yml"
     secrets:
