@@ -20,7 +20,7 @@
 #   - Authenticates using the GITHUB_TOKEN secret
 #
 # Dependencies:
-#   - Reusable workflow: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml@feat/dependency-workflow
+#   - Reusable workflow: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml
 #
 
 name: SCA ⚡️
