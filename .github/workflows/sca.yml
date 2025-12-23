@@ -1,0 +1,50 @@
+# Software Composition Analysis (SCA) Workflow
+#
+# This workflow performs automated security scanning of project dependencies to identify
+# vulnerabilities and license compliance issues.
+#
+# Triggers:
+#   - schedule: Runs daily at midnight (00:00 UTC)
+#   - pull_request: Runs when PRs are opened/updated targeting the main branch
+#   - workflow_dispatch: Can be manually triggered from the Actions tab
+#
+# Permissions:
+#   - contents: write - Required to read repository files and potentially update dependency files
+#   - pull-requests: write - Required to create/update PRs with dependency updates
+#   - issues: write - Required to create issues for security vulnerabilities
+#   - security-events: read - Required to access security scanning results
+#
+# Usage:
+#   This workflow calls a reusable workflow from the devsecops-actions repository
+#   to perform the actual SCA scanning. It passes the GITHUB_TOKEN for authentication.
+#
+# Dependencies:
+#   - Reusable workflow: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml
+#   - Version pinned to: aa7cf0d14dfb02b91d760613aeab5c82507d15f7
+#
+
+name: SCA ⚡️
+run-name: Software Composition Analysis ⚡️
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  dependencies:
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      security-events: read
+
+    uses: ministryofjustice/devsecops-actions/.github/workflows/_sca.yml@aa7cf0d14dfb02b91d760613aeab5c82507d15f7
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
