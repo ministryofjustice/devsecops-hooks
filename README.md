@@ -1,11 +1,17 @@
 # 🔐 DevSecOps Hooks
 
-> Ministry of Justice pre-commit hooks for scanning hardcoded secrets and credentials.
+Ministry of Justice pre-commit hooks for scanning hardcoded secrets and credentials.
+
+[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/devsecops-hooks/badge)](https://github-community.service.justice.gov.uk/repository-standards/devsecops-hooks)
+
+---
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](Dockerfile)
 
-[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/devsecops-hooks/badge)](https://github-community.service.justice.gov.uk/repository-standards/devsecops-hooks)
+[![GitHub release](https://img.shields.io/github/v/release/ministryofjustice/devsecops-hooks)](https://github.com/ministryofjustice/devsecops-hooks/releases)
+[![GitHub issues](https://img.shields.io/github/issues/ministryofjustice/devsecops-hooks)](https://github.com/ministryofjustice/devsecops-hooks/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/ministryofjustice/devsecops-hooks)](https://github.com/ministryofjustice/devsecops-hooks/pulls)
 
 ## 📋 Overview
 
@@ -245,7 +251,7 @@ The dockerfile pulls `docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135a
 presented the following findings on `19/12/2025 10:17:40 UTC`.
 
 ```bash
-docker scout cves docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62   
+docker scout cves docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
 ```
 
 | Field           | Value                                                                                      |
