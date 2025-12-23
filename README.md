@@ -14,6 +14,10 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 - [GitLeaks](https://github.com/gitleaks/gitleaks)
 
+## 🧩 Workflow
+
+![Workflow](docs/pre-commit-hook-workflow.svg)
+
 ## ✨ Features
 
 - 🛡️ **Automated Secret Detection** - Scans code for hardcoded secrets using GitLeaks

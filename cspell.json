@@ -1,7 +1,9 @@
 {
   "ignorePaths": [
     "**/node_modules/**",
-    "prek/**"
+    "prek/**",
+    "**/*.drawio",
+    "**/*.svg"
   ],
   "language": "en",
   "noConfigSearch": true,
