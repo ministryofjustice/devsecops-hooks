@@ -1,6 +1,6 @@
 {
   "name": "moj-hooks",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.",
   "keywords": [
     "moj",
