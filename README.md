@@ -135,7 +135,7 @@ The Docker image supports the following build arguments:
 
 | Argument                      | Default            | Description                       |
 | ----------------------------- | ------------------ | --------------------------------- |
-| `VERSION`                     | `1.2.0`            | Scanner version number            |
+| `VERSION`                     | `1.3.0`            | Scanner version number            |
 | `GIT_LEAKS_VERSION`           | `8.30.0`           | GitLeaks version to install       |
 | `GIT_LEAKS_SHA512`            | (specified)        | SHA-512 checksum for verification |
 | `GITLEAKS_CONFIGURATION_FILE` | `./gitleaks.toml`  | GitLeaks configuration file path  |
