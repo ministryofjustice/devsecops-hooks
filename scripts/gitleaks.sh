@@ -30,7 +30,7 @@
 #   ./gitleaks.sh
 #
 
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
 # Environment variable definition

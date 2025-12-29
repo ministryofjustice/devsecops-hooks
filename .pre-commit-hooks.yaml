@@ -18,7 +18,8 @@
 - id: baseline
   name: "🔐 Ministry of Justice - Scanner"
   description: "MoJ's pre commit hooks scans for hardcoded secrets and credentials using myriads of CLI tools."
-  entry: "ghcr.io/ministryofjustice/devsecops-hooks:v1.2.0"
+  # entry: "ghcr.io/ministryofjustice/devsecops-hooks:v1.2.0"
+  entry: "devsecops-hooks:local"
   language: "docker_image"
   fail_fast: true
   always_run: true

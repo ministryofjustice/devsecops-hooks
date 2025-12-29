@@ -1,35 +1,43 @@
-# scan.sh - Security scanning script for Ministry of Justice DevSecOps hooks
+# scan.sh - Ministry of Justice DevSecOps Secret Scanner
 #
-# DESCRIPTION:
-#   This script performs security scanning on git repositories to detect
-#   secrets and sensitive information before commits are finalized.
+# Description:
+#   This script scans source code repositories for secrets and sensitive information
+#   using GitLeaks. It supports both Git-based scanning (for commits) and directory-based
+#   scanning (non-Git mode).
 #
-# DEPENDENCIES:
-#   - gitleaks: Secret detection tool (required)
-#   - bash/sh: Shell interpreter
+# Prerequisites:
+#   - gitleaks: Must be installed and available in PATH
+#   - Source code: Must be mounted at /src directory
 #
-# ENVIRONMENT VARIABLES:
-#   VERSION - Version number of the scanner tool
+# Environment Variables:
+#   VERSION                      - Scanner version to display in header
+#   GIT_MODE                     - Set to "false" to disable Git mode (default: enabled)
+#   GITLEAKS_CONFIGURATION_FILE  - Optional path to custom GitLeaks configuration file
+#   GITLEAKS_IGNORE_FILE         - Optional path to GitLeaks ignore file (.gitleaksignore)
 #
-# USAGE:
-#   ./scan.sh
+# Exit Codes:
+#   0 - Success: No secrets detected
+#   1 - Failure: Missing dependencies, directory not found, or secrets detected
 #
-# EXIT CODES:
-#   0 - Success, no secrets detected
-#   1 - Failure, either missing dependencies or secrets detected
+# Usage:
+#   # Git mode (for pre-commit hooks):
+#   GIT_MODE=true ./scan.sh
 #
-# BEHAVIOR:
-#   - Runs with strict error handling (set -euo pipefail)
-#   - Checks for gitleaks installation
-#   - Changes to /src directory
-#   - Executes gitleaks in pre-commit mode with verbose output
-#   - Exits with code 1 if secrets are found
+#   # Non-Git mode (for directory scanning):
+#   GIT_MODE=false ./scan.sh
 #
-# NOTES:
-#   This script is typically run as a git pre-commit hook to prevent
-#   sensitive information from being committed to the repository.
+#   # With custom configuration:
+#   GITLEAKS_CONFIGURATION_FILE=.gitleaks.toml ./scan.sh
+#
+# Output:
+#   - Displays scan progress and results to stdout
+#   - In non-Git mode: Generates gitleaks-report.json with findings
+#
+# Notes:
+#   - All secrets are redacted in output for security
+#   - Script uses 'set -euo pipefail' for strict error handling
 
-#!/bin/sh
+#!/bin/bash
 set -euo pipefail
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
@@ -41,26 +49,28 @@ if ! command -v gitleaks >/dev/null 2>&1; then
 fi
 
 # Pre-requisites
-cd /src
+cd /src || { echo "❌ Unable to find /src directory."; exit 1; }
 
-# Arguments
-CONFIGURATION="/src/.gitleaks/config.toml"
-IGNORE="/src/.gitleaks/.gitleaksignore"
-
-if [ -f "$CONFIGURATION" ]; then
-    CONFIGURATION_ARGUMENT="--config $CONFIGURATION"
+if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
+    CONFIGURATION_ARGUMENT="--config $GITLEAKS_CONFIGURATION_FILE"
 else
     CONFIGURATION_ARGUMENT=""
 fi
 
-if [ -f "$IGNORE" ]; then
-    IGNORE_ARGUMENT="--gitleaks-ignore-path $IGNORE"
+if [ -f "$GITLEAKS_IGNORE_FILE" ]; then
+    IGNORE_ARGUMENT="--gitleaks-ignore-path $GITLEAKS_IGNORE_FILE"
 else
     IGNORE_ARGUMENT=""
 fi
 
+echo -e "========${GIT_MODE}--${GITLEAKS_IGNORE_FILE}--${GITLEAKS_CONFIGURATION_FILE}";
+
 # GitLeaks
-gitleaks git --pre-commit --redact --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+if [ "$GIT_MODE" != "false" ]; then
+    gitleaks git --pre-commit --redact --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+else
+    gitleaks detect --source . --no-git --redact --report-path gitleaks-report.json --report-format json --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+fi
 
 # Successful
 echo "✅ No secrets have been detected."
