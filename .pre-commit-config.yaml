@@ -4,7 +4,6 @@ repos:
     hooks:
       - id: baseline
         name: Ministry of Justice - Security scan
-        args: [GIT_MODE="true"]
 
   - repo: local
     hooks:
