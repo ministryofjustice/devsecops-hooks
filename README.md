@@ -22,7 +22,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 ## 🧩 Workflow
 
-![Workflow](docs/pre-commit-hook-workflow.svg)
+![Workflow](docs/pre-commit-workflow.svg)
 
 ## ✨ Features
 
@@ -133,12 +133,15 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument            | Default     | Description                       |
-| ------------------- | ----------- | --------------------------------- |
-| `VERSION`           | `1.0.0`     | Scanner version number            |
-| `GIT_LEAKS_VERSION` | `8.30.0`    | GitLeaks version to install       |
-| `GIT_LEAKS_SHA512`  | (specified) | SHA-512 checksum for verification |
-| `WORKDIR`           | `/app`      | Application root directory        |
+| Argument                      | Default            | Description                       |
+| ----------------------------- | ------------------ | --------------------------------- |
+| `VERSION`                     | `1.2.0`            | Scanner version number            |
+| `GIT_LEAKS_VERSION`           | `8.30.0`           | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`            | (specified)        | SHA-512 checksum for verification |
+| `GITLEAKS_CONFIGURATION_FILE` | `./gitleaks.toml`  | GitLeaks configuration file path  |
+| `GITLEAKS_IGNORE_FILE`        | `./gitleaksignore` | GitLeaks ignore file path         |
+| `GIT_MODE`                    | `true`             | Enable Git mode for scanning      |
+| `WORKDIR`                     | `/app`             | Application root directory        |
 
 ## 🏗️ Architecture
 

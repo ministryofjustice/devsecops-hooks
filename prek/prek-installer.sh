@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # shellcheck shell=dash
 # shellcheck disable=SC2039  # local is non-POSIX
 #
@@ -1505,7 +1505,7 @@ write_env_script_sh() {
     local _install_dir_expr="$1"
     local _env_script_path="$2"
     ensure cat <<EOF > "$_env_script_path"
-#!/bin/sh
+#!/bin/bash
 # add binaries to PATH if they aren't added yet
 # affix colons on either side of \$PATH to simplify matching
 case ":\${PATH}:" in
