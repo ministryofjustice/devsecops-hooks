@@ -1,32 +1,38 @@
 # Software Composition Analysis (SCA) Workflow
 #
-# This workflow performs automated software composition analysis to identify
-# security vulnerabilities and license compliance issues in project dependencies.
+# This workflow performs automated security scanning of project dependencies to identify
+# vulnerabilities, license issues, and outdated packages.
 #
 # Triggers:
-#   - Scheduled daily at midnight (00:00 UTC)
-#   - Pull requests targeting the main branch
+#   - schedule: Runs daily at midnight (00:00 UTC)
+#   - pull_request: Executes when PRs are opened against the main branch
+#   - workflow_dispatch: Allows manual workflow execution
 #
-# Workflow Structure:
-#   1. setup job: Initializes environment configuration
-#      - Sets up the base environment
+# Jobs:
+#   1. setup: Initializes workflow environment configuration
+#      - Sets the environment variable to 'base'
 #      - Outputs environment name for downstream jobs
 #
-#   2. sca job: Executes the software composition analysis
-#      - Requires setup job completion
-#      - Uses the MoJ devsecops-actions/sca action
-#      - Requires GitHub token for API access
-#      - Uses dependency review configuration from .github/dependency-review-config.yml
+#   2. sca: Executes the Software Composition Analysis
+#      - Permissions:
+#        * contents: write - For creating/updating files
+#        * pull-requests: write - For PR comments and updates
+#        * issues: write - For creating security issues
+#        * security-events: read - For accessing security scan results
+#      - Uses MoJ's devsecops-actions/sca action (v1.1.0)
+#      - Configuration:
+#        * Authenticates using GitHub token
+#        * Uses custom dependency review config from .github/dependency-review-config.yml
+#      - Depends on successful completion of setup job
+#      - Runs in the environment specified by setup job output
 #
-# Required Secrets:
-#   - GITHUB_TOKEN: Automatically provided by GitHub Actions
+# Environment:
+#   - Default environment: base
 #
-# Permissions:
-#   - contents: write - Required to update repository content
-#   - pull-requests: write - Required to comment on pull requests
-#   - issues: write - Required to create/update security issues
-#   - security-events: read - Required to access security event data
-#
+# Security:
+#   - Workflow has minimal default permissions (none)
+#   - Individual jobs specify required granular permissions
+#   - Uses pinned action version with SHA for supply chain security
 
 name: SCA ⚡️
 run-name: Software Composition Analysis ⚡️
@@ -37,6 +43,8 @@ on:
 
   pull_request:
     branches: ["main"]
+
+  workflow_dispatch:
 
 permissions: {}
 
@@ -70,7 +78,7 @@ jobs:
 
     steps:
       - name: SCA
-        uses: ministryofjustice/devsecops-actions/sca@a2c9fe513afa45f3d9259347a0172e1177d231c6
+        uses: ministryofjustice/devsecops-actions/sca@79780d6219adfb74f1602fd71ee8e84f1dc254e3 # frozen: v1.1.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           dependency-review-config-file: "./.github/dependency-review-config.yml"
