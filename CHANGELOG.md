@@ -19,6 +19,7 @@
 * **53-integrate:** integrate MoJ SCA action ([#62](https://github.com/ministryofjustice/devsecops-hooks/issues/62)) ([bfac6b4](https://github.com/ministryofjustice/devsecops-hooks/commit/bfac6b4462d5fa5a9c28e7c37c8faeadeb4a3ef2))
 * **53-integrate:** remove workflow_dispatch ([#60](https://github.com/ministryofjustice/devsecops-hooks/issues/60)) ([1ea9560](https://github.com/ministryofjustice/devsecops-hooks/commit/1ea95600636be8383499db80e8eb9e5e08761039))
 * **renovate:** pin to v44.2.0 commit SHA ([#43](https://github.com/ministryofjustice/devsecops-hooks/issues/43)) ([80f53e8](https://github.com/ministryofjustice/devsecops-hooks/commit/80f53e85bdfd383299022f39e2b850316f0ad057))
+* **version:** updated to v1.3.0 ([#69](https://github.com/ministryofjustice/devsecops-hooks/issues/69)) ([33227d5](https://github.com/ministryofjustice/devsecops-hooks/commit/33227d53880de53b534934857c40bcfb81c39553))
 
 ## [1.2.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.1.0...v1.2.0) (2025-12-15)
 
