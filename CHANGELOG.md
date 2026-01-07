@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.3.0...v1.3.1) (2026-01-07)
+
+
+### Bug Fixes
+
+* **pre-commit:** remove --pre-commit flag ([#82](https://github.com/ministryofjustice/devsecops-hooks/issues/82)) ([020bfd5](https://github.com/ministryofjustice/devsecops-hooks/commit/020bfd5f61831b7a426082de6f11ef4f8467a18f))
+
 ## [1.3.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.2.0...v1.3.0) (2025-12-29)
 
 
