@@ -91,6 +91,15 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 ## 🔧 Configuration
 
+### Ignore file
+
+One can add gitleaks `fingerprint` to the `./.gitleaksignore` file, if it is a false positive.
+To add one to the ignore file simply add the `Fingerprint` presented to the ignore file.
+
+```txt
+f3a930047bf1373b540608f54fcd7619b57801c8:README.md:generic-api-key:161
+```
+
 ### Exclusion list
 
 One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
@@ -133,15 +142,15 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument                      | Default            | Description                       |
-| ----------------------------- | ------------------ | --------------------------------- |
-| `VERSION`                     | `1.3.0`            | Scanner version number            |
-| `GIT_LEAKS_VERSION`           | `8.30.0`           | GitLeaks version to install       |
-| `GIT_LEAKS_SHA512`            | (specified)        | SHA-512 checksum for verification |
-| `GITLEAKS_CONFIGURATION_FILE` | `./gitleaks.toml`  | GitLeaks configuration file path  |
-| `GITLEAKS_IGNORE_FILE`        | `./gitleaksignore` | GitLeaks ignore file path         |
-| `GIT_MODE`                    | `true`             | Enable Git mode for scanning      |
-| `WORKDIR`                     | `/app`             | Application root directory        |
+| Argument                      | Default             | Description                       |
+| ----------------------------- | ------------------- | --------------------------------- |
+| `VERSION`                     | `1.3.0`             | Scanner version number            |
+| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install       |
+| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification |
+| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path  |
+| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path         |
+| `GIT_MODE`                    | `true`              | Enable Git mode for scanning      |
+| `WORKDIR`                     | `/app`              | Application root directory        |
 
 ## 🏗️ Architecture
 
