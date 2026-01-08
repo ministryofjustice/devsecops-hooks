@@ -52,7 +52,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.0.0
+       rev: v1.3.0
        hooks:
          - id: baseline
    ```
@@ -91,10 +91,18 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 ## 🔧 Configuration
 
+### Configuration file
+
+One can add gitleaks configuration file to their repository root under `./.gitleaks.toml` file name.
+Gitleaks offers a [configuration format](Gitleaks offers a configuration format you can follow to write your own secret detection rules)
+you can follow to write your own secret detection rules.
+
 ### Ignore file
 
 One can add gitleaks `fingerprint` to the `./.gitleaksignore` file, if it is a false positive.
 To add one to the ignore file simply add the `Fingerprint` presented to the ignore file.
+
+Just like the configuration file please add ignore file to the root of your repository.
 
 ```txt
 f3a930047bf1373b540608f54fcd7619b57801c8:README.md:generic-api-key:161
@@ -109,7 +117,7 @@ Ignore everything under `reports` and `docs` directories for `baseline` hook as 
 ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.0.0
+       rev: v1.3.0
        hooks:
          - id: baseline
             exclude: |
@@ -122,7 +130,7 @@ Or one can also create a file with list of exclusions.
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.0.0
+    rev: v1.3.0
     hooks:
       - id: baseline
         exclude: .pre-commit-ignore
