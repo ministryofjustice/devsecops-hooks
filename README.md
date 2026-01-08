@@ -38,9 +38,9 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 ### Development prerequisites
 
-- [pre-commit](https://pre-commit.com/) framework installed
-- Docker (for running the containerised scanner)
-- Git repository
+- [Git CLI](https://cli.github.com/)
+- [Docker](https://www.docker.com/get-started/)
+- [pre-commit](https://pre-commit.com/) or [prek](https://github.com/j178/prek?tab=readme-ov-file#installation)
 
 ### Installation
 
@@ -94,7 +94,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 ### Configuration file
 
 One can add gitleaks configuration file to their repository root under `./.gitleaks.toml` file name.
-Gitleaks offers a [configuration format](Gitleaks offers a configuration format you can follow to write your own secret detection rules)
+Gitleaks offers a [configuration format](https://www.npmjs.com/package/@ministryofjustice/hmpps-precommit-hooks?activeTab=code)
 you can follow to write your own secret detection rules.
 
 ### Ignore file
