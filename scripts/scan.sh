@@ -51,7 +51,7 @@ fi
 
 # GitLeaks
 if [ "$GIT_MODE" != "false" ]; then
-    gitleaks git --redact --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+    gitleaks git --pre-commit --staged --redact --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
 else
     gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
 fi
