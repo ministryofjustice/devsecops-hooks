@@ -216,7 +216,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
 ### ✅ Success (No Secrets Detected)
 
 ```bash
-⚡️ Ministry of Justice - Scanner 1.0.0⚡️
+⚡️ Ministry of Justice - Scanner 1.3.0⚡️
 
 ○
     │╲
@@ -224,15 +224,16 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
     ○ ░
     ░    gitleaks
 
-12:34PM INF 123 commits scanned.
-12:34PM INF scan completed in 1.2s
+5:13PM INF 0 commits scanned.
+5:13PM INF scanned ~325 bytes (325 bytes) in 305ms
+5:13PM INF no leaks found
 ✅ No secrets have been detected.
 ```
 
 ### ❌ Failure (Secrets Detected)
 
 ```bash
-⚡️ MoJ scanner 1.0.0⚡️
+⚡️ MoJ scanner 1.3.0⚡️
 
 ○
     │╲
@@ -248,7 +249,9 @@ File:        config/settings.py
 Line:        42
 Commit:      a1b2c3d4
 
-12:34PM WRN leaks found: 1
+5:13PM INF 0 commits scanned.
+5:13PM INF scanned ~325 bytes (325 bytes) in 305ms
+5:13PM WRN leaks found: 1
 ```
 
 ## 🛠️ Local
