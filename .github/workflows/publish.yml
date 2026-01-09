@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: Repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # frozen: v6.0.1
+        uses: actions/checkout@064fe7f3312418007dea2b49a19844a9ee378f49 # frozen: v6.0.1
 
       - name: Create
         uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # frozen: v4.4.0
