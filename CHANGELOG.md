@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.3.0...v1.3.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **85-ensure-staging-files:** added pre-commit and staged flags ([#86](https://github.com/ministryofjustice/devsecops-hooks/issues/86)) ([0488b25](https://github.com/ministryofjustice/devsecops-hooks/commit/0488b2567892942037c4c31b17a795f77ed19c3f))
+* **92-strict-scan:** added gitleaks configuration for low entropy ([#98](https://github.com/ministryofjustice/devsecops-hooks/issues/98)) ([2e37b24](https://github.com/ministryofjustice/devsecops-hooks/commit/2e37b243060f2aed095fe5df6536c0b9aa4816db))
+* **pre-commit:** remove --pre-commit flag ([#82](https://github.com/ministryofjustice/devsecops-hooks/issues/82)) ([020bfd5](https://github.com/ministryofjustice/devsecops-hooks/commit/020bfd5f61831b7a426082de6f11ef4f8467a18f))
+* **sca:** updated pipeline ([#109](https://github.com/ministryofjustice/devsecops-hooks/issues/109)) ([a30ac6a](https://github.com/ministryofjustice/devsecops-hooks/commit/a30ac6a3947e033d2e3ecd48ace0c83008cd9984))
+
 ## [1.3.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.2.0...v1.3.0) (2025-12-29)
 
 
