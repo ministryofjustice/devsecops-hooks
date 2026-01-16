@@ -1,11 +1,40 @@
-# Workflow: SCA ⚡️
-# Description:
-#   Scheduled and on-demand Security Composition Analysis run.
-#   - Triggers: daily cron, pull/ push to main, workflow dispatch, branch protection rule.
-#   - Environment and timezone shared across jobs.
-# Jobs:
-#   - setup: Prepares environment metadata.
-#   - sca: Checks out repo, installs node, runs npm ci, executes ministryofjustice/sca action with dependency review configuration.
+# This workflow performs Software Composition Analysis (SCA) on the repository
+# to identify security vulnerabilities and license compliance issues in dependencies.
+#
+# Triggers:
+#   - Daily scheduled run at midnight UTC (cron: "0 0 * * *")
+#   - Pull requests targeting the main branch
+#   - Pushes to the main branch
+#   - Manual workflow dispatch
+#   - Branch protection rule events
+#
+# Workflow Structure:
+#   1. setup job: Initializes environment variables and timezone settings
+#      - Outputs environment and timezone for downstream jobs
+#
+#   2. sca job: Executes the Software Composition Analysis
+#      - Requires setup job completion
+#      - Checks out repository code
+#      - Sets up Node.js environment using version from repository variables
+#      - Installs npm dependencies without running scripts
+#      - Runs SCA using ministryofjustice/devsecops-actions
+#
+# Permissions:
+#   - Minimal permissions at workflow level (empty permissions block)
+#   - SCA job has specific permissions for:
+#     - Writing to contents, pull requests, issues, and security events
+#     - Reading actions
+#
+# Environment Variables:
+#   - environment: Set to "base" for the workflow execution environment
+#   - timezone: Configurable via repository variables
+#
+# Required Secrets:
+#   - GITHUB_TOKEN: Used for authentication in SCA action
+#
+# Configuration Files:
+#   - dependency-review-config.yml: Optional configuration for dependency review
+#   - sources.json: Optional file containing Docker images to scan
 
 name: SCA ⚡️
 run-name: Software Composition Analysis ⚡️
@@ -48,7 +77,6 @@ jobs:
       pull-requests: write
       issues: write
       security-events: write
-      id-token: read
       actions: read
 
     name: Execute ⚙️
@@ -71,7 +99,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: ⚡️ SCA
-        uses: ministryofjustice/devsecops-actions/sca@54ee63a7e827ba1abfddeaa486c40ced8841a8e3 # v1.2.0
+        uses: ministryofjustice/devsecops-actions/sca@52084de880fe4279952bb80ffa4eb089a639c3a9 # v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }} # Mandatory
           dependency-review-config-file: "./.github/dependency-review-config.yml" # Optional
