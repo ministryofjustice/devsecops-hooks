@@ -13,6 +13,7 @@ dist
 # Secrets
 secrets/**
 jwt_key
+**/.secrets
 
 # Logs
 logs

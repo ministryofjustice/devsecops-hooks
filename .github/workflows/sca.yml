@@ -1,40 +1,40 @@
-# Software Composition Analysis (SCA) Workflow
-#
-# This workflow performs security scanning of software dependencies and components.
-# It runs on multiple triggers to ensure comprehensive coverage of dependency security.
+# This workflow performs Software Composition Analysis (SCA) on the repository
+# to identify security vulnerabilities and license compliance issues in dependencies.
 #
 # Triggers:
-#   - schedule: Daily at midnight UTC (cron: "0 0 * * *")
-#   - pull_request: When PRs are opened/updated targeting the main branch
-#   - push: When code is pushed to the main branch
-#   - workflow_dispatch: Manual trigger via GitHub UI
-#   - branch_protection_rule: When branch protection rules are modified
+#   - Daily scheduled run at midnight UTC (cron: "0 0 * * *")
+#   - Pull requests targeting the main branch
+#   - Pushes to the main branch
+#   - Manual workflow dispatch
+#   - Branch protection rule events
+#
+# Workflow Structure:
+#   1. setup job: Initializes environment variables and timezone settings
+#      - Outputs environment and timezone for downstream jobs
+#
+#   2. sca job: Executes the Software Composition Analysis
+#      - Requires setup job completion
+#      - Checks out repository code
+#      - Sets up Node.js environment using version from repository variables
+#      - Installs npm dependencies without running scripts
+#      - Runs SCA using ministryofjustice/devsecops-actions
 #
 # Permissions:
-#   - contents: write - Required to access repository contents and create commits
-#   - pull-requests: write - Required to comment on PRs with scan results
-#   - issues: write - Required to create/update security issues
-#   - security-events: write - Required to upload security scan results to GitHub Security
-#   - id-token: write - Required for OIDC authentication
-#   - actions: read - Required to read workflow run information
+#   - Minimal permissions at workflow level (empty permissions block)
+#   - SCA job has specific permissions for:
+#     - Writing to contents, pull requests, issues, and security events
+#     - Reading actions
 #
-# Steps:
-#   1. Repository: Checks out the repository code
-#   2. Node: Sets up Node.js environment using the version from repository variables
-#   3. Install: Installs npm dependencies without running scripts for security
-#   4. SCA: Executes the Software Composition Analysis using MoJ's DevSecOps action
-#      - Uses GitHub token for authentication
-#      - References custom dependency review configuration
-#      - Scans Docker images listed in sources.json
+# Environment Variables:
+#   - environment: Set to "base" for the workflow execution environment
+#   - timezone: Configurable via repository variables
 #
-# Dependencies:
-#   - actions/checkout@v6.0.1
-#   - actions/setup-node@v6.1.0
-#   - ministryofjustice/devsecops-actions/sca@v1.2.0
+# Required Secrets:
+#   - GITHUB_TOKEN: Used for authentication in SCA action
 #
 # Configuration Files:
-#   - .github/dependency-review-config.yml: Custom dependency review rules
-#   - sources.json: List of Docker images to scan
+#   - dependency-review-config.yml: Optional configuration for dependency review
+#   - sources.json: Optional file containing Docker images to scan
 
 name: SCA ⚡️
 run-name: Software Composition Analysis ⚡️
@@ -54,33 +54,53 @@ on:
 
 permissions: {}
 
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE }}
+
 jobs:
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ["ubuntu-latest"]
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
   sca:
     permissions:
       contents: write
       pull-requests: write
       issues: write
       security-events: write
-      id-token: write
       actions: read
 
     name: Execute ⚙️
     runs-on: ["ubuntu-latest"]
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
 
     steps:
       - name: Repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # frozen: v6.0.1
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Node
-        uses: actions/setup-node@65d868f8d4d85d7d4abb7de0875cde3fcc8798f5 # frozen: v6.1.0
+        uses: actions/setup-node@65d868f8d4d85d7d4abb7de0875cde3fcc8798f5 # v6.1.0
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
       - name: Install
+        shell: bash
         run: npm ci --ignore-scripts
 
       - name: ⚡️ SCA
-        uses: ministryofjustice/devsecops-actions/sca@c210b12f1bd77564cee5c5f5c7306cd63dc89867 # frozen: v1.2.0
+        uses: ministryofjustice/devsecops-actions/sca@9babea875cafae0e3b05a5ec5aca76d6b560c42e # v1.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }} # Mandatory
           dependency-review-config-file: "./.github/dependency-review-config.yml" # Optional
+          docker-images-file: ${{ github.workspace }}/sources.json # Optional
