@@ -29,10 +29,7 @@ lerna-debug.log*
 Library/
 
 # Tests
-coverage
-**/cypress/videos/*
-**/cypress/screenshots/*
-**/cypress/downloads/*
+mockbin/
 
 # IDE - VSCode
 .vscode/*
