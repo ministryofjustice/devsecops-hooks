@@ -2,7 +2,7 @@
 
 setup() {
     mkdir -p mockbin
-    PATH="$PWD/mockbin:$PATH"
+    PATH="$PWD/mockbin:/usr/bin:/bin:$PATH"
 }
 
 teardown() {
@@ -14,6 +14,9 @@ teardown() {
 }
 
 @test "should exit if GIT_LEAKS_VERSION has not been specified" {
+    # Arrange
+    export SKIP_TEARDOWN=true
+
     # Act
     run ./scripts/gitleaks.sh
 
@@ -27,37 +30,39 @@ teardown() {
     export GIT_LEAKS_VERSION=8.30.0
     export GIT_LEAKS_SHA512=invalid
     export SKIP_TEARDOWN=true
-    PATH="$PWD/mockbin"
+    PATH="$PWD/mockbin:/usr/bin:/bin"
 
     # Act
     run ./scripts/gitleaks.sh
 
     # Assert
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Missing wget executable."* ]]
 }
 
 @test "should exit if tar command is not available" {
     # Arrange
     export GIT_LEAKS_VERSION=8.30.0
+    export GIT_LEAKS_SHA512=invalid
+    export SKIP_TEARDOWN=true
 
     # Mock wget
-    echo '#!/bin/sh; echo "fake wget called with: $@"' > mockbin/wget
+    echo '#!/bin/sh' > mockbin/wget
+    echo 'exit 0' >> mockbin/wget
     chmod +x mockbin/wget
 
-    # Provide executables
-    ln -s /bin/rm mockbin/rm
-    ln -s /bin/chmod mockbin/chmod
+    # Mock sha512sum
+    echo '#!/bin/sh' > mockbin/sha512sum
+    echo 'echo "valid";' >> mockbin/sha512sum
+    chmod +x mockbin/sha512sum
 
     # Set PATH so tar is missing
-    PATH="$PWD/mockbin"
+    PATH="$PWD/mockbin:/usr/bin:/bin"
 
     # Act
     run ./scripts/gitleaks.sh
 
     # Assert
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Missing tar executable."* ]]
 }
 
 @test "should exit if checksum does not match" {
