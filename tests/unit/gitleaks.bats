@@ -5,10 +5,6 @@ setup() {
     PATH="$PWD/mockbin:$PATH"
 }
 
-teardown() {
-    rm -rf mockbin gitleaks*.tar.gz
-}
-
 @test "should exit if GIT_LEAKS_VERSION has not been specified" {
     # Act
     run ./scripts/gitleaks.sh
@@ -22,7 +18,7 @@ teardown() {
     # Arrange
     export GIT_LEAKS_VERSION=8.30.0
     export GIT_LEAKS_SHA512=invalid
-    PATH="$PWD/mockbin:/usr/bin:/bin"
+    PATH="$PWD/mockbin:/usr/bin"
 
     # Act
     run ./scripts/gitleaks.sh
