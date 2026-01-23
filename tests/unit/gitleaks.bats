@@ -6,7 +6,11 @@ setup() {
 }
 
 teardown() {
-    rm -rf mockbin gitleaks*.tar.gz
+    if [ "${SKIP_TEARDOWN:-false}" = "true" ]; then
+        return;
+    fi
+
+        rm -rf mockbin gitleaks*.tar.gz
 }
 
 @test "should exit if GIT_LEAKS_VERSION has not been specified" {
@@ -22,6 +26,7 @@ teardown() {
     # Arrange
     export GIT_LEAKS_VERSION=8.30.0
     export GIT_LEAKS_SHA512=invalid
+    export SKIP_TEARDOWN=true
     PATH="$PWD/mockbin"
 
     # Act
