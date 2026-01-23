@@ -21,6 +21,7 @@ teardown() {
 @test "should exit if wget command is not available" {
     # Arrange
     export GIT_LEAKS_VERSION=8.30.0
+    export GIT_LEAKS_SHA512=invalid
     PATH="$PWD/mockbin:/usr/bin:/bin"
 
     # Act
