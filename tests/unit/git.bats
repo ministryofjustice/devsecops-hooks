@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "install git cli" {
+@test "should install git cli" {
     # Arrange
     mkdir -p mockbin
     PATH="$PWD/mockbin:$PATH"
