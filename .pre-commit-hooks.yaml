@@ -21,6 +21,5 @@
   entry: "ghcr.io/ministryofjustice/devsecops-hooks:v1.3.0"
   language: "docker_image"
   fail_fast: true
-  always_run: true
   verbose: true
   exclude: "^\\..*|/\\..*"
