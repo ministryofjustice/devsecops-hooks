@@ -20,3 +20,19 @@ repos:
         entry: npm run spellcheck
         language: system
         pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: pre-commit-hook
+        name: Pre-commit hook validation
+        entry: pre-commit validate-manifest
+        language: system
+        pass_filenames: false
+
+  - repo: local
+    hooks:
+      - id: pre-commit-config
+        name: Pre-commit configuration validation
+        entry: pre-commit validate-config
+        language: system
+        pass_filenames: false

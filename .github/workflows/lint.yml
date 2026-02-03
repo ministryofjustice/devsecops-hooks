@@ -97,3 +97,16 @@ jobs:
 
       - name: MD
         run: npm run validate:md
+
+      - name: Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # frozen: v6.1.0
+        with:
+          python-version: ${{ VARS.PYTHON_VERSION }}
+
+      - name: Install
+        run: pip install pre-commit
+
+      - name: Pre-commit
+        run: |
+          pre-commit validate-manifest
+          pre-commit validate-config

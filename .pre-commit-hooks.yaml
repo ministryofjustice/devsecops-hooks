@@ -1,24 +1,15 @@
-# Pre-commit hook configuration for security baseline scanning
-#
-# This hook performs security scanning to detect hardcoded secrets and credentials
-# in the codebase before commits can be pushed to the CVS. This YAML relies
-# on `pre-commit` hook when the files are moved from working directory to staging locally.
-#
-# Fields:
-#   id: Unique identifier for this pre-commit hook
-#   name: Display name shown during hook execution with emoji for visual distinction
-#   description: Explains the hook's purpose - scanning for secrets using multiple CLI tools
-#   entry: Docker image entry point (currently empty, needs to be populated with actual image)
-#   language: Specifies Docker as the execution environment for this hook
-#   fail_fast: When true, stops execution immediately if this hook fails
-#   exclude: Regex pattern to exclude hidden files and directories (starting with .)
-#   from being scanned by this hook
-#
+# Pre-commit hook configuration for the MoJ scanner:
+# - Runs the devsecops-hooks Docker image to scan for hardcoded secrets/credentials
+# - Runs on every invocation, and does not pass filenames
+# - Excludes hidden files/directories from scanning
 
 - id: baseline
   name: "🔐 Ministry of Justice - Scanner"
-  description: "MoJ's pre commit hooks scans for hardcoded secrets and credentials using myriads of CLI tools."
+  description: "MoJ's pre commit hooks scans for hardcoded secrets and credentials using CLI commands of choice."
   entry: "ghcr.io/ministryofjustice/devsecops-hooks:v1.3.0"
   language: "docker_image"
-  fail_fast: true
+  fail_fast: false
+  always_run: true
+  verbose: true
+  pass_filenames: false
   exclude: "^\\..*|/\\..*"
