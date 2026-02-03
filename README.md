@@ -45,7 +45,6 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 ### Installation
 
 1. **Add**
-
    - Filename: `.pre-commit-config.yaml`
    - Location: Root of your project
 
@@ -145,6 +144,10 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **Language**: `docker_image`
 - **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:latest`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
+- **Pass Filenames**: `false` - Hook runs on the entire repository, not individual files
+- **Always Run**: `true` - Executes on every invocation regardless of file changes
+- **Verbose**: `true` - Provides detailed output for debugging
+- **Fail Fast**: `false` - Allows other hooks to run even if this hook fails
 
 ### Docker Build Arguments
 
@@ -159,6 +162,8 @@ The Docker image supports the following build arguments:
 | `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path         |
 | `GIT_MODE`                    | `true`              | Enable Git mode for scanning      |
 | `WORKDIR`                     | `/app`              | Application root directory        |
+| `TERM`                        | `xterm-256color`    | Terminal type for colour output   |
+| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines  |
 
 ## 🏗️ Architecture
 
@@ -324,7 +329,9 @@ If you encounter any issues or have questions:
 - Update the `rev` field in `.pre-commit-config.yaml` to the latest commit SHA
 - The scanner runs on both `pre-commit` and `pre-push` stages
 - Hidden files and directories are excluded by default
-- The hook is configured with `fail_fast: true` to stop execution immediately upon finding secrets
+- The hook is configured with `fail_fast: false` to allow other hooks to run even if secrets are detected
+- The scanner runs on the entire repository (`pass_filenames: false`) rather than individual staged files
+- Colour output is enabled for better visibility in CI/CD pipelines
 
 ---
 
