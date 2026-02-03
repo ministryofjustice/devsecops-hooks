@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.4.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.3.0...v1.4.0) (2026-02-03)
+
+
+### Features
+
+* **115-unit-test-cases:** created BATS test case ([#116](https://github.com/ministryofjustice/devsecops-hooks/issues/116)) ([6100ad8](https://github.com/ministryofjustice/devsecops-hooks/commit/6100ad8d5b9c96241b64fa789f2eb485705ce683))
+* **115-unit-test:** add unit test cases ([#121](https://github.com/ministryofjustice/devsecops-hooks/issues/121)) ([aabd7de](https://github.com/ministryofjustice/devsecops-hooks/commit/aabd7de583ca89afb7139d98a592f0630322755b))
+* **125-min-age:** added cooldown to dependabot ([#126](https://github.com/ministryofjustice/devsecops-hooks/issues/126)) ([9c5db3f](https://github.com/ministryofjustice/devsecops-hooks/commit/9c5db3f5d8736dc03181fef9be0df2137838f6ee))
+* **94-copilot:** added github copilot instructions ([#127](https://github.com/ministryofjustice/devsecops-hooks/issues/127)) ([2fc171c](https://github.com/ministryofjustice/devsecops-hooks/commit/2fc171cd0657c65853ddb81289b6ef2642821e3c))
+
+
+### Bug Fixes
+
+* **130-double-execution:** set pass_filename to false ([#131](https://github.com/ministryofjustice/devsecops-hooks/issues/131)) ([79b1c6b](https://github.com/ministryofjustice/devsecops-hooks/commit/79b1c6b7d55837a8de7366f6cef85803cf3e74a3))
+* **85-ensure-staging-files:** added pre-commit and staged flags ([#86](https://github.com/ministryofjustice/devsecops-hooks/issues/86)) ([0488b25](https://github.com/ministryofjustice/devsecops-hooks/commit/0488b2567892942037c4c31b17a795f77ed19c3f))
+* **92-strict-scan:** added gitleaks configuration for low entropy ([#98](https://github.com/ministryofjustice/devsecops-hooks/issues/98)) ([2e37b24](https://github.com/ministryofjustice/devsecops-hooks/commit/2e37b243060f2aed095fe5df6536c0b9aa4816db))
+* **pre-commit:** remove --pre-commit flag ([#82](https://github.com/ministryofjustice/devsecops-hooks/issues/82)) ([020bfd5](https://github.com/ministryofjustice/devsecops-hooks/commit/020bfd5f61831b7a426082de6f11ef4f8467a18f))
+* **sca:** updated pipeline ([#109](https://github.com/ministryofjustice/devsecops-hooks/issues/109)) ([a30ac6a](https://github.com/ministryofjustice/devsecops-hooks/commit/a30ac6a3947e033d2e3ecd48ace0c83008cd9984))
+
 ## [1.3.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.2.0...v1.3.0) (2025-12-29)
 
 
