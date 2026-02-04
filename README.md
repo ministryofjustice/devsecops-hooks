@@ -51,7 +51,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.3.0
+       rev: v1.4.0
        hooks:
          - id: baseline
    ```
@@ -116,7 +116,7 @@ Ignore everything under `reports` and `docs` directories for `baseline` hook as 
 ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.3.0
+       rev: v1.4.0
        hooks:
          - id: baseline
             exclude: |
@@ -129,7 +129,7 @@ Or one can also create a file with list of exclusions.
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.3.0
+    rev: v1.4.0
     hooks:
       - id: baseline
         exclude: .pre-commit-ignore
@@ -155,7 +155,7 @@ The Docker image supports the following build arguments:
 
 | Argument                      | Default             | Description                       |
 | ----------------------------- | ------------------- | --------------------------------- |
-| `VERSION`                     | `1.3.0`             | Scanner version number            |
+| `VERSION`                     | `1.4.0`             | Scanner version number            |
 | `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install       |
 | `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification |
 | `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path  |
@@ -221,7 +221,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
 ### ✅ Success (No Secrets Detected)
 
 ```bash
-⚡️ Ministry of Justice - Scanner 1.3.0⚡️
+⚡️ Ministry of Justice - Scanner 1.4.0⚡️
 
 ○
     │╲
@@ -238,7 +238,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
 ### ❌ Failure (Secrets Detected)
 
 ```bash
-⚡️ MoJ scanner 1.3.0⚡️
+⚡️ MoJ scanner 1.4.0⚡️
 
 ○
     │╲
