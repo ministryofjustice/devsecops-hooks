@@ -1,0 +1,51 @@
+name: GitHub 🔎
+run-name: GitHub repository check
+
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+
+  pull_request:
+    branches: ["*"]
+
+permissions: {}
+
+env:
+  environment: base
+  timezone: ${{ vars.TIMEZONE }}
+
+jobs:
+  setup:
+    name: Infrastructure 🔧
+    runs-on: ["ubuntu-latest"]
+    outputs:
+      environment: ${{ env.environment }}
+      timezone: ${{ env.timezone }}
+    steps:
+      - name: Environment 🧪
+        run: echo "Environment set to ${{ env.environment }}"
+
+      - name: Timezone 🌐
+        run: echo "Timezone set to ${{ env.timezone }}"
+  archive:
+    permissions:
+      contents: read
+
+    name: Archive ⚙️
+    runs-on: ["ubuntu-latest"]
+    needs: setup
+    environment:
+      name: ${{ needs.setup.outputs.environment }}
+
+    steps:
+      - name: Repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Archive
+        uses: ministryofjustice/devsecops-actions/github/repository/archive@feat/100-once-a-month-scan-email-cybersre-team-if-the-repo-has-not-had-any-commits-in-the-last-90-days
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          archival-days: 30
+          notification-email: "${{ vars.PANDA_NOTIFICATION_EMAIL }}"
+          gov-notify-key: "${{ secrets.PANDA_GOV_NOTIFY_KEY }}"
+          gov-notify-template-id: "${{ vars.ARCHIVAL_GOV_NOTIFY_TEMPLATE_ID }}"
