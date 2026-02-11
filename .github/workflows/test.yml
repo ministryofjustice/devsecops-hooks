@@ -1,32 +1,6 @@
-# GitHub Actions workflow for running automated tests on pull requests
-# 
-# This workflow is triggered on pull requests targeting the main branch and consists of two jobs:
-# 
-# Job 1: setup
-#   - Configures the test infrastructure
-#   - Sets environment variables for downstream jobs
-#   - Outputs: environment name and timezone configuration
-# 
-# Job 2: lint
-#   - Runs unit tests for the repository
-#   - Depends on: setup job completion
-#   - Steps:
-#     1. Checks out the repository code
-#     2. Sets up Node.js environment using the version specified in repository variables
-#     3. Installs npm dependencies (production only, skipping scripts)
-#     4. Executes unit tests via npm script
-# 
-# Environment Variables:
-#   - environment: Set to 'base' (default test environment)
-#   - timezone: Retrieved from repository variables
-# 
-# Permissions:
-#   - Workflow level: none (empty permissions object)
-#   - lint job: read access to repository contents
-# 
-# Requirements:
-#   - Repository variables: TIMEZONE, NODE_VERSION must be configured
-#   - npm script 'test:unit' must be defined in package.json
+# Executes BATS unit tests for shell scripts and Docker operations
+# Tests Git installation, GitLeaks integration, and scanning functionality
+# Trigger: pull_request (main branch) | Permissions: contents:read
 
 name: Tests 🧪
 run-name: Tests 🧪
@@ -56,8 +30,8 @@ jobs:
       - name: Timezone 🌐
         run: echo "Timezone set to ${{ env.timezone }}"
 
-  # 2. Test cases
-  lint:
+  # 2. Execute unit tests
+  test:
     permissions:
       contents: read
 

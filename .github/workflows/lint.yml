@@ -1,44 +1,113 @@
-# Lint Check Workflow
+# Linting Workflow
 #
 # Purpose:
-#   Performs linting validation on YAML and Markdown files for pull requests targeting the main branch.
+#   Performs comprehensive linting and validation checks on YAML, Markdown,
+#   and pre-commit configuration files to maintain code quality standards.
 #
-# Trigger:
-#   - Pull requests to the main branch
+# Description:
+#   This workflow executes multiple linting tools to validate file formatting,
+#   syntax, and pre-commit configuration integrity. It ensures consistency
+#   across documentation and configuration files.
+#
+# Trigger Events:
+#   - pull_request: On pull requests targeting main branch
 #
 # Permissions:
-#   - Root level: None (empty permissions object)
-#   - Lint job: contents:read
+#   - Workflow level: None (empty permissions object for security)
+#   - Lint job level:
+#     * contents: read - Required for checking out repository code
 #
 # Environment Variables:
-#   - environment: Set to 'base'
+#   - environment: Set to 'base' (default environment)
 #   - timezone: Retrieved from repository variable TIMEZONE
 #
 # Jobs:
 #
-#   1. setup:
-#      Description: Configures the test infrastructure and sets up environment context
+#   1. setup (Infrastructure 🔧):
+#      Description: Configures infrastructure and environment context
 #      Runner: ubuntu-latest
 #      Outputs:
-#        - environment: The deployment environment name
+#        - environment: The deployment environment name ('base')
 #        - timezone: The configured timezone
 #      Steps:
 #        - Logs the environment configuration
 #        - Logs the timezone configuration
 #
-#   2. lint:
+#   2. lint (Lint ✏️):
 #      Description: Executes linting checks on repository files
 #      Dependencies: Requires 'setup' job completion
 #      Runner: ubuntu-latest
 #      Environment: Uses environment output from setup job
 #      Steps:
-#        - Checks out repository code using actions/checkout@v6.0.1
-#        - Validates YAML files using npm run validate:yml
-#        - Validates Markdown files using npm run validate:md
+#        1. Repository checkout (actions/checkout@v6.0.1)
+#        2. Node.js setup using version from VARS.NODE_VERSION
+#        3. npm dependencies installation (npm ci --ignore-scripts)
+#        4. YAML validation (npm run validate:yml)
+#           - Validates .github/workflows/*.yml syntax
+#           - Checks .pre-commit-*.yaml files
+#           - Uses yamllint for standards compliance
+#        5. Markdown validation (npm run validate:md)
+#           - Validates README.md, CHANGELOG.md syntax
+#           - Checks documentation formatting
+#           - Uses markdownlint for style enforcement
+#        6. Python setup using version from VARS.PYTHON_VERSION
+#        7. Pre-commit installation (pip install pre-commit)
+#        8. Pre-commit validation
+#           - Validates .pre-commit-hooks.yaml manifest
+#           - Validates .pre-commit-config.yaml configuration
+#           - Ensures hook definitions are correct
 #
-# Security:
-#   - Uses pinned commit SHA for checkout action (8e8c483db84b4bee98b60c0593521ed34d9990e8)
-#   - Minimal permissions granted (read-only content access for lint job)
+# Required Variables:
+#   - TIMEZONE: Repository timezone configuration
+#   - NODE_VERSION: Node.js version for npm operations
+#   - PYTHON_VERSION: Python version for pre-commit operations
+#
+# Required Secrets:
+#   - None (GITHUB_TOKEN automatically provided but not explicitly used)
+#
+# Validation Tools:
+#   - yamllint: YAML syntax and style validation
+#   - markdownlint: Markdown formatting and style validation
+#   - pre-commit: Pre-commit hook validation
+#   - cspell: Spell checking (via npm run spellcheck, if triggered)
+#
+# Validation Rules:
+#   - YAML: Indentation, line length, trailing spaces, duplicate keys
+#   - Markdown: Headers, lists, links, code blocks, line length
+#   - Pre-commit: Hook syntax, configuration structure, repository URLs
+#
+# Failure Conditions:
+#   - Invalid YAML syntax
+#   - Markdown formatting violations
+#   - Pre-commit configuration errors
+#   - Missing required files
+#   - Malformed hook definitions
+#
+# Security Features:
+#   - Pinned action versions with commit SHAs
+#   - Minimal required permissions
+#   - No code execution from external sources
+#   - Validation only (no modifications)
+#
+# Integration:
+#   - Required for PR approval (can be configured in branch protection)
+#   - Runs in parallel with unit tests
+#   - Blocks merge on failure (when configured)
+#   - Provides detailed error output in PR checks
+#
+# Configuration Files:
+#   - .yamllint.yml: YAML linting rules (if present)
+#   - .markdownlint.json: Markdown linting rules
+#   - .markdownlintignore: Files to exclude from Markdown linting
+#   - .pre-commit-hooks.yaml: Hook manifest
+#   - .pre-commit-config.yaml: Local configuration
+#
+# Notes:
+#   - Fast execution (~1-2 minutes typical)
+#   - Catches common formatting errors early
+#   - Enforces consistent code style
+#   - Prevents malformed configuration from merging
+#   - British English spelling enforced via cspell
 #
 
 name: Lint check ✏️
@@ -55,7 +124,7 @@ env:
   timezone: ${{ vars.TIMEZONE }}
 
 jobs:
-  # 1. Setup test infrastructure
+  # 1. Setup infrastructure
   setup:
     name: Infrastructure 🔧
     runs-on: ubuntu-latest
@@ -69,7 +138,7 @@ jobs:
       - name: Timezone 🌐
         run: echo "Timezone set to ${{ env.timezone }}"
 
-  # 2. Various lint checks
+  # 2. Execute linting checks
   lint:
     permissions:
       contents: read
