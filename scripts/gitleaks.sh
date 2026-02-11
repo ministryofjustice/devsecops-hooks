@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # GitLeaks Installation Script
 #
 # This script downloads, verifies, and installs GitLeaks - a tool for detecting hardcoded secrets
@@ -30,7 +32,6 @@
 #   ./gitleaks.sh
 #
 
-#!/bin/bash
 set -euo pipefail
 
 # Environment variable definition

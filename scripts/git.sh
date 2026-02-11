@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Git Installation Script
 #
 # Purpose:
@@ -48,7 +50,7 @@
 #   - The --no-cache flag is Alpine-specific and highly recommended for containers
 #
 
-#!/bin/bash
+
 set -euo pipefail
 
 apk add --no-cache git

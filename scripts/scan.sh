@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # scan.sh - Secrets scanning script using GitLeaks
 #
 # Description:
@@ -22,7 +24,6 @@
 #   Git Mode (default): Runs pre-commit scan using Git history
 #   Non-Git Mode: Scans filesystem directly without Git, outputs JSON report
 
-#!/bin/bash
 set -euo pipefail
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
@@ -51,9 +52,9 @@ fi
 
 # GitLeaks
 if [ "$GIT_MODE" != "false" ]; then
-    gitleaks git --pre-commit --redact --staged --verbose --exit-code 1 $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+    gitleaks git --pre-commit --redact --staged --verbose --exit-code 1 "$CONFIGURATION_ARGUMENT" "$IGNORE_ARGUMENT"
 else
-    gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+    gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose "$CONFIGURATION_ARGUMENT" "$IGNORE_ARGUMENT"
 fi
 
 # Successful

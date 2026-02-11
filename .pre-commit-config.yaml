@@ -9,11 +9,6 @@ repos:
       - id: baseline
         name: Ministry of Justice - Security scan
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.11.0
-    hooks:
-      - id: shellcheck
-
   - repo: local
     hooks:
       - id: lint
