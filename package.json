@@ -21,7 +21,7 @@
     "housekeeping": "npm audit && npm run validate:all && npx sort-package-json",
     "spellcheck": "cspell lint --gitignore --no-must-find-files --unique --no-progress --show-suggestions --color **/*",
     "test:unit": "npx bats tests/unit --verbose-run",
-    "validate:all": "npm run validate:yml && npm run validate:md && validate:sh",
+    "validate:all": "npm run validate:yml && npm run validate:md && npm run validate:sh",
     "validate:md": "npx markdownlint-cli --config .markdownlint.json \"**/*.md\"",
     "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules",
     "validate:sh": "npx shellcheck --color=always scripts/*.sh"
