@@ -40,6 +40,9 @@ ENV CLICOLOR_FORCE=1
 # Root
 WORKDIR ${WORKDIR}
 
+# Bash
+RUN apk add --no-cache bash
+
 # Scripts
 COPY ./scripts ./scripts
 
@@ -89,6 +92,12 @@ LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-
 # Root
 WORKDIR ${WORKDIR}
 
+# Bash
+RUN apk add --no-cache bash
+
+# User
+RUN adduser -D scanner
+
 # Executables
 COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
 COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
@@ -102,8 +111,7 @@ RUN chmod +x ${WORKDIR}/scripts/scan.sh
 RUN ${WORKDIR}/scripts/git.sh
 
 # User
-RUN adduser -D scanner
 USER scanner
 
 # Execute
-ENTRYPOINT ["sh", "-c", "exec \"$WORKDIR/scripts/scan.sh\""]
+ENTRYPOINT ["./scripts/scan.sh"]

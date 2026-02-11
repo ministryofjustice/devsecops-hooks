@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # GitLeaks Installation Script
 #
@@ -31,8 +32,6 @@
 #   export GIT_LEAKS_SHA512="<checksum-value>"
 #   ./gitleaks.sh
 #
-
-set -euo pipefail
 
 # Environment variable definition
 if [ -z "${GIT_LEAKS_VERSION:-}" ]; then

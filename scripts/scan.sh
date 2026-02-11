@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # scan.sh - Secrets scanning script using GitLeaks
 #
@@ -24,7 +25,6 @@
 #   Git Mode (default): Runs pre-commit scan using Git history
 #   Non-Git Mode: Scans filesystem directly without Git, outputs JSON report
 
-set -euo pipefail
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 
