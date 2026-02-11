@@ -18,7 +18,7 @@
   "license": "MIT",
   "author": "Abhi Markan",
   "scripts": {
-    "housekeeping": "npm update --save && npm install && npm audit && npm run validate:all && npx sort-package-json",
+    "housekeeping": "npm audit && npm run validate:all && npx sort-package-json",
     "spellcheck": "cspell lint --gitignore --no-must-find-files --unique --no-progress --show-suggestions --color **/*",
     "test:unit": "npx bats tests/unit --verbose-run",
     "validate:all": "npm run validate:yml && npm run validate:md",

@@ -8,6 +8,7 @@ Ministry of Justice pre-commit hooks for scanning hardcoded secrets and credenti
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue.svg)](Dockerfile)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/ministryofjustice/devsecops-hooks/badge)](https://scorecard.dev/viewer/?uri=github.com/ministryofjustice/devsecops-hooks)
 
 [![GitHub release](https://img.shields.io/github/v/release/ministryofjustice/devsecops-hooks)](https://github.com/ministryofjustice/devsecops-hooks/releases)
 [![GitHub issues](https://img.shields.io/github/issues/ministryofjustice/devsecops-hooks)](https://github.com/ministryofjustice/devsecops-hooks/issues)

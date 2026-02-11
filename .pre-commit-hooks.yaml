@@ -1,7 +1,6 @@
-# Pre-commit hook configuration for the MoJ scanner:
-# - Runs the devsecops-hooks Docker image to scan for hardcoded secrets/credentials
-# - Runs on every invocation, and does not pass filenames
-# - Excludes hidden files/directories from scanning
+# Pre-commit hook for MoJ security scanning
+# Detects hardcoded secrets and credentials using GitLeaks via Docker
+# Usage: Add to .pre-commit-config.yaml - requires Docker and pre-commit framework
 
 - id: baseline
   name: "🔐 Ministry of Justice - Scanner"

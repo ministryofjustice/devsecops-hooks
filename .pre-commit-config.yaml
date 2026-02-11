@@ -1,3 +1,7 @@
+# Pre-commit configuration for automated code quality and security checks
+# Hooks: security scanning, linting, spellcheck, manifest validation
+# Requires: Node.js, npm, Python, pre-commit framework
+
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
     rev: v1.4.1

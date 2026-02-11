@@ -1,11 +1,6 @@
-# Workflow: SCA ⚡️
-# Description:
-#   Scheduled and on-demand Security Composition Analysis run.
-#   - Triggers: daily cron, pull/ push to main, workflow dispatch, branch protection rule.
-#   - Environment and timezone shared across jobs.
-# Jobs:
-#   - setup: Prepares environment metadata.
-#   - sca: Checks out repo, installs node, runs npm ci, executes ministryofjustice/sca action with dependency review configuration.
+# Security composition analysis for dependencies and Docker images
+# Scans for vulnerabilities, uploads SARIF results to GitHub Security tab
+# Trigger: schedule (daily), pull_request, push, workflow_dispatch | Permissions: contents:write, security-events:write
 
 name: SCA ⚡️
 run-name: Software Composition Analysis ⚡️
@@ -30,6 +25,7 @@ env:
   timezone: ${{ vars.TIMEZONE }}
 
 jobs:
+  # 1. Setup infrastructure
   setup:
     name: Infrastructure 🔧
     runs-on: ["ubuntu-latest"]
@@ -42,6 +38,8 @@ jobs:
 
       - name: Timezone 🌐
         run: echo "Timezone set to ${{ env.timezone }}"
+
+  # 2. Execute security composition analysis
   sca:
     permissions:
       contents: write

@@ -1,44 +1,6 @@
-# GitHub Actions Workflow Documentation
-#
-# Name: Build
-# Purpose: Executes Docker build process on pull requests to validate the devsecops-hooks container
-#
-# Trigger:
-#   - pull_request: Runs on all branches when a pull request is created or updated
-#
-# Permissions:
-#   - Workflow level: None (empty permissions object)
-#   - Build job level: read access to contents and pull-requests
-#
-# Environment Variables:
-#   - environment: Set to "base" - defines the deployment environment
-#   - timezone: Retrieved from repository variable TIMEZONE
-#
-# Jobs:
-#   1. setup (Infrastructure 🔧):
-#      - Runs on: ubuntu-latest
-#      - Purpose: Initializes and validates environment configuration
-#      - Outputs: 
-#        * environment: Passes environment name to dependent jobs
-#        * timezone: Passes timezone setting to dependent jobs
-#      - Steps:
-#        * Displays configured environment name
-#        * Displays configured timezone
-#
-#   2. build (Build ⚒️):
-#      - Runs on: ubuntu-latest
-#      - Dependencies: Requires successful completion of setup job
-#      - Environment: Uses environment name from setup job output
-#      - Steps:
-#        * Checks out repository code using actions/checkout@v6.0.1 (pinned SHA)
-#        * Builds Docker image with tag "devsecops-hooks:local"
-#        * Executes the built container with current directory mounted to /src
-#
-# Security Considerations:
-#   - Uses pinned commit SHA for checkout action to ensure immutability
-#   - Minimal permissions granted (read-only access where needed)
-#   - No secrets or credentials exposed in workflow
-#
+# Builds and tests Docker image on pull requests
+# Validates multi-stage build, GitLeaks installation, and scanner functionality
+# Trigger: pull_request (all branches) | Permissions: contents:read
 
 name: Docker build 🚀
 run-name: Docker build 🚀
@@ -54,7 +16,7 @@ env:
   timezone: ${{ vars.TIMEZONE }}
 
 jobs:
-  # 1. Setup test infrastructure
+  # 1. Setup infrastructure
   setup:
     name: Infrastructure 🔧
     runs-on: ubuntu-latest
@@ -68,7 +30,7 @@ jobs:
       - name: Timezone 🌐
         run: echo "Timezone set to ${{ env.timezone }}"
 
-  # 2. Execute docker build
+  # 2. Build and test Docker image
   build:
     permissions:
       contents: read
