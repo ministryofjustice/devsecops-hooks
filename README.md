@@ -278,22 +278,21 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 ## 📦 Docker
 
-The dockerfile pulls `docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62` which when analysed using `scout`
-presented the following findings on `19/12/2025 10:17:40 UTC`.
+The dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
+presented the following findings on `11/02/2026 20:55:10 UTC`.
 
 ```bash
-docker scout cves docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
+docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
 ```
 
-| Field           | Value                                                                                      |
-| --------------- | ------------------------------------------------------------------------------------------ |
-| Target          | alpine:3.23                                                                                |
-| Digest          | 410dabcd6f1d                                                                               |
-| Platform        | linux/arm64/v8                                                                             |
-| Provenance      | https:// github.com/alpinelinux/docker-alpine.git 13b62f5f47ffa526f9c372e0bd73b33ef2a5f865 |
-| Vulnerabilities | 0C 0H 0M 0L                                                                                |
-| Size            | 4.2 MB                                                                                     |
-| Packages        | 20                                                                                         |
+| Field           | Value          |
+| --------------- | -------------- |
+| Target          | alpine:3.23.3  |
+| Digest          | 25109184c71b   |
+| Platform        | linux/arm64/v8 |
+| Vulnerabilities | 0C 0H 1M 0L    |
+| Size            | 4.2 MB         |
+| Packages        | 20             |
 
 ## 📝 Environment Variables
 

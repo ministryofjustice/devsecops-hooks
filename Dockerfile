@@ -14,7 +14,7 @@ ARG WORKDIR=/app
 ###################
 
 # Image
-FROM docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62 AS build
+FROM docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659 AS build
 
 # Shell
 SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
@@ -58,7 +58,7 @@ RUN ${WORKDIR}/scripts/gitleaks.sh
 # ###################
 
 # Image
-FROM docker.io/alpine:3.23@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62 AS production
+FROM docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659 AS production
 
 # Shell
 SHELL ["/bin/sh",  "-e", "-u", "-o", "pipefail", "-c"]
@@ -87,7 +87,9 @@ LABEL org.opencontainers.image.description="Pre-commit hook scanning for hardcod
 LABEL org.opencontainers.image.version="${VERSION}"
 LABEL org.opencontainers.image.vendor="Ministry of Justice UK"
 LABEL org.opencontainers.image.licenses="MIT"
-LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/pre-commit-hook"
+LABEL org.opencontainers.image.source="https://github.com/ministryofjustice/devsecops-hooks"
+LABEL org.opencontainers.image.documentation="https://github.com/ministryofjustice/devsecops-hooks#readme"
+LABEL org.opencontainers.image.authors="Abhi Markan"
 
 # Root
 WORKDIR ${WORKDIR}
@@ -99,13 +101,9 @@ RUN apk add --no-cache bash
 RUN adduser -D scanner
 
 # Executables
-COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
-COPY --chown=scanner:scanner --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
-COPY --chown=scanner:scanner --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
-
-# Permissions
-RUN chmod +x ${WORKDIR}/scripts/git.sh
-RUN chmod +x ${WORKDIR}/scripts/scan.sh
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
+COPY --chown=scanner:scanner --chmod=755 --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
 
 # Execute
 RUN ${WORKDIR}/scripts/git.sh

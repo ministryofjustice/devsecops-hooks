@@ -1,53 +1,96 @@
-# .dockerignore for DTFS2 monorepo
+# Git
+.git
+.github
+.gitattributes
+.gitignore
+
+# Version Control
+.pre-commit-config.yaml
+.pre-commit-hooks.yaml
+.python-version
+.release-please-manifest.json
 
 # Node
 node_modules
+node_modules/*
+package.json
+package-lock.json
 dist
 .npm
 
-# Docker
-Dockerfile
-docker-compose*.yml
-
-# Typescript
-**/*.tsbuildinfo
-
-# Environment
+# Configuration Files
 .eslintignore
-.cspell.json
-commitlint.config.js
-renovate.json
-.dockerignore
-.editorconfig
-.prettierrc.json
 .eslintrc.json
 .eslintrc.js
-
-# Editor
+.prettierrc.json
 .prettierignore
-.whitesource
+.editorconfig
+commitlint.config.js
+renovate.json
+release-please-config.json
+sources.json
+cspell.json
+.markdownlint.json
+.markdownlintignore
+
+# Environment
+.env
+.env.*
+.config
+**/.env*
+secrets/**
+.secrets
+jwt_key
+
+# Editor & IDE
+.vscode
 .vscode/*
+.idea
+.idea/*
+.whitesource
+*.code-workspace
+
+# Operating System
 .DS_Store
 Library/
 Thumbs.db
 ehthumbs.db
-.idea/
 
 # Documentation
+*.md
 **/*.md
-**/docs/
+docs
+docs/*
 LICENSE
-.config
+CHANGELOG.md
 
-# Secrets
-**/.env*/*
-**/.env*
-secrets/**
-jwt_key
+# Security & Reports
+gitleaks-report.json
+.gitleaks.toml
+.gitleaksignore
+
+# Testing
+tests
+tests/*
+**/*.test*
+**/*test/
+**/*tests/
+**/test-helpers/
+__mock*__
+jest-html-reporters-*.html
+test-results/
+coverage
+mockbin/
 
 # Logs
+logs
+*.log
 **/*.log*
-coverage
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 
 # Jest
 *.jest.*.config.*
@@ -56,11 +99,10 @@ coverage
 **/cypress/videos
 **/cypress/screenshots
 
-# Test
-**/*.test*
-**/*test/
-**/*tests/
-**/test-helpers/
-jest-html-reporters-*.html
-test-results/
-__mock*__
+# Pre-commit installer
+prek
+prek/*
+
+# Build artifacts
+.dockerignore
+Dockerfile
