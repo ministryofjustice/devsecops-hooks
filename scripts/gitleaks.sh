@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # GitLeaks Installation Script
 #
 # This script downloads, verifies, and installs GitLeaks - a tool for detecting hardcoded secrets
@@ -29,9 +32,6 @@
 #   export GIT_LEAKS_SHA512="<checksum-value>"
 #   ./gitleaks.sh
 #
-
-#!/bin/bash
-set -euo pipefail
 
 # Environment variable definition
 if [ -z "${GIT_LEAKS_VERSION:-}" ]; then

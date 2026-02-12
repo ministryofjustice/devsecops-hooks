@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 # scan.sh - Secrets scanning script using GitLeaks
 #
 # Description:
@@ -22,8 +25,6 @@
 #   Git Mode (default): Runs pre-commit scan using Git history
 #   Non-Git Mode: Scans filesystem directly without Git, outputs JSON report
 
-#!/bin/bash
-set -euo pipefail
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 
@@ -37,23 +38,21 @@ fi
 cd /src || { echo "❌ Unable to find /src directory."; exit 1; }
 
 # Argument build
+CONFIGURATION_ARGUMENT=()
 if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
-    CONFIGURATION_ARGUMENT="--config $GITLEAKS_CONFIGURATION_FILE"
-else
-    CONFIGURATION_ARGUMENT=""
+    CONFIGURATION_ARGUMENT=(--config "$GITLEAKS_CONFIGURATION_FILE")
 fi
 
+IGNORE_ARGUMENT=()
 if [ -f "$GITLEAKS_IGNORE_FILE" ]; then
-    IGNORE_ARGUMENT="--gitleaks-ignore-path $GITLEAKS_IGNORE_FILE"
-else
-    IGNORE_ARGUMENT=""
+    IGNORE_ARGUMENT=(--gitleaks-ignore-path "$GITLEAKS_IGNORE_FILE")
 fi
 
 # GitLeaks
 if [ "$GIT_MODE" != "false" ]; then
-    gitleaks git --pre-commit --redact --staged --verbose --exit-code 1 $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+    gitleaks git --pre-commit --redact --staged --verbose --exit-code 1 "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
 else
-    gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose $CONFIGURATION_ARGUMENT $IGNORE_ARGUMENT
+    gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
 fi
 
 # Successful
