@@ -176,7 +176,7 @@ jobs:
           python-version: ${{ VARS.PYTHON_VERSION }}
 
       - name: Install
-        run: pip install pre-commit
+        run: pip install pre-commit==4.5.1
 
       - name: Pre-commit
         run: |
