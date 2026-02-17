@@ -59,7 +59,7 @@ jobs:
 
       - name: Install
         run: |
-          python -m pip install pre-commit==4.5.1 --hash=sha256:3b3afd891e97337708c1674210f8eba659b52a38ea5f822ff142d10786221f77
+          python -m pip install pip install -r requirements.txt
           npm ci --ignore-scripts
 
       - name: Execute

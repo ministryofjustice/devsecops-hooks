@@ -138,6 +138,25 @@ repos:
         exclude: .pre-commit-ignore
 ```
 
+### Environment Variables
+
+One can customise the scanner behaviour by setting environment variables in the hook configuration.
+
+#### Scan All Files (Not Just Staged)
+
+By default, `STAGE_MODE` is set to `true`, which scans only staged files. To scan all files in the repository regardless of staging
+status, set `STAGE_MODE` to `false`:
+
+```yaml
+repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.4.0
+    hooks:
+      - id: baseline
+        env:
+          STAGE_MODE: false
+```
+
 ### Hook Configuration
 
 The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
@@ -145,7 +164,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **ID**: `baseline`
 - **Stages**: `pre-commit`, `pre-push`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:latest`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 - **Pass Filenames**: `false` - Hook runs on the entire repository, not individual files
 - **Always Run**: `true` - Executes on every invocation regardless of file changes
@@ -156,18 +175,18 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument                      | Default             | Description                          |
-| ----------------------------- | ------------------- | ------------------------------------ |
-| `VERSION`                     | `1.4.0`             | Scanner version number               |
-| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install          |
-| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification    |
-| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path     |
-| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path            |
-| `GIT_MODE`                    | `true`              | Enable Git mode for scanning         |
-| `STAGE_MODE`                  | `true`              | Scan only staged files in Git mode   |
-| `WORKDIR`                     | `/app`              | Application root directory           |
-| `TERM`                        | `xterm-256color`    | Terminal type for colour output      |
-| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines     |
+| Argument                      | Default             | Description                        |
+| ----------------------------- | ------------------- | ---------------------------------- |
+| `VERSION`                     | `1.4.0`             | Scanner version number             |
+| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install        |
+| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification  |
+| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path   |
+| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path          |
+| `GIT_MODE`                    | `true`              | Enable Git mode for scanning       |
+| `STAGE_MODE`                  | `true`              | Scan only staged files in Git mode |
+| `WORKDIR`                     | `/app`              | Application root directory         |
+| `TERM`                        | `xterm-256color`    | Terminal type for colour output    |
+| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines   |
 
 ## 🏗️ Architecture
 
@@ -225,7 +244,7 @@ Executes GitLeaks security scanning with configurable modes.
 - `GITLEAKS_CONFIGURATION_FILE` - Custom config path (optional)
 - `GITLEAKS_IGNORE_FILE` - Ignore file path (optional)
 - `GIT_MODE` - Enable Git mode (default: `true`)
-- `STAGE_MODE` - Scan staged files only (default: `false`)
+- `STAGE_MODE` - Scan staged files only (default: `true`)
 
 **Modes:**
 
@@ -276,7 +295,7 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```bash
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0
 ```
 
 ## 🎯 Example Output
@@ -339,7 +358,7 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 ## 📦 Docker
 
 The Dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
-presented the following findings on `17/02/2026 14:19:27 UTC`.
+presented the following findings on `17/02/2026 15:21:52 UTC`.
 
 ```bash
 docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
@@ -383,7 +402,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 
 This project is licensed under the MIT Licence - see the [LICENSE](LICENSE) file for details.
 
-Copyright © 2025 Crown Copyright (Ministry of Justice)
+Copyright © 2026 Crown Copyright (Ministry of Justice)
 
 ## 🔗 Links
 
