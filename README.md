@@ -250,7 +250,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:latest
     ░    gitleaks
 
 Finding:     export API_KEY=""
-Secret:      sk-1234567890abcdef
+Secret:      example-123
 RuleID:      generic-api-key
 Entropy:     4.5
 File:        config/settings.py
