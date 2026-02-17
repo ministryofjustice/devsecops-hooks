@@ -12,6 +12,7 @@ set -euo pipefail
 #   GITLEAKS_CONFIGURATION_FILE - Path to custom GitLeaks configuration file (optional)
 #   GITLEAKS_IGNORE_FILE        - Path to GitLeaks ignore file (optional)
 #   GIT_MODE                    - Set to "false" to scan without Git history
+#   STAGE_MODE                  - Set to "true" to scan only staged files (default: false)
 #
 # Exit Codes:
 #   0 - Scan completed successfully with no secrets detected
@@ -38,6 +39,11 @@ fi
 cd /src || { echo "❌ Unable to find /src directory."; exit 1; }
 
 # Argument build
+STAGED_FILES=()
+if [ "${STAGE_MODE:-true}" == "true" ]; then
+    STAGED_FILES=("--staged")
+fi
+
 CONFIGURATION_ARGUMENT=()
 if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
     CONFIGURATION_ARGUMENT=(--config "$GITLEAKS_CONFIGURATION_FILE")
@@ -49,8 +55,8 @@ if [ -f "$GITLEAKS_IGNORE_FILE" ]; then
 fi
 
 # GitLeaks
-if [ "$GIT_MODE" != "false" ]; then
-    gitleaks git --pre-commit --redact --staged --verbose --exit-code 1 "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
+if [ "${GIT_MODE:-true}" != "false" ]; then
+    gitleaks git --pre-commit --redact "${STAGED_FILES[@]}" --verbose --exit-code 1 "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
 else
     gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
 fi
