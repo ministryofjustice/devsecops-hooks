@@ -23,8 +23,8 @@
     "test:unit": "npx bats tests/unit --verbose-run",
     "validate:all": "npm run validate:yml && npm run validate:md && npm run validate:sh",
     "validate:md": "npx markdownlint-cli --config .markdownlint.json \"**/*.md\"",
-    "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules",
-    "validate:sh": "npx shellcheck --color=always scripts/*.sh"
+    "validate:sh": "npx shellcheck --color=always scripts/*.sh",
+    "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules"
   },
   "devDependencies": {
     "bats": "^1.13.0",

@@ -156,26 +156,86 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument                      | Default             | Description                       |
-| ----------------------------- | ------------------- | --------------------------------- |
-| `VERSION`                     | `1.4.0`             | Scanner version number            |
-| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install       |
-| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification |
-| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path  |
-| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path         |
-| `GIT_MODE`                    | `true`              | Enable Git mode for scanning      |
-| `WORKDIR`                     | `/app`              | Application root directory        |
-| `TERM`                        | `xterm-256color`    | Terminal type for colour output   |
-| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines  |
+| Argument                      | Default             | Description                          |
+| ----------------------------- | ------------------- | ------------------------------------ |
+| `VERSION`                     | `1.4.0`             | Scanner version number               |
+| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install          |
+| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification    |
+| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path     |
+| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path            |
+| `GIT_MODE`                    | `true`              | Enable Git mode for scanning         |
+| `STAGE_MODE`                  | `true`              | Scan only staged files in Git mode   |
+| `WORKDIR`                     | `/app`              | Application root directory           |
+| `TERM`                        | `xterm-256color`    | Terminal type for colour output      |
+| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines     |
 
 ## 🏗️ Architecture
 
 ### Components
 
-1. **gitleaks.sh** - Downloads, verifies, and installs GitLeaks
-2. **scan.sh** - Executes the security scan using CLI commands
-3. **Dockerfile** - Multi-stage build for optimised container image
-4. **.pre-commit-hooks.yaml** - Hook configuration for pre-commit framework
+1. **gitleaks.sh** - Downloads, verifies, and installs GitLeaks binary
+2. **git.sh** - Installs Git version control system in Alpine Linux
+3. **scan.sh** - Executes the security scan using GitLeaks CLI
+4. **Dockerfile** - Multi-stage build for optimised container image
+5. **.pre-commit-hooks.yaml** - Hook configuration for pre-commit framework
+
+### Scripts Documentation
+
+#### gitleaks.sh
+
+Downloads and installs the GitLeaks binary with SHA-512 checksum verification.
+
+**Environment Variables:**
+
+- `GIT_LEAKS_VERSION` - Version to install (required)
+- `GIT_LEAKS_SHA512` - SHA-512 checksum for verification (required)
+
+**Process:**
+
+1. Validates environment variables
+2. Downloads GitLeaks from GitHub releases
+3. Verifies checksum integrity
+4. Extracts to `/usr/local/bin`
+5. Validates installation
+
+**Exit Codes:**
+
+- `0` - Installation successful
+- `1` - Missing dependencies or checksum mismatch
+
+#### git.sh
+
+Installs Git using Alpine Package Keeper (apk).
+
+**Dependencies:**
+
+- Alpine Linux package manager (apk)
+
+**Process:**
+
+1. Installs Git with `apk add --no-cache git`
+
+#### scan.sh
+
+Executes GitLeaks security scanning with configurable modes.
+
+**Environment Variables:**
+
+- `VERSION` - Scanner version for banner display
+- `GITLEAKS_CONFIGURATION_FILE` - Custom config path (optional)
+- `GITLEAKS_IGNORE_FILE` - Ignore file path (optional)
+- `GIT_MODE` - Enable Git mode (default: `true`)
+- `STAGE_MODE` - Scan staged files only (default: `false`)
+
+**Modes:**
+
+- **Git Mode** (default): Pre-commit scan using Git history
+- **Non-Git Mode**: Direct filesystem scan with JSON output
+
+**Exit Codes:**
+
+- `0` - No secrets detected
+- `1` - Secrets found or execution error
 
 ### Docker Image
 
@@ -278,8 +338,8 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 ## 📦 Docker
 
-The dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
-presented the following findings on `11/02/2026 20:55:10 UTC`.
+The Dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
+presented the following findings on `17/02/2026 14:19:27 UTC`.
 
 ```bash
 docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
@@ -288,7 +348,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 | Field           | Value          |
 | --------------- | -------------- |
 | Target          | alpine:3.23.3  |
-| Digest          | 25109184c71b   |
+| Digest          | 1529d13528ed   |
 | Platform        | linux/arm64/v8 |
 | Vulnerabilities | 0C 0H 1M 0L    |
 | Size            | 4.2 MB         |
@@ -298,13 +358,26 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 
 ### Build Arguments
 
-- `GIT_LEAKS_VERSION` - GitLeaks version to install (e.g., `8.30.0`)
+- `VERSION` - Scanner version number (default: `1.4.0`)
+- `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
-
-### Runtime
-
-- `VERSION` - Scanner version displayed in output
+- `GITLEAKS_CONFIGURATION_FILE` - Custom configuration file path (default: `./.gitleaks.toml`)
+- `GITLEAKS_IGNORE_FILE` - Ignore file path (default: `./.gitleaksignore`)
+- `GIT_MODE` - Enable Git-based scanning (default: `true`)
+- `STAGE_MODE` - Scan only staged files (default: `true`)
 - `WORKDIR` - Application root directory (default: `/app`)
+
+### Runtime Environment Variables
+
+- `VERSION` - Scanner version displayed in banner output
+- `GIT_LEAKS_VERSION` - GitLeaks binary version in use
+- `GITLEAKS_CONFIGURATION_FILE` - Path to active configuration file
+- `GITLEAKS_IGNORE_FILE` - Path to active ignore file
+- `GIT_MODE` - Current scanning mode (`true` for Git mode, `false` for filesystem)
+- `STAGE_MODE` - Whether to scan staged files only (`true`/`false`)
+- `WORKDIR` - Working directory for scanner execution
+- `TERM` - Terminal type for colour output (default: `xterm-256color`)
+- `CLICOLOR_FORCE` - Force colour output in CI/CD (default: `1`)
 
 ## 📄 Licence
 
