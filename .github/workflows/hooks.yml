@@ -49,6 +49,8 @@ jobs:
 
       - name: Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # frozen: v6.1.0
+        with:
+          python-version-file: ./.python-version
 
       - name: Node
         uses: actions/setup-node@d02c89dce7e1ba9ef629ce0680989b3a1cc72edb # frozen: v6.1.0

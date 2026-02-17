@@ -3,7 +3,8 @@
     "**/node_modules/**",
     "prek/**",
     "**/*.drawio",
-    "**/*.svg"
+    "**/*.svg",
+    "**/requirements.txt"
   ],
   "language": "en",
   "noConfigSearch": true,
@@ -34,9 +35,7 @@
   "languageSettings": [
     {
       "languageId": "commit-msg",
-      "ignoreRegExpList": [
-        "/^#.*/gm"
-      ]
+      "ignoreRegExpList": ["/^#.*/gm"]
     }
   ],
   "version": "0.2"
