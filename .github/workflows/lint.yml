@@ -40,7 +40,7 @@
 #      Environment: Uses environment output from setup job
 #      Steps:
 #        1. Repository checkout (actions/checkout@v6.0.1)
-#        2. Node.js setup using version from VARS.NODE_VERSION
+#        2. Node.js setup using version from vars.NODE_VERSION
 #        3. npm dependencies installation (npm ci --ignore-scripts)
 #        4. YAML validation (npm run validate:yml)
 #           - Validates .github/workflows/*.yml syntax
@@ -50,7 +50,7 @@
 #           - Validates README.md, CHANGELOG.md syntax
 #           - Checks documentation formatting
 #           - Uses markdownlint for style enforcement
-#        6. Python setup using version from VARS.PYTHON_VERSION
+#        6. Python setup using version from vars.PYTHON_VERSION
 #        7. Pre-commit installation (pip install pre-commit)
 #        8. Pre-commit validation
 #           - Validates .pre-commit-hooks.yaml manifest
@@ -173,10 +173,11 @@ jobs:
       - name: Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # frozen: v6.1.0
         with:
-          python-version: ${{ vars.PYTHON_VERSION }}
+          python-version-file: ./.python-version
 
       - name: Install
-        run: python -m pip install pre-commit==4.5.1
+        working-directory: ./
+        run: python -m pip install -r requirements.txt
 
       - name: Pre-commit
         run: |

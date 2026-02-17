@@ -1,40 +1,299 @@
-title = "Strict secret detection"
+title = "Comprehensive MoJ Secret Detection"
+
+# Extend GitLeaks default rules for known services (AWS, GitHub, Stripe, etc.)
+[extend]
+useDefault = true
+
+###################
+# Generic Secrets
+###################
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API keys and access keys"
+regex = '''(?i)(api[_-]?key|access[_-]?key|apikey|accesskey|key)\s*[:=]\s*["']?[A-Za-z0-9_\-]{16,}["']?'''
+secretGroup = 0
+
+[[rules]]
+id = "generic-secret"
+description = "Generic secrets and client secrets"
+regex = '''(?i)(secret|client[_-]?secret|app[_-]?secret)\s*[:=]\s*["']?[A-Za-z0-9_\-]{16,}["']?'''
+secretGroup = 0
 
 [[rules]]
 id = "generic-password"
 description = "Generic passwords"
-regex = '''(?i)(password|passwd|pwd)\s*[:=]\s*["']?[^"'\\s]+["']?'''
-entropy = 3.0
+regex = '''(?i)(password|passwd|pwd|pass)\s*[:=]\s*["']?[^\s"']{8,}["']?'''
+secretGroup = 0
 
 [[rules]]
-id = "generic-secret"
-description = "Generic secrets"
-regex = '''(?i)(secret|client_secret|private_key)\s*[:=]\s*["']?[^"'\\s]+["']?'''
-entropy = 3.0
-
-[[rules]]
-id = "api-key"
-description = "Generic API keys"
-regex = '''(?i)(api[_-]?key|access[_-]?key)\s*[:=]\s*["']?[A-Za-z0-9_\-]{8,}["']?'''
-entropy = 3.0
-
-[[rules]]
-id = "token"
+id = "generic-token"
 description = "Generic authentication tokens"
-regex = '''(?i)(token|auth[_-]?token|bearer)\s*[:=]\s*["']?[A-Za-z0-9\-_\.]{8,}["']?'''
-entropy = 3.0
+regex = '''(?i)(token|auth[_-]?token|access[_-]?token|bearer[_-]?token)\s*[:=]\s*["']?[A-Za-z0-9\-_\.]{16,}["']?'''
+secretGroup = 0
+
+###################
+# Private Keys
+###################
+
+[[rules]]
+id = "private-key-rsa"
+description = "RSA private key"
+regex = '''-----BEGIN RSA PRIVATE KEY-----'''
+
+[[rules]]
+id = "private-key-openssh"
+description = "OpenSSH private key"
+regex = '''-----BEGIN OPENSSH PRIVATE KEY-----'''
+
+[[rules]]
+id = "private-key-ec"
+description = "EC private key"
+regex = '''-----BEGIN EC PRIVATE KEY-----'''
+
+[[rules]]
+id = "private-key-dsa"
+description = "DSA private key"
+regex = '''-----BEGIN DSA PRIVATE KEY-----'''
+
+[[rules]]
+id = "private-key-pgp"
+description = "PGP private key"
+regex = '''-----BEGIN PGP PRIVATE KEY BLOCK-----'''
+
+[[rules]]
+id = "private-key-generic"
+description = "Generic private key"
+regex = '''-----BEGIN PRIVATE KEY-----'''
+
+###################
+# Cloud Providers
+###################
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS access key ID"
+regex = '''(?i)(aws[_-]?access[_-]?key[_-]?id|aws[_-]?key)\s*[:=]\s*["']?(AKIA[0-9A-Z]{16})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS secret access key"
+regex = '''(?i)(aws[_-]?secret[_-]?(access[_-]?)?key)\s*[:=]\s*["']?([A-Za-z0-9/+=]{40})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "aws-account-id"
+description = "AWS account ID"
+regex = '''(?i)(aws[_-]?account[_-]?id|account[_-]?id)\s*[:=]\s*["']?(\d{12})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "google-api-key"
+description = "Google API key"
+regex = '''AIza[0-9A-Za-z\-_]{35}'''
+
+[[rules]]
+id = "google-cloud-key"
+description = "Google Cloud service account key"
+regex = '''(?i)(google[_-]?credentials|gcp[_-]?key)\s*[:=]\s*["']?[A-Za-z0-9_\-]{20,}["']?'''
+secretGroup = 0
+
+[[rules]]
+id = "azure-subscription-id"
+description = "Azure subscription ID"
+regex = '''(?i)(azure[_-]?subscription[_-]?id|subscription[_-]?id)\s*[:=]\s*["']?([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "azure-client-secret"
+description = "Azure client secret"
+regex = '''(?i)(azure[_-]?client[_-]?secret|client[_-]?secret)\s*[:=]\s*["']?[A-Za-z0-9\-_\.~]{34,}["']?'''
+secretGroup = 0
+
+###################
+# Service Providers
+###################
+
+[[rules]]
+id = "github-token"
+description = "GitHub personal access token"
+regex = '''ghp_[0-9a-zA-Z]{36}'''
+
+[[rules]]
+id = "github-oauth"
+description = "GitHub OAuth token"
+regex = '''gho_[0-9a-zA-Z]{36}'''
+
+[[rules]]
+id = "github-app-token"
+description = "GitHub app token"
+regex = '''(ghu|ghs)_[0-9a-zA-Z]{36}'''
+
+[[rules]]
+id = "gitlab-token"
+description = "GitLab personal access token"
+regex = '''glpat-[0-9a-zA-Z\-_]{20,}'''
+
+[[rules]]
+id = "stripe-api-key"
+description = "Stripe API key"
+regex = '''(?i)(sk|pk)_(test|live)_[0-9a-zA-Z]{24,}'''
+
+[[rules]]
+id = "slack-webhook"
+description = "Slack webhook URL"
+regex = '''https://hooks\.slack\.com/services/T[a-zA-Z0-9_]{8,}/B[a-zA-Z0-9_]{8,}/[a-zA-Z0-9_]{24,}'''
+
+[[rules]]
+id = "slack-token"
+description = "Slack token"
+regex = '''xox[baprs]-[0-9a-zA-Z\-]{10,}'''
+
+[[rules]]
+id = "twilio-api-key"
+description = "Twilio API key"
+regex = '''SK[0-9a-fA-F]{32}'''
+
+[[rules]]
+id = "sendgrid-api-key"
+description = "SendGrid API key"
+regex = '''SG\.[0-9A-Za-z\-_]{22}\.[0-9A-Za-z\-_]{43}'''
+
+[[rules]]
+id = "mailgun-api-key"
+description = "Mailgun API key"
+regex = '''key-[0-9a-zA-Z]{32}'''
+
+[[rules]]
+id = "paypal-braintree"
+description = "PayPal Braintree access token"
+regex = '''access_token\$production\$[0-9a-z]{16}\$[0-9a-f]{32}'''
+
+###################
+# Database & Services
+###################
+
+[[rules]]
+id = "connection-string"
+description = "Database connection string"
+regex = '''(?i)(connection[_-]?string|database[_-]?url|db[_-]?url)\s*[:=]\s*["']?[^\s"']+["']?'''
+secretGroup = 0
+
+[[rules]]
+id = "jdbc-connection"
+description = "JDBC connection string with credentials"
+regex = '''jdbc:[a-zA-Z0-9]+://[^\s:]+:[^\s@]+@[^\s]+'''
+
+[[rules]]
+id = "mongodb-connection"
+description = "MongoDB connection string"
+regex = '''mongodb(\+srv)?://[^\s]+:[^\s]+@[^\s]+'''
+
+[[rules]]
+id = "postgres-connection"
+description = "PostgreSQL connection string"
+regex = '''postgres(ql)?://[^\s]+:[^\s]+@[^\s]+'''
+
+[[rules]]
+id = "mysql-connection"
+description = "MySQL connection string"
+regex = '''mysql://[^\s]+:[^\s]+@[^\s]+'''
+
+###################
+# Generic Patterns
+###################
+
+[[rules]]
+id = "high-entropy-string"
+description = "High entropy string (potential secret)"
+regex = '''(?i)(secret|key|token|password|passwd|api|credential)\s*[:=]\s*["']([A-Za-z0-9+/=]{32,})["']'''
+secretGroup = 2
+entropy = 4.0
+
+[[rules]]
+id = "base64-credentials"
+description = "Base64 encoded credentials"
+regex = '''(?i)(auth|authorization|credentials?)\s*[:=]\s*["']?([A-Za-z0-9+/]{40,}={0,2})["']?'''
+secretGroup = 2
+entropy = 4.5
+
+[[rules]]
+id = "bearer-token"
+description = "Bearer token in authorisation header"
+regex = '''(?i)bearer\s+[A-Za-z0-9\-_\.]{20,}'''
+
+[[rules]]
+id = "basic-auth"
+description = "Basic authentication credentials"
+regex = '''(?i)basic\s+[A-Za-z0-9+/=]{20,}'''
+
+[[rules]]
+id = "webhook-url"
+description = "Webhook URLs"
+regex = '''https?://[^\s]*webhook[^\s]*'''
+
+[[rules]]
+id = "jwt-token"
+description = "JSON Web Token (JWT)"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}'''
+
+###################
+# UK Government Specific
+###################
+
+[[rules]]
+id = "uk-nhs-number"
+description = "UK NHS number"
+regex = '''(?i)(nhs[_-]?number|nhs[_-]?id)\s*[:=]\s*["']?(\d{10})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-ni-number"
+description = "UK National Insurance number"
+regex = '''(?i)(ni[_-]?number|national[_-]?insurance)\s*[:=]\s*["']?([A-Z]{2}\d{6}[A-Z])["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-bank-account"
+description = "UK bank account details"
+regex = '''(?i)(account[_-]?number|bank[_-]?account)\s*[:=]\s*["']?(\d{8})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-sort-code"
+description = "UK bank sort code"
+regex = '''(?i)(sort[_-]?code)\s*[:=]\s*["']?(\d{2}-\d{2}-\d{2}|\d{6})["']?'''
+secretGroup = 2
+
+###################
+# Credentials Combos
+###################
 
 [[rules]]
 id = "username-password-combo"
-description = "Generic credentials"
-regex = '''(?i)(user(name)?\s*[:=].+password\s*[:=].+)'''
-entropy = 3.0
+description = "Username and password combination"
+regex = '''(?i)(username|user)\s*[:=].{1,50}(password|passwd|pwd)\s*[:=]'''
 
 [[rules]]
-id = "private-key-block"
-description = "Generic encryption keys"
-regex = '''-----BEGIN (RSA|EC|DSA|OPENSSH|PGP) PRIVATE KEY-----'''
-entropy = 3.0
+id = "email-password-combo"
+description = "Email and password combination"
+regex = '''(?i)(email)\s*[:=].{1,50}(password|passwd|pwd)\s*[:=]'''
+
+###################
+# Allowlist
+###################
 
 [allowlist]
-paths = ["node_modules/*"]
+description = "Allowlisted paths and patterns"
+paths = [
+    "node_modules/",
+    "vendor/",
+    ".git/",
+    ".secrets",
+]
+
+# Allowlist test/example values
+regexes = [
+    '''(?i)(fake|dummy)''',
+]
