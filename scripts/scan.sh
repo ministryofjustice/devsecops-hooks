@@ -12,7 +12,7 @@ set -euo pipefail
 #   GITLEAKS_CONFIGURATION_FILE - Path to custom GitLeaks configuration file (optional)
 #   GITLEAKS_IGNORE_FILE        - Path to GitLeaks ignore file (optional)
 #   GIT_MODE                    - Set to "false" to scan without Git history
-#   STAGE_MODE                  - Set to "true" to scan only staged files (default: false)
+#   STAGE_MODE                  - Set to "true" to scan only staged files (default: true)
 #
 # Exit Codes:
 #   0 - Scan completed successfully with no secrets detected

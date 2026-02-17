@@ -295,5 +295,5 @@ paths = [
 
 # Allowlist test/example values
 regexes = [
-    '''(?i)(example|sample|test|demo|mock|fake|dummy)''',
+    '''(?i)(fake|dummy)''',
 ]
