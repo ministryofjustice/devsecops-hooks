@@ -54,7 +54,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.4.0
+       rev: v1.5.0
        hooks:
          - id: baseline
    ```
@@ -119,7 +119,7 @@ Ignore everything under `reports` and `docs` directories for `baseline` hook as 
 ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.4.0
+       rev: v1.5.0
        hooks:
          - id: baseline
             exclude: |
@@ -132,7 +132,7 @@ Or one can also create a file with list of exclusions.
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.4.0
+    rev: v1.5.0
     hooks:
       - id: baseline
         exclude: .pre-commit-ignore
@@ -150,11 +150,11 @@ status, set `STAGE_MODE` to `false`:
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.4.0
+    rev: v1.5.0
     hooks:
       - id: baseline
         env:
-          STAGE_MODE: false
+          STAGE_MODE: "false"
 ```
 
 ### Hook Configuration
@@ -164,7 +164,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **ID**: `baseline`
 - **Stages**: `pre-commit`, `pre-push`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 - **Pass Filenames**: `false` - Hook runs on the entire repository, not individual files
 - **Always Run**: `true` - Executes on every invocation regardless of file changes
@@ -177,7 +177,7 @@ The Docker image supports the following build arguments:
 
 | Argument                      | Default             | Description                        |
 | ----------------------------- | ------------------- | ---------------------------------- |
-| `VERSION`                     | `1.4.0`             | Scanner version number             |
+| `VERSION`                     | `1.5.0`             | Scanner version number             |
 | `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install        |
 | `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification  |
 | `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path   |
@@ -295,7 +295,7 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```bash
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
 ```
 
 ## 🎯 Example Output
@@ -303,7 +303,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0
 ### ✅ Success (No Secrets Detected)
 
 ```bash
-⚡️ Ministry of Justice - Scanner 1.4.0⚡️
+⚡️ Ministry of Justice - Scanner 1.5.0⚡️
 
 ○
     │╲
@@ -320,7 +320,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0
 ### ❌ Failure (Secrets Detected)
 
 ```bash
-⚡️ MoJ scanner 1.4.0⚡️
+⚡️ MoJ scanner 1.5.0⚡️
 
 ○
     │╲
@@ -377,7 +377,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 
 ### Build Arguments
 
-- `VERSION` - Scanner version number (default: `1.4.0`)
+- `VERSION` - Scanner version number (default: `1.5.0`)
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
 - `GITLEAKS_CONFIGURATION_FILE` - Custom configuration file path (default: `./.gitleaks.toml`)
