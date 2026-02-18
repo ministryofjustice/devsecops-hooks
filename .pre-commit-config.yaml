@@ -7,8 +7,6 @@ repos:
     rev: v1.5.0
     hooks:
       - id: baseline
-        env:
-          STAGE_MODE: "false"
 
   - repo: local
     hooks:
