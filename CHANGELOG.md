@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.5.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.4.0...v1.5.0) (2026-02-18)
+
+
+### Features
+
+* **133-lint:** add shell lint check ([#140](https://github.com/ministryofjustice/devsecops-hooks/issues/140)) ([30e5367](https://github.com/ministryofjustice/devsecops-hooks/commit/30e5367e20a6aa96392cd79e88ad21585645aa18))
+* **145:** ensure git commit -am does not bypass the scanner ([#146](https://github.com/ministryofjustice/devsecops-hooks/issues/146)) ([28b50ab](https://github.com/ministryofjustice/devsecops-hooks/commit/28b50aba06d509237f1e70a0838ef0de86495e6b))
+* **github-scan:** added github archival check ([#138](https://github.com/ministryofjustice/devsecops-hooks/issues/138)) ([279c628](https://github.com/ministryofjustice/devsecops-hooks/commit/279c628ea3338586213ca21bb6453ea176945c9b))
+
+
+### Bug Fixes
+
+* **GHSA-38c4-r59v-3vqw:** updated to 14.1.1 ([#144](https://github.com/ministryofjustice/devsecops-hooks/issues/144)) ([60b02e0](https://github.com/ministryofjustice/devsecops-hooks/commit/60b02e07aaab54aa85cda3bea48214f288def9b5))
+
 ## [1.4.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.3.0...v1.4.0) (2026-02-03)
 
 
