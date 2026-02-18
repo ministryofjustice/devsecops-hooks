@@ -1,10 +1,10 @@
-# Pre-commit hook for MoJ security scanning
+# Pre-commit hook for Ministry of Justice security scanning
 # Detects hardcoded secrets and credentials using GitLeaks via Docker
 # Usage: Add to .pre-commit-config.yaml - requires Docker and pre-commit framework
 
 - id: baseline
   name: "🔐 Ministry of Justice - Scanner"
-  description: "MoJ's pre commit hooks scans for hardcoded secrets and credentials using CLI commands of choice."
+  description: "Ministry of Justice pre-commit hook scan for hardcoded secrets and credentials using GitLeaks."
   entry: "ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0"
   language: "docker_image"
   fail_fast: false

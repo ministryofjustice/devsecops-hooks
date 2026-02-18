@@ -9,9 +9,9 @@ Unit tests for DevSecOps Hooks using BATS (Bash Automated Testing System).
 
 ## 📋 Overview
 
-This directory contains unit tests for the DevSecOps Hooks project. Tests are written using BATS,
-a testing framework specifically designed for Bash scripts. BATS provides a simple syntax for
-writing test cases and includes powerful features for testing shell scripts in isolation.
+This directory contains unit tests for the DevSecOps Hooks project. Tests are written using BATS, a testing framework
+specifically designed for Bash scripts. BATS provides a simple syntax for writing test cases and includes powerful features
+for testing shell scripts in isolation.
 
 ## 🧩 Structure
 
@@ -49,7 +49,7 @@ npm install
 
 ## 📝 Writing Tests
 
-### Basic Test Structure
+### Basic test structure
 
 BATS tests follow a simple and intuitive syntax:
 
@@ -65,9 +65,9 @@ BATS tests follow a simple and intuitive syntax:
 }
 ```
 
-### Test Lifecycle
+### Test lifecycle
 
-#### Setup Function
+#### Setup function
 
 Runs before each test case to prepare the test environment:
 
@@ -78,7 +78,7 @@ setup() {
 }
 ```
 
-#### Teardown Function
+#### Teardown function
 
 Runs after each test case to clean up resources:
 
@@ -88,9 +88,9 @@ teardown() {
 }
 ```
 
-### Common Patterns
+### Common patterns
 
-#### 1. Testing Exit Status
+#### 1. Testing exit status
 
 ```bash
 @test "should exit with status 0" {
@@ -100,7 +100,7 @@ teardown() {
 }
 ```
 
-#### 2. Testing Output
+#### 2. Testing output
 
 ```bash
 @test "should display correct message" {
@@ -110,7 +110,7 @@ teardown() {
 }
 ```
 
-#### 3. Mocking Commands
+#### 3. Mocking commands
 
 Create mock executables to simulate external dependencies:
 
@@ -134,7 +134,7 @@ Create mock executables to simulate external dependencies:
 }
 ```
 
-#### 4. Setting Environment Variables
+#### 4. Setting environment variables
 
 ```bash
 @test "should use VERSION environment variable" {
@@ -146,19 +146,19 @@ Create mock executables to simulate external dependencies:
 }
 ```
 
-### Best Practises
+### Best practices
 
-1. **Use Descriptive Test Names** - Clearly state what the test verifies
-2. **Follow AAA Pattern** - Arrange, Act, Assert for clear test structure
-3. **Test One Thing** - Each test should verify a single behaviour
-4. **Clean Up** - Use teardown to remove temporary files and directories
-5. **Isolate Tests** - Tests should not depend on each other
-6. **Mock External Dependencies** - Use mock commands for predictable tests
-7. **Test Error Cases** - Verify error handling and edge cases
+1. **Use descriptive test names** - Clearly state what the test verifies
+2. **Follow AAA pattern** - Arrange, Act, Assert for clear test structure
+3. **Test one thing** - Each test should verify a single behaviour
+4. **Clean up** - Use teardown to remove temporary files and directories
+5. **Isolate tests** - Tests should not depend on each other
+6. **Mock external dependencies** - Use mock commands for predictable tests
+7. **Test error cases** - Verify error handling and edge cases
 
-## 🏃 Running Tests
+## 🏃 Running tests
 
-### Run All Tests
+### Run all tests
 
 Execute all unit tests with verbose output:
 
@@ -166,7 +166,7 @@ Execute all unit tests with verbose output:
 npm run test:unit
 ```
 
-### Run Specific Test File
+### Run specific test file
 
 Run tests from a single file:
 
@@ -174,23 +174,23 @@ Run tests from a single file:
 npx bats tests/unit/git.bats --verbose-run
 ```
 
-### Run Individual Test
+### Run individual test
 
-Run a specific test by line number:
+Run a specific test by filter:
 
 ```bash
 npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 ```
 
-## 🔍 Understanding Test Output
+## 🔍 Understanding test output
 
-### Successful Test
+### Successful test
 
 ```bash
 ✓ should install git cli
 ```
 
-### Failed Test
+### Failed test
 
 ```bash
 ✗ should install git cli
@@ -198,7 +198,7 @@ npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
     `[ "$status" -eq 0 ]' failed
 ```
 
-### Verbose Output
+### Verbose output
 
 Use `--verbose-run` flag to see detailed test execution:
 
@@ -206,7 +206,7 @@ Use `--verbose-run` flag to see detailed test execution:
 npx bats tests/unit/git.bats --verbose-run
 ```
 
-## 📚 BATS Fundamentals
+## 📚 BATS fundamentals
 
 ### Assertions
 
@@ -221,7 +221,7 @@ BATS uses standard shell test commands for assertions:
 | `[ -d "directory" ]`          | Check directory exists         |
 | `[ -x "script.sh" ]`          | Check file is executable       |
 
-### Special Variables
+### Special variables
 
 | Variable      | Description                       |
 | ------------- | --------------------------------- |
@@ -230,7 +230,7 @@ BATS uses standard shell test commands for assertions:
 | `$lines`      | Array of output lines             |
 | `${lines[0]}` | First line of output              |
 
-### Run Command
+### Run command
 
 The `run` command executes a command and captures its output:
 
@@ -244,9 +244,9 @@ Benefits:
 - Captures output in `$output`
 - Prevents test termination on command failure
 
-## 🐛 Debugging Tests
+## 🐛 Debugging tests
 
-### Print Debug Information
+### Print debug information
 
 Add `echo` statements to display debug information:
 
@@ -258,7 +258,7 @@ Add `echo` statements to display debug information:
 }
 ```
 
-### Run Tests in Debug Mode
+### Run tests in debug mode
 
 Use `--trace` flag for detailed execution trace:
 
@@ -266,7 +266,7 @@ Use `--trace` flag for detailed execution trace:
 npx bats tests/unit/git.bats --trace
 ```
 
-### Check Test Environment
+### Check test environment
 
 Verify the test environment state:
 
@@ -280,9 +280,9 @@ Verify the test environment state:
 }
 ```
 
-## 🛠️ Advanced Techniques
+## 🛠️ Advanced techniques
 
-### Conditional Skip
+### Conditional skip
 
 Skip tests based on conditions:
 
@@ -297,7 +297,7 @@ Skip tests based on conditions:
 }
 ```
 
-### Testing Multiple Scenarios
+### Testing multiple scenarios
 
 Use loops to test multiple inputs:
 
@@ -312,7 +312,7 @@ Use loops to test multiple inputs:
 }
 ```
 
-### Temporary Files
+### Temporary files
 
 Create temporary test files:
 

@@ -4,7 +4,7 @@ set -euo pipefail
 # Git Installation Script
 #
 # Purpose:
-#   Installs Git version control system in Alpine Linux Docker containers
+#   Installs Git version control system in Alpine Linux containers
 #   using the Alpine Package Keeper (apk) package manager.
 #
 

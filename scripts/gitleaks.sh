@@ -4,31 +4,31 @@ set -euo pipefail
 # GitLeaks Installation Script
 #
 # This script downloads, verifies, and installs GitLeaks - a tool for detecting hardcoded secrets
-# in git repositories.
+# in Git repositories.
 #
-# Required Environment Variables:
-#   GIT_LEAKS_VERSION - The version of GitLeaks to install (e.g., "8.18.0")
+# Required environment variables:
+#   GIT_LEAKS_VERSION - The version of GitLeaks to install (e.g., "8.30.0")
 #   GIT_LEAKS_SHA512  - The SHA-512 checksum for the downloaded archive
 #
 # Dependencies:
 #   - wget: Required for downloading the GitLeaks archive
 #   - tar: Required for extracting the archive
 #
-# Installation Process:
+# Installation process:
 #   1. Validates required environment variables are set
 #   2. Checks for required dependencies (wget, tar)
 #   3. Downloads GitLeaks archive from GitHub releases
 #   4. Verifies download integrity using SHA-512 checksum
 #   5. Extracts the binary to /usr/local/bin
 #   6. Validates successful installation
-#   7. Cleans up temporary files (currently commented out)
+#   7. Cleans up temporary files
 #
-# Exit Codes:
+# Exit codes:
 #   0 - Installation completed successfully
 #   1 - Installation failed (missing dependencies, checksum mismatch, etc.)
 #
-# Example Usage:
-#   export GIT_LEAKS_VERSION="8.18.0"
+# Example usage:
+#   export GIT_LEAKS_VERSION="8.30.0"
 #   export GIT_LEAKS_SHA512="<checksum-value>"
 #   ./gitleaks.sh
 #
