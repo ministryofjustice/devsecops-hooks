@@ -117,4 +117,4 @@ RUN ${WORKDIR}/scripts/git.sh
 USER scanner
 
 # Execute
-ENTRYPOINT ["./scripts/scan.sh"]
+ENTRYPOINT ["/app/scripts/scan.sh"]

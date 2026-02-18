@@ -61,21 +61,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
 2. **Install**:
 
-   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) is installed globally
-
-   Linux / MacOS
-
-   ```bash
-   curl --proto '=https' --tlsv1.2 \
-   -LsSf https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.sh | sh
-   ```
-
-   Windows
-
-   ```bash
-   powershell -ExecutionPolicy ByPass \
-   -c "irm https://raw.githubusercontent.com/ministryofjustice/devsecops-hooks/e85ca6127808ef407bc1e8ff21efed0bbd32bb1a/prek/prek-installer.ps1 | iex"
-   ```
+   Ensure [prek](https://github.com/j178/prek?tab=readme-ov-file#installation) or [pre-commit](https://pre-commit.com/#install) is installed globally
 
 3. **Activate**
 
@@ -91,61 +77,37 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    prek run
    ```
 
+   ```bash
+   prek run baseline
+   ```
+
 ## 🔧 Configuration
 
 ### Configuration file
 
-One can add gitleaks configuration file to their repository root under `./.gitleaks.toml` file name.
-Gitleaks offers a [configuration format](https://www.npmjs.com/package/@ministryofjustice/hmpps-precommit-hooks?activeTab=code)
+One can add GitLeaks configuration file to their repository root under `./.gitleaks.toml` file name.
+GitLeaks offers a [configuration format](https://github.com/gitleaks/gitleaks?tab=readme-ov-file#configuration)
 you can follow to write your own secret detection rules.
 
 ### Ignore file
 
-One can add gitleaks `fingerprint` to the `./.gitleaksignore` file, if it is a false positive.
+One can add GitLeaks `fingerprint` to the `./.gitleaksignore` file, if it is a false positive.
 To add one to the ignore file simply add the `Fingerprint` presented to the ignore file.
 
-Just like the configuration file please add ignore file to the root of your repository.
+Just like the configuration file, please add the ignore file to the root of your repository.
 
 ```txt
 f3a930047bf1373b540608f54fcd7619b57801c8:README.md:generic-api-key:161
 ```
 
-### Exclusion list
-
-One can exclude files and directories by adding them to `exclude` property. Exclude property accepts [regular expression](https://pre-commit.com/#regular-expressions).
-
-Ignore everything under `reports` and `docs` directories for `baseline` hook as an example.
-
-```yaml
-   repos:
-     - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.5.0
-       hooks:
-         - id: baseline
-            exclude: |
-            ^reports/|
-            ^docs/
-```
-
-Or one can also create a file with list of exclusions.
-
-```yaml
-repos:
-  - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.5.0
-    hooks:
-      - id: baseline
-        exclude: .pre-commit-ignore
-```
-
-### Environment Variables
+### Environment variables
 
 One can customise the scanner behaviour by setting environment variables in the hook configuration.
 
-#### Scan All Files (Not Just Staged)
+#### Scan all files (not just staged)
 
-By default, `STAGE_MODE` is set to `true`, which scans only staged files. To scan all files in the repository regardless of staging
-status, set `STAGE_MODE` to `false`:
+By default, `STAGE_MODE` is set to `true`, which scans only staged files. To scan all files in the repository regardless of
+staging status, set `STAGE_MODE` to `false`:
 
 ```yaml
 repos:
@@ -157,12 +119,11 @@ repos:
           STAGE_MODE: "false"
 ```
 
-### Hook Configuration
+### Hook configuration
 
 The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 - **ID**: `baseline`
-- **Stages**: `pre-commit`, `pre-push`
 - **Language**: `docker_image`
 - **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
@@ -171,7 +132,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 - **Verbose**: `true` - Provides detailed output for debugging
 - **Fail Fast**: `false` - Allows other hooks to run even if this hook fails
 
-### Docker Build Arguments
+### Docker build arguments
 
 The Docker image supports the following build arguments:
 
@@ -198,13 +159,13 @@ The Docker image supports the following build arguments:
 4. **Dockerfile** - Multi-stage build for optimised container image
 5. **.pre-commit-hooks.yaml** - Hook configuration for pre-commit framework
 
-### Scripts Documentation
+### Scripts documentation
 
 #### gitleaks.sh
 
 Downloads and installs the GitLeaks binary with SHA-512 checksum verification.
 
-**Environment Variables:**
+**Environment variables:**
 
 - `GIT_LEAKS_VERSION` - Version to install (required)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for verification (required)
@@ -217,7 +178,7 @@ Downloads and installs the GitLeaks binary with SHA-512 checksum verification.
 4. Extracts to `/usr/local/bin`
 5. Validates installation
 
-**Exit Codes:**
+**Exit codes:**
 
 - `0` - Installation successful
 - `1` - Missing dependencies or checksum mismatch
@@ -238,7 +199,7 @@ Installs Git using Alpine Package Keeper (apk).
 
 Executes GitLeaks security scanning with configurable modes.
 
-**Environment Variables:**
+**Environment variables:**
 
 - `VERSION` - Scanner version for banner display
 - `GITLEAKS_CONFIGURATION_FILE` - Custom config path (optional)
@@ -248,25 +209,25 @@ Executes GitLeaks security scanning with configurable modes.
 
 **Modes:**
 
-- **Git Mode** (default): Pre-commit scan using Git history
-- **Non-Git Mode**: Direct filesystem scan with JSON output
+- **Git mode** (default): Pre-commit scan using Git history
+- **Non-Git mode**: Direct filesystem scan with JSON output
 
-**Exit Codes:**
+**Exit codes:**
 
 - `0` - No secrets detected
 - `1` - Secrets found or execution error
 
-### Docker Image
+### Docker image
 
 Built using a multi-stage Alpine Linux approach:
 
-- **Build Stage**: Downloads and verifies binary
-- **Production Stage**: Minimal runtime image with scanner scripts
+- **Build stage**: Downloads and verifies binary
+- **Production stage**: Minimal runtime image with scanner scripts
 - **User**: Runs as non-root `scanner` user for security
 
 ## 📦 Usage
 
-### Automatic (Pre-Commit Hook)
+### Automatic (pre-commit hook)
 
 Once installed, the hook runs automatically:
 
@@ -276,7 +237,7 @@ git commit -S -m "Your commit message"
 # Hook runs automatically and blocks commit if secrets detected
 ```
 
-### Manual Execution
+### Manual execution
 
 Run the scanner manually on specific files:
 
@@ -290,7 +251,7 @@ Run on all files in the repository:
 pre-commit run baseline --all-files
 ```
 
-### Docker Container
+### Docker container
 
 You can also run the scanner directly using Docker:
 
@@ -298,9 +259,9 @@ You can also run the scanner directly using Docker:
 docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
 ```
 
-## 🎯 Example Output
+## 🎯 Example output
 
-### ✅ Success (No Secrets Detected)
+### ✅ Success (no secrets detected)
 
 ```bash
 ⚡️ Ministry of Justice - Scanner 1.5.0⚡️
@@ -317,7 +278,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
 ✅ No secrets have been detected.
 ```
 
-### ❌ Failure (Secrets Detected)
+### ❌ Failure (secrets detected)
 
 ```bash
 ⚡️ MoJ scanner 1.5.0⚡️
@@ -341,15 +302,15 @@ Commit:      a1b2c3d4
 5:13PM WRN leaks found: 1
 ```
 
-## 🛠️ Local
+## 🛠️ Local development
 
-### Building the Docker Image
+### Building the Docker image
 
 ```bash
 docker build -t devsecops-hooks:local .
 ```
 
-### Testing Locally
+### Testing locally
 
 ```bash
 docker run --rm -v $(pwd):/src devsecops-hooks:local
@@ -373,9 +334,9 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 | Size            | 4.2 MB         |
 | Packages        | 20             |
 
-## 📝 Environment Variables
+## 📝 Environment variables
 
-### Build Arguments
+### Build arguments
 
 - `VERSION` - Scanner version number (default: `1.5.0`)
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.0`)
@@ -386,7 +347,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 - `STAGE_MODE` - Scan only staged files (default: `true`)
 - `WORKDIR` - Application root directory (default: `/app`)
 
-### Runtime Environment Variables
+### Runtime environment variables
 
 - `VERSION` - Scanner version displayed in banner output
 - `GIT_LEAKS_VERSION` - GitLeaks binary version in use
@@ -396,7 +357,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 - `STAGE_MODE` - Whether to scan staged files only (`true`/`false`)
 - `WORKDIR` - Working directory for scanner execution
 - `TERM` - Terminal type for colour output (default: `xterm-256color`)
-- `CLICOLOR_FORCE` - Force colour output in CI/CD (default: `1`)
+- `CLICOLOR_FORCE` - Force colour output in CI/CD pipelines (default: `1`)
 
 ## 📄 Licence
 
@@ -417,11 +378,10 @@ If you encounter any issues or have questions:
 1. Review existing issues in the repository
 2. Create a new issue with detailed information
 
-## ⚠️ Important Notes
+## ⚠️ Important notes
 
 - Always review detected secrets before committing
-- Update the `rev` field in `.pre-commit-config.yaml` to the latest commit SHA
-- The scanner runs on both `pre-commit` and `pre-push` stages
+- Update the `rev` field in `.pre-commit-config.yaml` to the latest version
 - Hidden files and directories are excluded by default
 - The hook is configured with `fail_fast: false` to allow other hooks to run even if secrets are detected
 - The scanner runs on the entire repository (`pass_filenames: false`) rather than individual staged files

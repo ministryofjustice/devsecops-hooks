@@ -50,4 +50,4 @@ jobs:
         run: docker build -t devsecops-hooks:local ./
 
       - name: Run
-        run: docker run --rm -v $(pwd):/src devsecops-hooks:local
+        run: docker run --rm -v "$(pwd):/src:rw,Z" -w /src devsecops-hooks:local
