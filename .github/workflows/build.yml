@@ -7,7 +7,7 @@ run-name: Docker build 🚀
 
 on:
   pull_request:
-    branches: ["*"]
+    branches: ["**"]
 
 permissions: {}
 
