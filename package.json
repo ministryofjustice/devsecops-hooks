@@ -26,6 +26,9 @@
     "validate:sh": "npx shellcheck --color=always scripts/*.sh",
     "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules"
   },
+  "overrides": {
+    "minimatch": "^10.2.1"
+  },
   "devDependencies": {
     "bats": "^1.13.0",
     "cspell": "^9.6.4",
