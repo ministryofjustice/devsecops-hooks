@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # frozen: v6.0.1
 
       - name: Create
-        uses: googleapis/release-please-action@64d83e95d898ede84e4555719aba555c3244d469 # frozen: v4.4.0
+        uses: googleapis/release-please-action@8bb7a2ed0f90c9802c83129a9488d235a1f31a7c # frozen: v4.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: node

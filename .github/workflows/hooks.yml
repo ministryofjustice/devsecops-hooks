@@ -53,7 +53,7 @@ jobs:
           python-version-file: ./.python-version
 
       - name: Node
-        uses: actions/setup-node@d02c89dce7e1ba9ef629ce0680989b3a1cc72edb # frozen: v6.1.0
+        uses: actions/setup-node@efcb663fc60e97218a2b2d6d827f7830f164739e # frozen: v6.1.0
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
