@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.1](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.5.1) (2026-02-20)
+
+
+### Bug Fixes
+
+* **CVE-2026-26996:** override minimatch to 10.2.1 ([#151](https://github.com/ministryofjustice/devsecops-hooks/issues/151)) ([36ad5e5](https://github.com/ministryofjustice/devsecops-hooks/commit/36ad5e53800e3996523d93dba7a7cf977d215be2))
+* **docker-build:** added /app to docker execution path ([#149](https://github.com/ministryofjustice/devsecops-hooks/issues/149)) ([d46cf6e](https://github.com/ministryofjustice/devsecops-hooks/commit/d46cf6e29445be575e5f71356fc4e2c608239a0c))
+
 ## [1.5.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.4.0...v1.5.0) (2026-02-18)
 
 
