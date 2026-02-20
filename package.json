@@ -27,7 +27,7 @@
     "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules"
   },
   "overrides": {
-    "minimatch": "^10.2.1"
+    "minimatch": "^10.2.2"
   },
   "devDependencies": {
     "bats": "^1.13.0",
