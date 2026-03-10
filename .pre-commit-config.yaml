@@ -3,10 +3,18 @@
 # Requires: Node.js, npm, Python, pre-commit framework
 
 repos:
-  - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.5.0
+  # - repo: https://github.com/ministryofjustice/devsecops-hooks
+  #   rev: v1.5.0
+  #   hooks:
+  #     - id: baseline
+
+  - repo: local
     hooks:
-      - id: baseline
+      - id: a
+        name: test
+        entry: devsecops-hooks:local
+        language: docker_image
+        pass_filenames: true
 
   - repo: local
     hooks:
