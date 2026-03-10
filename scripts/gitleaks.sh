@@ -1,36 +1,43 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# GitLeaks Installation Script
+# GitLeaks Binary Installation Script
 #
-# This script downloads, verifies, and installs GitLeaks - a tool for detecting hardcoded secrets
-# in Git repositories.
+# Purpose:
+#   Downloads, verifies, and installs the GitLeaks secret detection binary
+#   for Alpine Linux x64 architecture. Implements security best practices
+#   through SHA-512 checksum verification.
 #
-# Required environment variables:
-#   GIT_LEAKS_VERSION - The version of GitLeaks to install (e.g., "8.30.0")
-#   GIT_LEAKS_SHA512  - The SHA-512 checksum for the downloaded archive
+# Environment Variables (Required):
+#   GIT_LEAKS_VERSION - Version number of GitLeaks to install (e.g., "8.18.0")
+#   GIT_LEAKS_SHA512  - Expected SHA-512 checksum for binary verification
 #
 # Dependencies:
-#   - wget: Required for downloading the GitLeaks archive
-#   - tar: Required for extracting the archive
+#   - wget: HTTP client for downloading releases from GitHub
+#   - tar:  Archive extraction utility for unpacking compressed binaries
 #
-# Installation process:
+# Installation Process:
 #   1. Validates required environment variables are set
-#   2. Checks for required dependencies (wget, tar)
-#   3. Downloads GitLeaks archive from GitHub releases
-#   4. Verifies download integrity using SHA-512 checksum
-#   5. Extracts the binary to /usr/local/bin
-#   6. Validates successful installation
-#   7. Cleans up temporary files
+#   2. Downloads GitLeaks binary from GitHub releases (30s timeout, 3 retries)
+#   3. Computes SHA-512 checksum and verifies against expected value
+#   4. Extracts binary to /usr/local/bin for system-wide access
+#   5. Validates successful installation by checking executable presence
+#   6. Removes downloaded archive to minimise container size
 #
-# Exit codes:
+# Exit Codes:
 #   0 - Installation completed successfully
-#   1 - Installation failed (missing dependencies, checksum mismatch, etc.)
+#   1 - Missing required environment variable
+#   1 - Missing required dependency (wget/tar)
+#   1 - Checksum verification failed (security violation)
+#   1 - Binary extraction or installation failed
 #
-# Example usage:
-#   export GIT_LEAKS_VERSION="8.30.0"
-#   export GIT_LEAKS_SHA512="<checksum-value>"
-#   ./gitleaks.sh
+# Security Considerations:
+#   - Uses SHA-512 checksums to prevent tampering
+#   - Implements connection timeout and retry limits
+#   - Validates executable installation before cleanup
+#
+# Example Usage:
+#   GIT_LEAKS_VERSION=8.18.0 GIT_LEAKS_SHA512=abc123... ./gitleaks.sh
 #
 
 # Environment variable definition
