@@ -11,4 +11,7 @@
   always_run: true
   verbose: true
   pass_filenames: false
+  stages:
+    - commit-msg
+    - pre-commit
   exclude: "^\\..*|/\\..*"

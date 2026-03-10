@@ -8,6 +8,7 @@ ARG GITLEAKS_CONFIGURATION_FILE=./.gitleaks.toml
 ARG GITLEAKS_IGNORE_FILE=./.gitleaksignore
 ARG GIT_MODE=true
 ARG STAGE_MODE=true
+ARG COMMITLINT_CONFIGURATION_FILE=./commitlint.config.js
 ARG WORKDIR=/app
 
 ###################
@@ -28,6 +29,7 @@ ARG GITLEAKS_CONFIGURATION_FILE
 ARG GITLEAKS_IGNORE_FILE
 ARG GIT_MODE
 ARG STAGE_MODE
+ARG COMMITLINT_CONFIGURATION_FILE
 ARG WORKDIR
 ENV VERSION=$VERSION
 ENV GIT_LEAKS_VERSION=$GIT_LEAKS_VERSION
@@ -36,6 +38,7 @@ ENV GITLEAKS_CONFIGURATION_FILE=$GITLEAKS_CONFIGURATION_FILE
 ENV GITLEAKS_IGNORE_FILE=$GITLEAKS_IGNORE_FILE
 ENV GIT_MODE=$GIT_MODE
 ENV STAGE_MODE=$STAGE_MODE
+ENV COMMITLINT_CONFIGURATION_FILE=$COMMITLINT_CONFIGURATION_FILE
 ENV WORKDIR=$WORKDIR
 ENV TERM=xterm-256color
 ENV CLICOLOR_FORCE=1
@@ -48,9 +51,12 @@ RUN apk add --no-cache bash
 
 # Scripts
 COPY ./scripts ./scripts
+COPY ./node ./node
+COPY ./commitlint.config.js ./commitlint.config.js
 
 # Permissions
 RUN chmod -R +x ${WORKDIR}/scripts
+RUN chmod -R +x ${WORKDIR}/node
 
 # GitLeak
 RUN ${WORKDIR}/scripts/gitleaks.sh
@@ -74,6 +80,7 @@ ARG GITLEAKS_CONFIGURATION_FILE
 ARG GITLEAKS_IGNORE_FILE
 ARG GIT_MODE
 ARG STAGE_MODE
+ARG COMMITLINT_CONFIGURATION_FILE
 ARG WORKDIR
 ENV VERSION=$VERSION
 ENV GIT_LEAKS_VERSION=$GIT_LEAKS_VERSION
@@ -82,6 +89,7 @@ ENV GITLEAKS_CONFIGURATION_FILE=$GITLEAKS_CONFIGURATION_FILE
 ENV GITLEAKS_IGNORE_FILE=$GITLEAKS_IGNORE_FILE
 ENV GIT_MODE=$GIT_MODE
 ENV STAGE_MODE=$STAGE_MODE
+ENV COMMITLINT_CONFIGURATION_FILE=$COMMITLINT_CONFIGURATION_FILE
 ENV WORKDIR=$WORKDIR
 ENV TERM=xterm-256color
 ENV CLICOLOR_FORCE=1
@@ -107,11 +115,18 @@ RUN adduser -D scanner
 
 # Executables
 COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/scripts/git.sh ./scripts/git.sh
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/scripts/npm.sh ./scripts/npm.sh
 COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/scripts/scan.sh ./scripts/scan.sh
+
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/node/package.json ./
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/node/package-lock.json ./
+COPY --chown=scanner:scanner --chmod=755 --from=build ${WORKDIR}/commitlint.config.js ./
+
 COPY --chown=scanner:scanner --chmod=755 --from=build /usr/local/bin/gitleaks /usr/local/bin/gitleaks
 
 # Execute
 RUN ${WORKDIR}/scripts/git.sh
+RUN ${WORKDIR}/scripts/npm.sh
 
 # User
 USER scanner
