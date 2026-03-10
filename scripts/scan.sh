@@ -1,32 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# scan.sh - Secrets scanning script using GitLeaks
-#
-# Description:
-#   This script runs GitLeaks to scan for secrets in the codebase. It supports both
-#   Git-based scanning (pre-commit) and direct filesystem scanning (non-Git mode).
-#
-# Environment variables:
-#   VERSION                     - Version number displayed in the banner
-#   GITLEAKS_CONFIGURATION_FILE - Path to custom GitLeaks configuration file (optional)
-#   GITLEAKS_IGNORE_FILE        - Path to GitLeaks ignore file (optional)
-#   GIT_MODE                    - Set to "false" to scan without Git history
-#   STAGE_MODE                  - Set to "true" to scan only staged files (default: true)
-#
-# Exit codes:
-#   0 - Scan completed successfully with no secrets detected
-#   1 - Missing dependencies, unable to find /src directory, or secrets detected
-#
-# Dependencies:
-#   - gitleaks: Must be installed and available in PATH
-#   - /src directory: Must exist and contain the source code to scan
-#
-# Modes:
-#   Git mode (default): Runs pre-commit scan using Git history
-#   Non-Git mode: Scans filesystem directly without Git, outputs JSON report
-
-
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 
 COMMAND="${1:-}"
