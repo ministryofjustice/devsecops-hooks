@@ -47,7 +47,7 @@ FROM base AS build
 # Scripts
 COPY --chmod=755 ./scripts ./scripts
 COPY --chmod=755 ./node ./node
-COPY --chmod=744 ./commitlint.config.js ./commitlint.config.js
+COPY --chmod=644 ./commitlint.config.js ./commitlint.config.js
 
 # GitLeak
 RUN ./scripts/gitleaks.sh

@@ -62,7 +62,7 @@ teardown() {
     [[ "$output" == *"Ministry of Justice - Scanner ${VERSION}"* ]]
 
     [ "$status" -eq 1 ]
-    [[ "$output" == *"Unable to read commit message from '${COMMIT_FILE}"* ]]
+    [[ "$output" == *"Unable to read commit message from 'invalid-file'"* ]]
 }
 
 @test "should exit if npm is not installed" {
@@ -88,7 +88,7 @@ teardown() {
 
     # Mock npm
     echo "#!/bin/sh" > mockbin/npm
-    echo "exit 0" > mockbin/npm
+    echo "exit 0" >> mockbin/npm
 
     chmod +x mockbin/npm
 

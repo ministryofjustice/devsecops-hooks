@@ -74,13 +74,14 @@ commit)
     fi
 
     COMMIT_FILE="${2:-}"
-    COMMIT_MESSAGE=$(cat "${COMMIT_FILE}")
 
     # Validation
     if [[ -z "$COMMIT_FILE" || ! -f "$COMMIT_FILE" ]]; then
         echo "❌ Unable to read commit message from '${COMMIT_FILE}'.";
         exit 1;
     fi
+
+    COMMIT_MESSAGE=$(cat "${COMMIT_FILE}")
 
      if ! command -v npm >/dev/null 2>&1; then
         echo "❌ Missing npm executable.";
