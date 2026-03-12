@@ -73,11 +73,12 @@ commit)
         COMMITLINT_CONFIGURATION_ARGUMENT=(--config "$COMMITLINT_CONFIGURATION_FILE")
     fi
 
-    COMMIT_MSG_FILE="${2:-}"
+    COMMIT_FILE="${2:-}"
+    COMMIT_MESSAGE=$(cat "${COMMIT_FILE}")
 
     # Validation
-    if [[ -z "$COMMIT_MSG_FILE" || ! -f "$COMMIT_MSG_FILE" ]]; then
-        echo "❌ Unable to read commit message from '${COMMIT_MSG_FILE}'.";
+    if [[ -z "$COMMIT_FILE" || ! -f "$COMMIT_FILE" ]]; then
+        echo "❌ Unable to read commit message from '${COMMIT_FILE}'.";
         exit 1;
     fi
 
@@ -90,7 +91,7 @@ commit)
     cd "${WORKDIR}" || { echo "❌ Unable to switch to ${WORKDIR} directory."; exit 1; }
 
     # Commitlint
-    npm run validate:commit:message -- "${COMMITLINT_CONFIGURATION_ARGUMENT[@]}" < "$COMMIT_MSG_FILE"
+    echo "${COMMIT_MESSAGE}" | npm run validate:commit:message -- "${COMMITLINT_CONFIGURATION_ARGUMENT[@]}"
 
     # Successful
     echo "✅ Commit conforms to conventional commit."
