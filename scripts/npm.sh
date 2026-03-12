@@ -34,4 +34,4 @@ set -euo pipefail
 #
 
 apk add --no-cache npm
-npm ci --ignore-scripts
+npm ci --ignore-scripts --omit=dev
