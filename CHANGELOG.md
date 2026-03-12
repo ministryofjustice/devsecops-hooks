@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-12)
+
+
+### Features
+
+* **commit-validation:** added commit validation workflow step ([#158](https://github.com/ministryofjustice/devsecops-hooks/issues/158)) ([73d9e3b](https://github.com/ministryofjustice/devsecops-hooks/commit/73d9e3bbe1af55d42135bc057b1d2530a7ff0cb2))
+* **deps:** update dependency virtualenv to v20.39.1 ([#168](https://github.com/ministryofjustice/devsecops-hooks/issues/168)) ([db65291](https://github.com/ministryofjustice/devsecops-hooks/commit/db6529171de5510a17f6e5b3a8c7d750c183be46))
+* **deps:** update renovate: github-actions ([#166](https://github.com/ministryofjustice/devsecops-hooks/issues/166)) ([7fe9ab6](https://github.com/ministryofjustice/devsecops-hooks/commit/7fe9ab65e36a7c712ddaffc4833df4cf33ee3a96))
+
+
+### Bug Fixes
+
+* **CVE-2026-26996:** override minimatch to 10.2.1 ([#151](https://github.com/ministryofjustice/devsecops-hooks/issues/151)) ([36ad5e5](https://github.com/ministryofjustice/devsecops-hooks/commit/36ad5e53800e3996523d93dba7a7cf977d215be2))
+* **deps:** update dependency identify to v2.6.17 ([#167](https://github.com/ministryofjustice/devsecops-hooks/issues/167)) ([80c2ed7](https://github.com/ministryofjustice/devsecops-hooks/commit/80c2ed7a013cbd9b4c4a6118256111ca8a6ec952))
+* **docker-build:** added /app to docker execution path ([#149](https://github.com/ministryofjustice/devsecops-hooks/issues/149)) ([d46cf6e](https://github.com/ministryofjustice/devsecops-hooks/commit/d46cf6e29445be575e5f71356fc4e2c608239a0c))
+
 ## [1.5.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.4.0...v1.5.0) (2026-02-18)
 
 
