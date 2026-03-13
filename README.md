@@ -36,6 +36,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 - 🎯 **Fail-Fast** - Stops commits immediately when secrets are detected
 - 🔍 **Verbose Logging** - Detailed output for easy debugging
 - 🏷️ **Version Controlled** - Pinned GitLeaks version with checksum validation
+- ✅ **Conventional Commits** - Validates commit messages against conventional commits standards
 
 ## 🚀 Getting Started
 
@@ -54,7 +55,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.5.0
+       rev: v1.6.0
        hooks:
          - id: baseline
    ```
@@ -112,7 +113,7 @@ staging status, set `STAGE_MODE` to `false`:
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.5.0
+    rev: v1.6.0
     hooks:
       - id: baseline
         env:
@@ -125,7 +126,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 - **ID**: `baseline`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 - **Pass Filenames**: `false` - Hook runs on the entire repository, not individual files
 - **Always Run**: `true` - Executes on every invocation regardless of file changes
@@ -138,7 +139,7 @@ The Docker image supports the following build arguments:
 
 | Argument                      | Default             | Description                        |
 | ----------------------------- | ------------------- | ---------------------------------- |
-| `VERSION`                     | `1.5.0`             | Scanner version number             |
+| `VERSION`                     | `1.6.0`             | Scanner version number             |
 | `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install        |
 | `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification  |
 | `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path   |
@@ -256,7 +257,7 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```bash
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 ```
 
 ## 🎯 Example output
@@ -264,7 +265,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
 ### ✅ Success (no secrets detected)
 
 ```bash
-⚡️ Ministry of Justice - Scanner 1.5.0⚡️
+⚡️ Ministry of Justice - Scanner 1.6.0⚡️
 
 ○
     │╲
@@ -281,7 +282,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.5.0
 ### ❌ Failure (secrets detected)
 
 ```bash
-⚡️ MoJ scanner 1.5.0⚡️
+⚡️ MoJ scanner 1.6.0⚡️
 
 ○
     │╲
@@ -338,7 +339,7 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 
 ### Build arguments
 
-- `VERSION` - Scanner version number (default: `1.5.0`)
+- `VERSION` - Scanner version number (default: `1.6.0`)
 - `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.0`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
 - `GITLEAKS_CONFIGURATION_FILE` - Custom configuration file path (default: `./.gitleaks.toml`)

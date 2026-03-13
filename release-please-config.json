@@ -1,10 +1,15 @@
 {
-    "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-    "packages": {
-        ".": {
-            "release-type": "simple"
-        }
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "component": "main"
     },
-    "pull-request-title-pattern": "chore(${scope}): release${component} ${version}",
-    "extra-label": "Type: chore, Type: documentation"
+    "./node": {
+      "release-type": "node",
+      "component": "main"
+    }
+  },
+  "pull-request-title-pattern": "chore(${scope}): release${component} ${version}",
+  "extra-label": "Type: chore, Type: documentation"
 }
