@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # frozen: v6.0.1
 
       - name: Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # frozen: v6.1.0
+        uses: actions/setup-python@28f2168f4d98ee0445e3c6321f6e6616c83dd5ec # frozen: v6.1.0
         with:
           python-version-file: ./.python-version
 
