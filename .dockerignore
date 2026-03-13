@@ -25,7 +25,6 @@ dist
 .prettierrc.json
 .prettierignore
 .editorconfig
-commitlint.config.js
 renovate.json
 release-please-config.json
 sources.json

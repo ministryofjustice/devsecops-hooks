@@ -1,66 +1,141 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# scan.sh - Secrets scanning script using GitLeaks
+# Secret Scanning and Commit Validation Script
 #
-# Description:
-#   This script runs GitLeaks to scan for secrets in the codebase. It supports both
-#   Git-based scanning (pre-commit) and direct filesystem scanning (non-Git mode).
+# Purpose:
+#   Main execution script for the Ministry of Justice DevSecOps scanner.
+#   Performs secret detection using GitLeaks and commit message validation
+#   using Commitlint. Designed to run as a Docker container entrypoint.
 #
-# Environment variables:
-#   VERSION                     - Version number displayed in the banner
-#   GITLEAKS_CONFIGURATION_FILE - Path to custom GitLeaks configuration file (optional)
-#   GITLEAKS_IGNORE_FILE        - Path to GitLeaks ignore file (optional)
-#   GIT_MODE                    - Set to "false" to scan without Git history
-#   STAGE_MODE                  - Set to "true" to scan only staged files (default: true)
+# Environment Variables:
+#   VERSION                       - Scanner version number for display
+#   WORKDIR                       - Working directory for commit validation (default: /app)
+#   STAGE_MODE                    - Enable staged files scanning (default: true)
+#   GIT_MODE                      - Enable Git-aware scanning (default: true)
+#   GITLEAKS_CONFIGURATION_FILE   - Path to .gitleaks.toml configuration file
+#   GITLEAKS_IGNORE_FILE          - Path to .gitleaksignore file for false positives
+#   COMMITLINT_CONFIGURATION_FILE - Path to commitlint.config.js file
 #
-# Exit codes:
-#   0 - Scan completed successfully with no secrets detected
-#   1 - Missing dependencies, unable to find /src directory, or secrets detected
+# Commands:
+#   commit <message_file> - Validate commit message against conventional commits format
+#   (default)             - Scan for hardcoded secrets using GitLeaks
 #
 # Dependencies:
-#   - gitleaks: Must be installed and available in PATH
-#   - /src directory: Must exist and contain the source code to scan
+#   - gitleaks: Secret detection binary (required for default mode)
+#   - npm: Node package manager for commitlint (required for commit mode)
+#   - git: Version control system (required when GIT_MODE=true)
 #
-# Modes:
-#   Git mode (default): Runs pre-commit scan using Git history
-#   Non-Git mode: Scans filesystem directly without Git, outputs JSON report
-
+# Scanning Modes:
+#   Git mode (GIT_MODE=true):
+#     - Scans Git repository with awareness of .gitignore rules
+#     - Can scan staged files only (STAGE_MODE=true) for pre-commit hooks
+#     - Outputs redacted findings to protect discovered secrets
+#   
+#   Filesystem mode (GIT_MODE=false):
+#     - Scans all files in directory tree recursively
+#     - Ignores Git metadata and .gitignore rules
+#     - Generates JSON report of findings for audit trail
+#
+# Exit Codes:
+#   0 - No secrets detected / Commit message valid
+#   1 - Secrets detected / Invalid commit message / Validation errors
+#
+# Security Considerations:
+#   - Redacts secrets in output to prevent exposure
+#   - Supports custom ignore patterns for false positives
+#   - Validates commit messages before allowing commits
+#
+# Example Usage:
+#   # Scan staged files for secrets (pre-commit hook)
+#   ./scan.sh
+#
+#   # Validate commit message (commit-msg hook)
+#   ./scan.sh commit /path/to/COMMIT_EDITMSG
+#
+#   # Scan entire directory without Git awareness
+#   GIT_MODE=false ./scan.sh
+#
+#   # Scan all files (not just staged)
+#   STAGE_MODE=false ./scan.sh
+#
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
 
-# Dependencies
-if ! command -v gitleaks >/dev/null 2>&1; then
-    echo "❌ Missing gitleaks executable.";
-    exit 1;
-fi
+COMMAND="${1:-}"
+CODEDIR="/src"
 
-# Pre-requisites
-cd /src || { echo "❌ Unable to find /src directory."; exit 1; }
+case "$COMMAND" in
 
-# Argument build
-STAGED_FILES=()
-if [ "${STAGE_MODE:-true}" == "true" ]; then
-    STAGED_FILES=("--staged")
-fi
+commit)
+    COMMITLINT_CONFIGURATION_ARGUMENT=()
+    if [ -f "$COMMITLINT_CONFIGURATION_FILE" ]; then
+        COMMITLINT_CONFIGURATION_ARGUMENT=(--config "$COMMITLINT_CONFIGURATION_FILE")
+    fi
 
-CONFIGURATION_ARGUMENT=()
-if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
-    CONFIGURATION_ARGUMENT=(--config "$GITLEAKS_CONFIGURATION_FILE")
-fi
+    COMMIT_FILE="${2:-}"
 
-IGNORE_ARGUMENT=()
-if [ -f "$GITLEAKS_IGNORE_FILE" ]; then
-    IGNORE_ARGUMENT=(--gitleaks-ignore-path "$GITLEAKS_IGNORE_FILE")
-fi
+    # Validation
+    if [[ -z "$COMMIT_FILE" || ! -f "$COMMIT_FILE" ]]; then
+        echo "❌ Unable to read commit message from '${COMMIT_FILE}'.";
+        exit 1;
+    fi
 
-# GitLeaks
-if [ "${GIT_MODE:-true}" != "false" ]; then
-    gitleaks git --pre-commit --redact "${STAGED_FILES[@]}" --verbose --exit-code 1 "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
-else
-    gitleaks detect --source . --no-git --redact --report-format json --exit-code 1 --verbose "${CONFIGURATION_ARGUMENT[@]}" "${IGNORE_ARGUMENT[@]}"
-fi
+    COMMIT_MESSAGE=$(cat "${COMMIT_FILE}")
 
-# Successful
-echo "✅ No secrets have been detected."
-exit 0;
+     if ! command -v npm >/dev/null 2>&1; then
+        echo "❌ Missing npm executable.";
+        exit 1;
+    fi
+    
+    # Pre-requisites
+    cd "${WORKDIR}" || { echo "❌ Unable to switch to ${WORKDIR} directory."; exit 1; }
+
+    # Commitlint
+    echo "${COMMIT_MESSAGE}" | npm run validate:commit:message -- "${COMMITLINT_CONFIGURATION_ARGUMENT[@]}"
+
+    # Successful
+    echo "✅ Commit conforms to conventional commit."
+    exit 0;
+    ;;
+
+*)
+    # Validation
+    if ! command -v gitleaks >/dev/null 2>&1; then
+        echo "❌ Missing gitleaks executable.";
+        exit 1;
+    fi
+
+    
+    cd "${CODEDIR}" || { echo "❌ Unable to switch to ${CODEDIR} directory."; exit 1; }
+
+    # Argument build
+    STAGED_FILES=()
+    if [ "${STAGE_MODE:-true}" == "true" ]; then
+        STAGED_FILES=("--staged")
+    fi
+
+    GITLEAKS_CONFIGURATION_ARGUMENT=()
+    if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
+        GITLEAKS_CONFIGURATION_ARGUMENT=(--config "$GITLEAKS_CONFIGURATION_FILE")
+    fi
+
+    GITLEAKS_IGNORE_ARGUMENT=()
+    if [ -f "$GITLEAKS_IGNORE_FILE" ]; then
+        GITLEAKS_IGNORE_ARGUMENT=(--gitleaks-ignore-path "$GITLEAKS_IGNORE_FILE")
+    fi
+
+    # GitLeaks
+    if [ "${GIT_MODE:-true}" != "false" ]; then
+        gitleaks git --no-banner --pre-commit --redact "${STAGED_FILES[@]}" --verbose --exit-code 1 "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+    else
+        gitleaks detect --no-banner --source . --no-git --redact --report-format json --exit-code 1 --verbose "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+    fi
+
+    # Successful
+    echo "✅ No secrets have been detected."
+    exit 0;
+    ;;
+
+esac
+

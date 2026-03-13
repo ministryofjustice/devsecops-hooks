@@ -1,5 +1,5 @@
 {
-  "name": "moj-hooks",
+  "name": "devsecops-hooks",
   "version": "1.5.0",
   "description": "A lightweight, Docker-based security scanner that integrates seamlessly with Git workflows to prevent hardcoded secrets from being committed to your repository. Built for the Ministry of Justice, this tool leverages following CLI commands to detect sensitive information such as API keys, passwords, tokens, and other credentials.",
   "keywords": [
@@ -27,8 +27,8 @@
     "validate:yml": "npx yaml-lint **/*.yml --ignore=**/node_modules"
   },
   "overrides": {
-    "markdownlint-cli": {
-      "minimatch": "^10.2.4"
+    "shellcheck": {
+      "file-type": "~21.3.1"
     }
   },
   "devDependencies": {

@@ -7,6 +7,8 @@ repos:
     rev: v1.5.0
     hooks:
       - id: baseline
+        name: DevSecOps - Secret scanning
+        pass_filenames: false
 
   - repo: local
     hooks:
@@ -16,24 +18,18 @@ repos:
         language: system
         pass_filenames: false
 
-  - repo: local
-    hooks:
       - id: spellcheck
         name: Spell check
         entry: npm run spellcheck
         language: system
         pass_filenames: false
 
-  - repo: local
-    hooks:
       - id: pre-commit-hook
         name: Pre-commit hook validation
         entry: pre-commit validate-manifest
         language: system
         pass_filenames: false
 
-  - repo: local
-    hooks:
       - id: pre-commit-config
         name: Pre-commit configuration validation
         entry: pre-commit validate-config
