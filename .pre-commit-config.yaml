@@ -4,34 +4,35 @@
 
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.5.0
+    rev: 25557b9b5509fb3026eb212b34f0f98ae1f47584
     hooks:
       - id: baseline
-        name: DevSecOps - Secret scanning
         pass_filenames: false
+      - id: commit
+        pass_filenames: true
 
   - repo: local
     hooks:
       - id: lint
         name: Lint check
         entry: npm run validate:all
-        language: system
         pass_filenames: false
+        language: system
 
       - id: spellcheck
         name: Spell check
         entry: npm run spellcheck
-        language: system
         pass_filenames: false
+        language: system
 
       - id: pre-commit-hook
         name: Pre-commit hook validation
         entry: pre-commit validate-manifest
-        language: system
         pass_filenames: false
+        language: system
 
       - id: pre-commit-config
         name: Pre-commit configuration validation
         entry: pre-commit validate-config
-        language: system
         pass_filenames: false
+        language: system
