@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-16)
+## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-17)
 
 
 ### Features
