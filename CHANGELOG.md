@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.6.0...v1.6.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* **deps:** update renovate: npm to ^20.5.0 ([#203](https://github.com/ministryofjustice/devsecops-hooks/issues/203)) ([b451f5d](https://github.com/ministryofjustice/devsecops-hooks/commit/b451f5d0ca7d1bc38c9f5bf35d0d61430f6bafe4))
+
 ## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-17)
 
 
