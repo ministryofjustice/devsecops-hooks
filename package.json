@@ -29,8 +29,7 @@
   },
   "overrides": {
     "shellcheck": {
-      "file-type": "^21.3.3",
-      "yauzl": "^3.2.1"
+      "file-type": "~22.0.0"
     }
   },
   "devDependencies": {
