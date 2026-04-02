@@ -19,7 +19,8 @@
     "OCTO",
     "OSSF",
     "prek",
-    "SARIF"
+    "SARIF",
+    "SLSA"
   ],
   "dictionaries": [
     "en-gb",
@@ -35,7 +36,9 @@
   "languageSettings": [
     {
       "languageId": "commit-msg",
-      "ignoreRegExpList": ["/^#.*/gm"]
+      "ignoreRegExpList": [
+        "/^#.*/gm"
+      ]
     }
   ],
   "version": "0.2"

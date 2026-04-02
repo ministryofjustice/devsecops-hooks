@@ -53,7 +53,7 @@ npm install
 
 BATS tests follow a simple and intuitive syntax:
 
-```console
+```bash
 #!/usr/bin/env bats
 
 @test "test description" {
@@ -71,7 +71,7 @@ BATS tests follow a simple and intuitive syntax:
 
 Runs before each test case to prepare the test environment:
 
-```console
+```bash
 setup() {
     mkdir -p mockbin
     PATH="$PWD/mockbin:$PATH"
@@ -82,7 +82,7 @@ setup() {
 
 Runs after each test case to clean up resources:
 
-```console
+```bash
 teardown() {
     rm -rf mockbin
 }
@@ -92,7 +92,7 @@ teardown() {
 
 #### 1. Testing exit status
 
-```console
+```bash
 @test "should exit with status 0" {
     run ./scripts/example.sh
 
@@ -102,7 +102,7 @@ teardown() {
 
 #### 2. Testing output
 
-```console
+```bash
 @test "should display correct message" {
     run ./scripts/example.sh
 
@@ -114,7 +114,7 @@ teardown() {
 
 Create mock executables to simulate external dependencies:
 
-```console
+```bash
 @test "should call git command" {
     # Arrange
     mkdir -p mockbin
@@ -136,7 +136,7 @@ Create mock executables to simulate external dependencies:
 
 #### 4. Setting environment variables
 
-```console
+```bash
 @test "should use VERSION environment variable" {
     export VERSION=1.0.0
 
@@ -250,7 +250,7 @@ Benefits:
 
 Add `echo` statements to display debug information:
 
-```console
+```bash
 @test "debug example" {
     echo "# Debug: Variable value is ${VARIABLE}" >&3
     run ./scripts/example.sh
@@ -270,7 +270,7 @@ npx bats tests/unit/git.bats --trace
 
 Verify the test environment state:
 
-```console
+```bash
 @test "check environment" {
     run pwd
     echo "# Current directory: $output" >&3
@@ -286,7 +286,7 @@ Verify the test environment state:
 
 Skip tests based on conditions:
 
-```console
+```bash
 @test "should run on Linux only" {
     if [[ "$OSTYPE" != "linux-gnu"* ]]; then
         skip "This test only runs on Linux"
@@ -301,7 +301,7 @@ Skip tests based on conditions:
 
 Use loops to test multiple inputs:
 
-```console
+```bash
 @test "should handle various inputs" {
     inputs=("input1" "input2" "input3")
 
@@ -316,7 +316,7 @@ Use loops to test multiple inputs:
 
 Create temporary test files:
 
-```console
+```bash
 @test "should process file" {
     # Create temporary file
     temp_file=$(mktemp)
