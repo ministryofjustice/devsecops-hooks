@@ -43,7 +43,7 @@ tests/
 
 BATS is already included as a development dependency in the project. Simply install the project dependencies:
 
-```bash
+```console
 npm install
 ```
 
@@ -53,7 +53,7 @@ npm install
 
 BATS tests follow a simple and intuitive syntax:
 
-```bash
+```console
 #!/usr/bin/env bats
 
 @test "test description" {
@@ -71,7 +71,7 @@ BATS tests follow a simple and intuitive syntax:
 
 Runs before each test case to prepare the test environment:
 
-```bash
+```console
 setup() {
     mkdir -p mockbin
     PATH="$PWD/mockbin:$PATH"
@@ -82,7 +82,7 @@ setup() {
 
 Runs after each test case to clean up resources:
 
-```bash
+```console
 teardown() {
     rm -rf mockbin
 }
@@ -92,7 +92,7 @@ teardown() {
 
 #### 1. Testing exit status
 
-```bash
+```console
 @test "should exit with status 0" {
     run ./scripts/example.sh
 
@@ -102,7 +102,7 @@ teardown() {
 
 #### 2. Testing output
 
-```bash
+```console
 @test "should display correct message" {
     run ./scripts/example.sh
 
@@ -114,7 +114,7 @@ teardown() {
 
 Create mock executables to simulate external dependencies:
 
-```bash
+```console
 @test "should call git command" {
     # Arrange
     mkdir -p mockbin
@@ -136,7 +136,7 @@ Create mock executables to simulate external dependencies:
 
 #### 4. Setting environment variables
 
-```bash
+```console
 @test "should use VERSION environment variable" {
     export VERSION=1.0.0
 
@@ -162,7 +162,7 @@ Create mock executables to simulate external dependencies:
 
 Execute all unit tests with verbose output:
 
-```bash
+```console
 npm run test:unit
 ```
 
@@ -170,7 +170,7 @@ npm run test:unit
 
 Run tests from a single file:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run
 ```
 
@@ -178,7 +178,7 @@ npx bats tests/unit/git.bats --verbose-run
 
 Run a specific test by filter:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 ```
 
@@ -186,13 +186,13 @@ npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 
 ### Successful test
 
-```bash
+```console
 ✓ should install git cli
 ```
 
 ### Failed test
 
-```bash
+```console
 ✗ should install git cli
   (in test file tests/unit/git.bats, line 14)
     `[ "$status" -eq 0 ]' failed
@@ -202,7 +202,7 @@ npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 
 Use `--verbose-run` flag to see detailed test execution:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run
 ```
 
@@ -234,7 +234,7 @@ BATS uses standard shell test commands for assertions:
 
 The `run` command executes a command and captures its output:
 
-```bash
+```console
 run ./scripts/example.sh argument1 argument2
 ```
 
@@ -250,7 +250,7 @@ Benefits:
 
 Add `echo` statements to display debug information:
 
-```bash
+```console
 @test "debug example" {
     echo "# Debug: Variable value is ${VARIABLE}" >&3
     run ./scripts/example.sh
@@ -262,7 +262,7 @@ Add `echo` statements to display debug information:
 
 Use `--trace` flag for detailed execution trace:
 
-```bash
+```console
 npx bats tests/unit/git.bats --trace
 ```
 
@@ -270,7 +270,7 @@ npx bats tests/unit/git.bats --trace
 
 Verify the test environment state:
 
-```bash
+```console
 @test "check environment" {
     run pwd
     echo "# Current directory: $output" >&3
@@ -286,7 +286,7 @@ Verify the test environment state:
 
 Skip tests based on conditions:
 
-```bash
+```console
 @test "should run on Linux only" {
     if [[ "$OSTYPE" != "linux-gnu"* ]]; then
         skip "This test only runs on Linux"
@@ -301,7 +301,7 @@ Skip tests based on conditions:
 
 Use loops to test multiple inputs:
 
-```bash
+```console
 @test "should handle various inputs" {
     inputs=("input1" "input2" "input3")
 
@@ -316,7 +316,7 @@ Use loops to test multiple inputs:
 
 Create temporary test files:
 
-```bash
+```console
 @test "should process file" {
     # Create temporary file
     temp_file=$(mktemp)

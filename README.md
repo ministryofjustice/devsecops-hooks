@@ -68,17 +68,17 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
 
    Execute the following command in the repository directory
 
-   ```bash
+   ```console
    prek install
    ```
 
 4. **Test**
 
-   ```bash
+   ```console
    prek run
    ```
 
-   ```bash
+   ```console
    prek run baseline
    ```
 
@@ -232,7 +232,7 @@ Built using a multi-stage Alpine Linux approach:
 
 Once installed, the hook runs automatically:
 
-```bash
+```console
 git add .
 git commit -S -m "Your commit message"
 # Hook runs automatically and blocks commit if secrets detected
@@ -242,13 +242,13 @@ git commit -S -m "Your commit message"
 
 Run the scanner manually on specific files:
 
-```bash
+```console
 pre-commit run baseline --files path/to/file.py
 ```
 
 Run on all files in the repository:
 
-```bash
+```console
 pre-commit run baseline --all-files
 ```
 
@@ -256,7 +256,7 @@ pre-commit run baseline --all-files
 
 You can also run the scanner directly using Docker:
 
-```bash
+```console
 docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 ```
 
@@ -264,7 +264,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 
 ### ✅ Success (no secrets detected)
 
-```bash
+```console
 ⚡️ Ministry of Justice - Scanner 1.6.0⚡️
 
 ○
@@ -281,7 +281,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 
 ### ❌ Failure (secrets detected)
 
-```bash
+```console
 ⚡️ MoJ scanner 1.6.0⚡️
 
 ○
@@ -307,13 +307,13 @@ Commit:      a1b2c3d4
 
 ### Building the Docker image
 
-```bash
+```console
 docker build -t devsecops-hooks:local .
 ```
 
 ### Testing locally
 
-```bash
+```console
 docker run --rm -v $(pwd):/src devsecops-hooks:local
 ```
 
@@ -322,7 +322,7 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 The Dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
 presented the following findings on `17/02/2026 15:21:52 UTC`.
 
-```bash
+```console
 docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
 ```
 
