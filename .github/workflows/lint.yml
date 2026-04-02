@@ -154,12 +154,15 @@ jobs:
         uses: ministryofjustice/devsecops-actions/github/commit@f965eb1771ec66cfc41d7d57dc607fa6dfbc10ed # v1.4.0
 
       - name: Repository
-        uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # frozen: v6.0.1
+        uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # v6.0.1
 
       - name: Node
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # frozen: v6.1.0
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.1.0
         with:
           node-version: ${{ vars.NODE_VERSION }}
+
+      - name: SLSA
+        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020 # v1.4.0
 
       - name: Install
         run: npm ci --ignore-scripts
@@ -174,7 +177,7 @@ jobs:
         run: npm run validate:md
 
       - name: Python
-        uses: actions/setup-python@28f2168f4d98ee0445e3c6321f6e6616c83dd5ec # frozen: v6.1.0
+        uses: actions/setup-python@28f2168f4d98ee0445e3c6321f6e6616c83dd5ec # v6.1.0
         with:
           python-version-file: ./.python-version
 

@@ -43,7 +43,7 @@ tests/
 
 BATS is already included as a development dependency in the project. Simply install the project dependencies:
 
-```bash
+```console
 npm install
 ```
 
@@ -162,7 +162,7 @@ Create mock executables to simulate external dependencies:
 
 Execute all unit tests with verbose output:
 
-```bash
+```console
 npm run test:unit
 ```
 
@@ -170,7 +170,7 @@ npm run test:unit
 
 Run tests from a single file:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run
 ```
 
@@ -178,7 +178,7 @@ npx bats tests/unit/git.bats --verbose-run
 
 Run a specific test by filter:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 ```
 
@@ -186,13 +186,13 @@ npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 
 ### Successful test
 
-```bash
+```console
 ✓ should install git cli
 ```
 
 ### Failed test
 
-```bash
+```console
 ✗ should install git cli
   (in test file tests/unit/git.bats, line 14)
     `[ "$status" -eq 0 ]' failed
@@ -202,7 +202,7 @@ npx bats tests/unit/git.bats --verbose-run --filter "should install git cli"
 
 Use `--verbose-run` flag to see detailed test execution:
 
-```bash
+```console
 npx bats tests/unit/git.bats --verbose-run
 ```
 
@@ -234,7 +234,7 @@ BATS uses standard shell test commands for assertions:
 
 The `run` command executes a command and captures its output:
 
-```bash
+```console
 run ./scripts/example.sh argument1 argument2
 ```
 
@@ -262,7 +262,7 @@ Add `echo` statements to display debug information:
 
 Use `--trace` flag for detailed execution trace:
 
-```bash
+```console
 npx bats tests/unit/git.bats --trace
 ```
 

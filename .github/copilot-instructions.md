@@ -60,7 +60,7 @@
 
 ## CI/CD and Workflow Patterns
 
-- Pin GitHub Actions using frozen commit SHAs with version comments (e.g., `# frozen: v6.0.1`)
+- Pin GitHub Actions using commit SHAs with version comments (e.g., `# v6.0.1`)
 - Use minimal permissions with explicit `permissions:` blocks
 - Implement job dependencies with `needs:` for proper execution order
 - Pass environment context via job outputs
