@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.6.0...v1.7.0) (2026-04-02)
+
+
+### Features
+
+* **deps:** update dependency python-discovery to v1.2.0 ([#210](https://github.com/ministryofjustice/devsecops-hooks/issues/210)) ([83b95fa](https://github.com/ministryofjustice/devsecops-hooks/commit/83b95fa533ecd249086fad83561faa9da23001d0))
+* **slsa:** added SLSA step ([#217](https://github.com/ministryofjustice/devsecops-hooks/issues/217)) ([868008a](https://github.com/ministryofjustice/devsecops-hooks/commit/868008a57b3948bd41109e07ed80f1fdbdcee82c))
+
+
+### Bug Fixes
+
+* **deps:** update renovate: npm to ^20.5.0 ([#203](https://github.com/ministryofjustice/devsecops-hooks/issues/203)) ([b451f5d](https://github.com/ministryofjustice/devsecops-hooks/commit/b451f5d0ca7d1bc38c9f5bf35d0d61430f6bafe4))
+
 ## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-17)
 
 
