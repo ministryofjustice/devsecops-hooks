@@ -68,7 +68,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: ⚡️ SCA
-        uses: ministryofjustice/devsecops-actions/sca@f965eb1771ec66cfc41d7d57dc607fa6dfbc10ed # v1.4.0
+        uses: ministryofjustice/devsecops-actions/sca@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020 # v1.4.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }} # Mandatory
           dependency-review-config-file: "./.github/dependency-review-config.yml" # Optional
