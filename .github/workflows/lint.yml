@@ -151,7 +151,7 @@ jobs:
 
     steps:
       - name: Commit
-        uses: ministryofjustice/devsecops-actions/github/commit@f965eb1771ec66cfc41d7d57dc607fa6dfbc10ed # v1.4.0
+        uses: ministryofjustice/devsecops-actions/github/commit@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
 
       - name: Repository
         uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98 # v6.0.1
@@ -162,7 +162,7 @@ jobs:
           node-version: ${{ vars.NODE_VERSION }}
 
       - name: SLSA
-        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020 # v1.4.0
+        uses: ministryofjustice/devsecops-actions/sca/slsa@f965eb1771ec66cfc41d7d57dc607fa6dfbc10ed # v1.4.0
 
       - name: Install
         run: npm ci --ignore-scripts
