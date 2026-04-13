@@ -150,9 +150,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Commit
-        uses: ministryofjustice/devsecops-actions/github/commit@f965eb1771ec66cfc41d7d57dc607fa6dfbc10ed # v1.4.0
-
       - name: Repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -161,8 +158,9 @@ jobs:
         with:
           node-version: ${{ vars.NODE_VERSION }}
 
-      - name: SLSA
-        uses: ministryofjustice/devsecops-actions/sca/slsa@e3c63a5986ea6e7d57d38b7f72e5b8cf08dc7020 # v1.4.0
+      # SLSA included
+      - name: Commit
+        uses: ministryofjustice/devsecops-actions/github/commit@3c9eadd9aa734725eecf0e11f463994eecb58403 # v1.5.0
 
       - name: Install
         run: npm ci --ignore-scripts
