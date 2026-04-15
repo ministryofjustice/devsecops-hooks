@@ -4,7 +4,7 @@
 
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.6.0
+    rev: b6114db85afac8d8cec11686e2cfa74aee39aecd
     hooks:
       - id: baseline
         pass_filenames: false
