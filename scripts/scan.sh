@@ -6,13 +6,14 @@ set -euo pipefail
 # Purpose:
 #   Main execution script for the Ministry of Justice DevSecOps scanner.
 #   Performs secret detection using GitLeaks and commit message validation
-#   using Commitlint. Designed to run as a Docker container entrypoint.
+#   using Commitlint. Designed to run as a Docker container entrypoint in
+#   both local developer and CI environments.
 #
 # Environment Variables:
 #   VERSION                       - Scanner version number for display
 #   WORKDIR                       - Working directory for commit validation (default: /app)
-#   STAGE_MODE                    - Enable staged files scanning (default: true)
-#   GIT_MODE                      - Enable Git-aware scanning (default: true)
+#   CI_MODE                       - Enable CI scanning mode (default: false)
+#   DEEP_MODE                     - Enable full Git history scanning in CI (default: false)
 #   GITLEAKS_CONFIGURATION_FILE   - Path to .gitleaks.toml configuration file
 #   GITLEAKS_IGNORE_FILE          - Path to .gitleaksignore file for false positives
 #   COMMITLINT_CONFIGURATION_FILE - Path to commitlint.config.js file
@@ -22,20 +23,28 @@ set -euo pipefail
 #   (default)             - Scan for hardcoded secrets using GitLeaks
 #
 # Dependencies:
-#   - gitleaks: Secret detection binary (required for default mode)
+#   - gitleaks: Secret detection binary (required for scanning mode)
 #   - npm: Node package manager for commitlint (required for commit mode)
-#   - git: Version control system (required when GIT_MODE=true)
+#   - git: Version control system (required when DEEP_MODE=true)
 #
 # Scanning Modes:
-#   Git mode (GIT_MODE=true):
-#     - Scans Git repository with awareness of .gitignore rules
-#     - Can scan staged files only (STAGE_MODE=true) for pre-commit hooks
-#     - Outputs redacted findings to protect discovered secrets
-#   
-#   Filesystem mode (GIT_MODE=false):
-#     - Scans all files in directory tree recursively
-#     - Ignores Git metadata and .gitignore rules
-#     - Generates JSON report of findings for audit trail
+#
+#   Local Pre-Commit Mode (CI_MODE=false):
+#     - Runs against Git staged index only
+#     - Prevents secrets from being committed locally
+#     - Uses: gitleaks protect --staged
+#
+#   CI Filesystem Mode (CI_MODE=true, DEEP_MODE=false):
+#     - Scans working directory files only
+#     - Ignores Git commit history
+#     - Useful for repository snapshot or artifact scanning
+#     - Uses: gitleaks detect --no-git
+#
+#   CI Deep Scan Mode (CI_MODE=true, DEEP_MODE=true):
+#     - Scans full Git repository history
+#     - Detects secrets in past commits
+#     - Requires Git metadata (.git directory)
+#     - Uses: gitleaks git
 #
 # Exit Codes:
 #   0 - No secrets detected / Commit message valid
@@ -43,21 +52,23 @@ set -euo pipefail
 #
 # Security Considerations:
 #   - Redacts secrets in output to prevent exposure
-#   - Supports custom ignore patterns for false positives
-#   - Validates commit messages before allowing commits
+#   - Supports custom ignore patterns for known false positives
+#   - Enforces commit message validation for consistency
 #
 # Example Usage:
-#   # Scan staged files for secrets (pre-commit hook)
+#
+#   # Pre-commit hook (local staged scan)
 #   ./scan.sh
 #
-#   # Validate commit message (commit-msg hook)
+#   # Commit message validation (commit-msg hook)
 #   ./scan.sh commit /path/to/COMMIT_EDITMSG
 #
-#   # Scan entire directory without Git awareness
-#   GIT_MODE=false ./scan.sh
+#   # CI filesystem scan (no git history)
+#   CI_MODE=true DEEP_MODE=false ./scan.sh
 #
-#   # Scan all files (not just staged)
-#   STAGE_MODE=false ./scan.sh
+#   # CI full history scan (deep repository audit)
+#   CI_MODE=true DEEP_MODE=true ./scan.sh
+#
 #
 
 echo -e "\n⚡️ Ministry of Justice - Scanner ${VERSION} ⚡️\n";
@@ -110,11 +121,6 @@ commit)
     cd "${CODEDIR}" || { echo "❌ Unable to switch to ${CODEDIR} directory."; exit 1; }
 
     # Argument build
-    STAGED_FILES=()
-    if [ "${STAGE_MODE:-true}" == "true" ]; then
-        STAGED_FILES=("--staged")
-    fi
-
     GITLEAKS_CONFIGURATION_ARGUMENT=()
     if [ -f "$GITLEAKS_CONFIGURATION_FILE" ]; then
         GITLEAKS_CONFIGURATION_ARGUMENT=(--config "$GITLEAKS_CONFIGURATION_FILE")
@@ -126,10 +132,48 @@ commit)
     fi
 
     # GitLeaks
-    if [ "${GIT_MODE:-true}" != "false" ]; then
-        gitleaks git --no-banner --pre-commit --redact "${STAGED_FILES[@]}" --verbose --exit-code 1 "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+    if [ "${CI_MODE:-false}" == "false" ]; then
+        echo -e "\n🔎 Staging scan\n"
+
+        gitleaks protect \
+        --staged \
+        --no-banner \
+        --redact \
+        --verbose \
+        --exit-code 1 \
+        "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" \
+        "${GITLEAKS_IGNORE_ARGUMENT[@]}"
     else
-        gitleaks detect --no-banner --source . --no-git --redact --report-format json --exit-code 1 --verbose "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+        if [ "${DEEP_MODE:-false}" == "false" ]; then
+            echo -e "\n🔎 CI scan\n"
+
+            gitleaks detect \
+            --no-banner \
+            --source . \
+            --no-git \
+            --redact \
+            --report-format json \
+            --exit-code 1 \
+            --verbose \
+            "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" \
+            "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+        else
+            echo -e "\n🔎 CI deep scan\n"
+
+            # Validation
+            if ! command -v git >/dev/null 2>&1; then
+                echo "❌ Missing git executable.";
+                exit 1
+            fi
+
+            gitleaks git \
+            --no-banner \
+            --redact \
+            --verbose \
+            --exit-code 1 \
+            "${GITLEAKS_CONFIGURATION_ARGUMENT[@]}" \
+            "${GITLEAKS_IGNORE_ARGUMENT[@]}"
+        fi
     fi
 
     # Successful

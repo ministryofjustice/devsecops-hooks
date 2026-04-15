@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" scale="1" border="20">
     <diagram name="Pre-Commit Execution Flow" id="execution-flow">
-        <mxGraphModel dx="2158" dy="1560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="2000" background="#000000" math="0" shadow="0">
+        <mxGraphModel dx="1054" dy="1878" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="2000" background="#000000" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -40,8 +40,10 @@
                 <mxCell id="hook-trigger" value="🪝 Pre-Commit Hook Triggered" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34A853;strokeColor=#1E8E3E;strokeWidth=3;fontColor=#FFFFFF;fontSize=16;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="550" y="610" width="300" height="70" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow4" value="Automatic" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=12;fontFamily=Google Sans;" parent="1" source="git-commit" target="hook-trigger" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="arrow4" value="&lt;span&gt;Automatic&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=12;fontFamily=Google Sans;" parent="1" source="git-commit" target="hook-trigger" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="config-box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#5F6368;strokeWidth=2;arcSize=5;" parent="1" vertex="1">
                     <mxGeometry x="480" y="720" width="440" height="140" as="geometry"/>
@@ -49,7 +51,7 @@
                 <mxCell id="config-title" value="⚙️ .pre-commit-hooks.yaml" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#FFFFFF;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="500" y="735" width="300" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="config-content" value="• Hook ID: baseline&lt;br&gt;• Name: 🔐 Ministry of Justice - Scanner&lt;br&gt;• Entry: ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0&lt;br&gt;• Language: docker_image&lt;br&gt;• fail_fast: true | always_run: true | verbose: true" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#9AA0A6;fontFamily=Roboto Mono;spacing=4;" parent="1" vertex="1">
+                <mxCell id="config-content" value="• Hook ID: baseline&lt;br&gt;• Name: 🔐 Ministry of Justice - Scanner&lt;br&gt;• Entry: ghcr.io/ministryofjustice/devsecops-hooks:v2.0.0&lt;br&gt;• Language: docker_image&lt;br&gt;• fail_fast: true | always_run: true | verbose: true" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#9AA0A6;fontFamily=Roboto Mono;spacing=4;" parent="1" vertex="1">
                     <mxGeometry x="500" y="765" width="400" height="85" as="geometry"/>
                 </mxCell>
                 <mxCell id="arrow5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;" parent="1" source="hook-trigger" target="config-box" edge="1">
@@ -67,7 +69,7 @@
                 <mxCell id="docker-title" value="🐳 DOCKER CONTAINER EXECUTION" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#34A853;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="500" y="1030" width="400" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow7" value="Mount: /src → $(pwd)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=12;fontFamily=Google Sans;" parent="1" source="docker-pull" target="docker-title" edge="1">
+                <mxCell id="arrow7" value="&lt;span&gt;Mount: /src → $(pwd)&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=12;fontFamily=Google Sans;" parent="1" source="docker-pull" target="docker-title" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -75,7 +77,7 @@
                 <mxCell id="entrypoint" value="ENTRYPOINT: /app/scripts/scan.sh" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#34A853;strokeWidth=2;fontColor=#E8EAED;fontSize=14;fontFamily=Roboto Mono;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="520" y="1100" width="360" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="banner" value="⚡️ Ministry of Justice - Scanner v1.4.0 ⚡️" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#FBBC04;strokeWidth=2;fontColor=#FBBC04;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
+                <mxCell id="banner" value="⚡️ Ministry of Justice - Scanner v2.0.0 ⚡️" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#FBBC04;strokeWidth=2;fontColor=#FBBC04;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="520" y="1180" width="360" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="arrow8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=2;" parent="1" source="entrypoint" target="banner" edge="1">
@@ -93,30 +95,30 @@
                 <mxCell id="arrow10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5F6368;strokeWidth=2;" parent="1" source="check-deps" target="cd-src" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="build-args" value="🔧 Build Arguments&lt;br&gt;• STAGE_MODE: ${STAGE_MODE} (scan staged files)&lt;br&gt;• Config: ${GITLEAKS_CONFIGURATION_FILE}&lt;br&gt;• Ignore: ${GITLEAKS_IGNORE_FILE}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#5F6368;strokeWidth=2;fontColor=#E8EAED;fontSize=12;fontFamily=Google Sans;align=left;spacingLeft=15;" parent="1" vertex="1">
-                    <mxGeometry x="520" y="1425" width="360" height="85" as="geometry"/>
+                <mxCell id="build-args" value="🔧 Build Arguments&lt;br&gt;• CI_MODE: ${CI_MODE} (CI scanning mode)&lt;br&gt;• DEEP_MODE: ${DEEP_MODE} (full Git history scan)&lt;br&gt;• Config: ${GITLEAKS_CONFIGURATION_FILE}&lt;br&gt;• Ignore: ${GITLEAKS_IGNORE_FILE}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2D2D2D;strokeColor=#5F6368;strokeWidth=2;fontColor=#E8EAED;fontSize=12;fontFamily=Google Sans;align=left;spacingLeft=15;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="1425" width="360" height="95" as="geometry"/>
                 </mxCell>
                 <mxCell id="arrow11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#5F6368;strokeWidth=2;" parent="1" source="cd-src" target="build-args" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="git-mode-decision" value="GIT_MODE == true?" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=#FBBC04;strokeColor=#F29900;fontColor=#000000;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
+                <mxCell id="git-mode-decision" value="CI_MODE == false?" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;fillColor=#FBBC04;strokeColor=#F29900;fontColor=#000000;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="580" y="1540" width="240" height="100" as="geometry"/>
                 </mxCell>
                 <mxCell id="arrow12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FBBC04;strokeWidth=3;" parent="1" source="build-args" target="git-mode-decision" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="git-mode-scan" value="🔍 GitLeaks Git Mode&lt;br&gt;gitleaks git --pre-commit&lt;br&gt;--redact --staged --exit-code 1&lt;br&gt;--verbose" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34A853;strokeColor=#1E8E3E;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontFamily=Roboto Mono;align=center;" parent="1" vertex="1">
+                <mxCell id="git-mode-scan" value="🔍 Local Pre-Commit Mode&lt;br&gt;gitleaks protect --staged&lt;br&gt;--redact --exit-code 1&lt;br&gt;--verbose" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34A853;strokeColor=#1E8E3E;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontFamily=Roboto Mono;align=center;" parent="1" vertex="1">
                     <mxGeometry x="280" y="1555" width="240" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow13" value="YES" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="git-mode-decision" target="git-mode-scan" edge="1">
+                <mxCell id="arrow13" value="&lt;span&gt;YES&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="git-mode-decision" target="git-mode-scan" edge="1">
                     <mxGeometry x="-0.2" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="nonGit-mode-scan" value="🔍 GitLeaks Detect Mode&lt;br&gt;gitleaks detect --source .&lt;br&gt;--no-git --exit-code 1&lt;br&gt;--report-format json" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EA4335;strokeColor=#C5221F;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontFamily=Roboto Mono;align=center;" parent="1" vertex="1">
+                <mxCell id="nonGit-mode-scan" value="🔍 CI Filesystem/Deep Mode&lt;br&gt;gitleaks detect --no-git&lt;br&gt;OR gitleaks git (deep)&lt;br&gt;--exit-code 1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EA4335;strokeColor=#C5221F;strokeWidth=2;fontColor=#FFFFFF;fontSize=12;fontFamily=Roboto Mono;align=center;" parent="1" vertex="1">
                     <mxGeometry x="880" y="1550" width="240" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow14" value="NO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="git-mode-decision" target="nonGit-mode-scan" edge="1">
+                <mxCell id="arrow14" value="&lt;span&gt;NO&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="git-mode-decision" target="nonGit-mode-scan" edge="1">
                     <mxGeometry x="-0.2" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -143,7 +145,7 @@
                 <mxCell id="failure" value="❌ SCAN FAILED&lt;br&gt;Exit Code: 1&lt;br&gt;Secrets detected in code" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EA4335;strokeColor=#C5221F;strokeWidth=3;fontColor=#FFFFFF;fontSize=15;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="300" y="1870" width="280" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow17" value="YES" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="scan-result" target="failure" edge="1">
+                <mxCell id="arrow17" value="&lt;span&gt;YES&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="scan-result" target="failure" edge="1">
                     <mxGeometry x="-0.5" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -151,7 +153,7 @@
                 <mxCell id="success" value="✅ SCAN PASSED&lt;br&gt;Exit Code: 0&lt;br&gt;No secrets detected" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#34A853;strokeColor=#1E8E3E;strokeWidth=3;fontColor=#FFFFFF;fontSize=15;fontFamily=Google Sans;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="820" y="1870" width="280" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow18" value="NO" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="scan-result" target="success" edge="1">
+                <mxCell id="arrow18" value="&lt;span&gt;NO&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=3;fontColor=#FFFFFF;fontSize=13;fontFamily=Google Sans;fontStyle=1;" parent="1" source="scan-result" target="success" edge="1">
                     <mxGeometry x="-0.5" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -182,7 +184,7 @@
                 <mxCell id="commit-blocked" value="🚫 COMMIT BLOCKED&lt;br&gt;Fix secrets and retry" style="strokeWidth=3;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#EA4335;strokeColor=#C5221F;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="300" y="2230" width="280" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow22" value="FAILED" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=4;fontColor=#FFFFFF;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" source="commit-decision" target="commit-blocked" edge="1">
+                <mxCell id="arrow22" value="&lt;span&gt;FAILED&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#EA4335;strokeWidth=4;fontColor=#FFFFFF;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" source="commit-decision" target="commit-blocked" edge="1">
                     <mxGeometry x="-0.5" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -190,7 +192,7 @@
                 <mxCell id="commit-success" value="✅ COMMIT SUCCESSFUL&lt;br&gt;Code is secure!" style="strokeWidth=3;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;fillColor=#34A853;strokeColor=#1E8E3E;fontColor=#FFFFFF;fontSize=16;fontStyle=1;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="820" y="2230" width="280" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="arrow23" value="PASSED" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=4;fontColor=#FFFFFF;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" source="commit-decision" target="commit-success" edge="1">
+                <mxCell id="arrow23" value="&lt;span&gt;PASSED&lt;/span&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#34A853;strokeWidth=4;fontColor=#FFFFFF;fontSize=14;fontFamily=Google Sans;fontStyle=1;" parent="1" source="commit-decision" target="commit-success" edge="1">
                     <mxGeometry x="-0.5" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -237,10 +239,10 @@
                 <mxCell id="info-title" value="📋 Key Information" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#FFFFFF;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="770" y="2395" width="200" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="info-text" value="• Hook runs automatically on git commit&lt;br&gt;• Docker image: ghcr.io/ministryofjustice/devsecops-hooks:v1.4.0&lt;br&gt;• Scans staged files when STAGE_MODE=true&lt;br&gt;• GitLeaks v8.30.0 for secret detection&lt;br&gt;• Scripts: gitleaks.sh, git.sh, scan.sh&lt;br&gt;• fail_fast=true: Stops immediately on failure&lt;br&gt;• Exit code 0=success, 1=failure" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#9AA0A6;fontFamily=Roboto;spacing=4;" parent="1" vertex="1">
+                <mxCell id="info-text" value="• Hook runs automatically on git commit&lt;br&gt;• Docker image: ghcr.io/ministryofjustice/devsecops-hooks:v2.0.0&lt;br&gt;• Default: Scans staged files (local pre-commit mode)&lt;br&gt;• CI_MODE: Enables CI scanning (filesystem or deep)&lt;br&gt;• GitLeaks v8.30.1 for secret detection&lt;br&gt;• Scripts: gitleaks.sh, git.sh, npm.sh, scan.sh&lt;br&gt;• fail_fast=false: Allows other hooks to run&lt;br&gt;• Exit code 0=success, 1=failure" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#9AA0A6;fontFamily=Roboto;spacing=4;" parent="1" vertex="1">
                     <mxGeometry x="770" y="2430" width="510" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="footer" value="© 2026 Ministry of Justice UK | Pre-Commit Hook Execution Flow v1.4.0 | Updated: 17 Feb 2026" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#5F6368;fontFamily=Google Sans;" parent="1" vertex="1">
+                <mxCell id="footer" value="© 2026 Ministry of Justice UK | Pre-Commit Hook Execution Flow v2.0.0 | Updated: 15 Apr 2026" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;fontColor=#5F6368;fontFamily=Google Sans;" parent="1" vertex="1">
                     <mxGeometry x="370" y="2660" width="650" height="20" as="geometry"/>
                 </mxCell>
             </root>

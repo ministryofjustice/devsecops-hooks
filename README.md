@@ -55,7 +55,7 @@ Built for the Ministry of Justice, this tool leverages following CLI commands to
    ```yaml
    repos:
      - repo: https://github.com/ministryofjustice/devsecops-hooks
-       rev: v1.6.0
+       rev: v2.0.0
        hooks:
          - id: baseline
    ```
@@ -105,19 +105,23 @@ f3a930047bf1373b540608f54fcd7619b57801c8:README.md:generic-api-key:161
 
 One can customise the scanner behaviour by setting environment variables in the hook configuration.
 
-#### Scan all files (not just staged)
+#### CI and deep scan modes
 
-By default, `STAGE_MODE` is set to `true`, which scans only staged files. To scan all files in the repository regardless of
-staging status, set `STAGE_MODE` to `false`:
+The scanner supports different scanning modes for various use cases:
+
+- **Local Pre-Commit Mode** (default): Scans only staged files
+- **CI Filesystem Mode**: Set `CI_MODE: "true"` to scan working directory files
+- **CI Deep Scan Mode**: Set both `CI_MODE: "true"` and `DEEP_MODE: "true"` to scan full Git history
 
 ```yaml
 repos:
   - repo: https://github.com/ministryofjustice/devsecops-hooks
-    rev: v1.6.0
+    rev: v2.0.0
     hooks:
       - id: baseline
         env:
-          STAGE_MODE: "false"
+          CI_MODE: "true"
+          DEEP_MODE: "false"
 ```
 
 ### Hook configuration
@@ -126,7 +130,7 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 - **ID**: `baseline`
 - **Language**: `docker_image`
-- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0`
+- **Image**: `ghcr.io/ministryofjustice/devsecops-hooks:v2.0.0`
 - **Excludes**: Hidden files and directories (regex: `^\\..*|/\\..*`)
 - **Pass Filenames**: `false` - Hook runs on the entire repository, not individual files
 - **Always Run**: `true` - Executes on every invocation regardless of file changes
@@ -137,18 +141,19 @@ The hook is configured in `.pre-commit-hooks.yaml` with the following settings:
 
 The Docker image supports the following build arguments:
 
-| Argument                      | Default             | Description                        |
-| ----------------------------- | ------------------- | ---------------------------------- |
-| `VERSION`                     | `1.6.0`             | Scanner version number             |
-| `GIT_LEAKS_VERSION`           | `8.30.0`            | GitLeaks version to install        |
-| `GIT_LEAKS_SHA512`            | (specified)         | SHA-512 checksum for verification  |
-| `GITLEAKS_CONFIGURATION_FILE` | `./.gitleaks.toml`  | GitLeaks configuration file path   |
-| `GITLEAKS_IGNORE_FILE`        | `./.gitleaksignore` | GitLeaks ignore file path          |
-| `GIT_MODE`                    | `true`              | Enable Git mode for scanning       |
-| `STAGE_MODE`                  | `true`              | Scan only staged files in Git mode |
-| `WORKDIR`                     | `/app`              | Application root directory         |
-| `TERM`                        | `xterm-256color`    | Terminal type for colour output    |
-| `CLICOLOR_FORCE`              | `1`                 | Force colour output in pipelines   |
+| Argument                        | Default                  | Description                            |
+| ------------------------------- | ------------------------ | -------------------------------------- |
+| `VERSION`                       | `2.0.0`                  | Scanner version number                 |
+| `GIT_LEAKS_VERSION`             | `8.30.1`                 | GitLeaks version to install            |
+| `GIT_LEAKS_SHA512`              | (specified)              | SHA-512 checksum for verification      |
+| `GITLEAKS_CONFIGURATION_FILE`   | `./.gitleaks.toml`       | GitLeaks configuration file path       |
+| `GITLEAKS_IGNORE_FILE`          | `./.gitleaksignore`      | GitLeaks ignore file path              |
+| `CI_MODE`                       | `false`                  | Enable CI scanning mode                |
+| `DEEP_MODE`                     | `false`                  | Enable full Git history scanning in CI |
+| `COMMITLINT_CONFIGURATION_FILE` | `./commitlint.config.js` | Commitlint configuration file path     |
+| `WORKDIR`                       | `/app`                   | Application root directory             |
+| `TERM`                          | `xterm-256color`         | Terminal type for colour output        |
+| `CLICOLOR_FORCE`                | `1`                      | Force colour output in pipelines       |
 
 ## 🏗️ Architecture
 
@@ -205,13 +210,15 @@ Executes GitLeaks security scanning with configurable modes.
 - `VERSION` - Scanner version for banner display
 - `GITLEAKS_CONFIGURATION_FILE` - Custom config path (optional)
 - `GITLEAKS_IGNORE_FILE` - Ignore file path (optional)
-- `GIT_MODE` - Enable Git mode (default: `true`)
-- `STAGE_MODE` - Scan staged files only (default: `true`)
+- `CI_MODE` - Enable CI scanning mode (default: `false`)
+- `DEEP_MODE` - Enable full Git history scanning in CI (default: `false`)
+- `COMMITLINT_CONFIGURATION_FILE` - Commitlint configuration file path
 
 **Modes:**
 
-- **Git mode** (default): Pre-commit scan using Git history
-- **Non-Git mode**: Direct filesystem scan with JSON output
+- **Local Pre-Commit Mode** (default): Scans staged files only
+- **CI Filesystem Mode**: Scans working directory files without Git history
+- **CI Deep Scan Mode**: Scans full Git repository history
 
 **Exit codes:**
 
@@ -257,7 +264,7 @@ pre-commit run baseline --all-files
 You can also run the scanner directly using Docker:
 
 ```console
-docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
+docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v2.0.0
 ```
 
 ## 🎯 Example output
@@ -265,7 +272,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 ### ✅ Success (no secrets detected)
 
 ```console
-⚡️ Ministry of Justice - Scanner 1.6.0⚡️
+⚡️ Ministry of Justice - Scanner 2.0.0⚡️
 
 ○
     │╲
@@ -282,7 +289,7 @@ docker run --rm -v $(pwd):/src ghcr.io/ministryofjustice/devsecops-hooks:v1.6.0
 ### ❌ Failure (secrets detected)
 
 ```console
-⚡️ MoJ scanner 1.6.0⚡️
+⚡️ MoJ scanner 2.0.0⚡️
 
 ○
     │╲
@@ -339,13 +346,14 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 
 ### Build arguments
 
-- `VERSION` - Scanner version number (default: `1.6.0`)
-- `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.0`)
+- `VERSION` - Scanner version number (default: `2.0.0`)
+- `GIT_LEAKS_VERSION` - GitLeaks version to install (default: `8.30.1`)
 - `GIT_LEAKS_SHA512` - SHA-512 checksum for downloaded archive
 - `GITLEAKS_CONFIGURATION_FILE` - Custom configuration file path (default: `./.gitleaks.toml`)
 - `GITLEAKS_IGNORE_FILE` - Ignore file path (default: `./.gitleaksignore`)
-- `GIT_MODE` - Enable Git-based scanning (default: `true`)
-- `STAGE_MODE` - Scan only staged files (default: `true`)
+- `CI_MODE` - Enable CI scanning mode (default: `false`)
+- `DEEP_MODE` - Enable full Git history scanning in CI (default: `false`)
+- `COMMITLINT_CONFIGURATION_FILE` - Commitlint configuration file path (default: `./commitlint.config.js`)
 - `WORKDIR` - Application root directory (default: `/app`)
 
 ### Runtime environment variables
@@ -354,8 +362,9 @@ docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239
 - `GIT_LEAKS_VERSION` - GitLeaks binary version in use
 - `GITLEAKS_CONFIGURATION_FILE` - Path to active configuration file
 - `GITLEAKS_IGNORE_FILE` - Path to active ignore file
-- `GIT_MODE` - Current scanning mode (`true` for Git mode, `false` for filesystem)
-- `STAGE_MODE` - Whether to scan staged files only (`true`/`false`)
+- `CI_MODE` - CI scanning mode status (`true` for CI mode, `false` for local pre-commit)
+- `DEEP_MODE` - Deep scan status (`true` for full history, `false` for filesystem only)
+- `COMMITLINT_CONFIGURATION_FILE` - Path to commitlint configuration file
 - `WORKDIR` - Working directory for scanner execution
 - `TERM` - Terminal type for colour output (default: `xterm-256color`)
 - `CLICOLOR_FORCE` - Force colour output in CI/CD pipelines (default: `1`)
@@ -387,6 +396,7 @@ If you encounter any issues or have questions:
 - The hook is configured with `fail_fast: false` to allow other hooks to run even if secrets are detected
 - The scanner runs on the entire repository (`pass_filenames: false`) rather than individual staged files
 - Colour output is enabled for better visibility in CI/CD pipelines
+- Use `CI_MODE` and `DEEP_MODE` environment variables to control scanning behaviour in different contexts
 
 ---
 
