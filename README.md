@@ -326,17 +326,17 @@ docker run --rm -v $(pwd):/src devsecops-hooks:local
 
 ## 📦 Docker
 
-The Dockerfile pulls `docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659` which when analysed using `scout`
-presented the following findings on `17/02/2026 15:21:52 UTC`.
+The Dockerfile pulls `docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11` which when analysed using `scout`
+presented the following findings on `16/04/2026 10:21:00 UTC`.
 
 ```console
-docker scout cves docker.io/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
+docker scout cves docker.io/alpine:3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
 ```
 
 | Field           | Value          |
 | --------------- | -------------- |
-| Target          | alpine:3.23.3  |
-| Digest          | 1529d13528ed   |
+| Target          | alpine:3.23.4  |
+| Digest          | 378c4c5418f7   |
 | Platform        | linux/arm64/v8 |
 | Vulnerabilities | 0C 0H 1M 0L    |
 | Size            | 4.2 MB         |
