@@ -29,7 +29,7 @@
   },
   "overrides": {
     "shellcheck": {
-      "file-type": "~22.0.0"
+      "file-type": "~22.0.1"
     }
   },
   "devDependencies": {
