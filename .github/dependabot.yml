@@ -7,73 +7,12 @@ updates:
       interval: "daily"
       time: "00:00"
     commit-message:
-      prefix: ":dependabot: GitHub Actions"
+      prefix: "chore(deps)"
       include: "scope"
     labels:
       - "chore"
     groups:
       github-actions:
-        patterns:
-          - "*"
-    assignees:
-      - "dev-sec-ops"
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "00:00"
-    commit-message:
-      prefix: ":dependabot: Dockerfile"
-      include: "scope"
-    labels:
-      - "chore"
-    groups:
-      docker-packages:
-        patterns:
-          - "*"
-    assignees:
-      - "dev-sec-ops"
-
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "00:00"
-    cooldown:
-      default-days: 3
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
-    commit-message:
-      prefix: ":dependabot: NPM"
-      include: "scope"
-    labels:
-      - "chore"
-    groups:
-      npm-packages:
-        patterns:
-          - "*"
-    assignees:
-      - "dev-sec-ops"
-
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "00:00"
-    cooldown:
-      default-days: 3
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
-    commit-message:
-      prefix: ":dependabot: PIP"
-      include: "scope"
-    labels:
-      - "chore"
-    groups:
-      pip-packages:
         patterns:
           - "*"
     assignees:

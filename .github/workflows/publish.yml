@@ -1,54 +1,60 @@
-# Automated release management using release-please
-# Creates release PRs from conventional commits, publishes releases with semantic versioning
-# Trigger: push (main branch) | Permissions: contents:write, issues:write, pull-requests:write
-
-name: Automated release 🚀
-run-name: Automated release 🚀
-
-permissions: {}
+name: Release
+run-name: Release
 
 on:
   push:
     branches: [main]
 
+permissions: {}
+
 env:
   environment: base
-  timezone: ${{ vars.TIMEZONE }}
 
 jobs:
-  # 1. Setup infrastructure
-  setup:
-    name: Infrastructure 🔧
-    runs-on: ubuntu-latest
-    outputs:
-      environment: ${{ env.environment }}
-      timezone: ${{ env.timezone }}
-    steps:
-      - name: Environment 🧪
-        run: echo "Environment set to ${{ env.environment }}"
-
-      - name: Timezone 🌐
-        run: echo "Timezone set to ${{ env.timezone }}"
-
-  # 2. Create automated release
   release:
     permissions:
       contents: write
       issues: write
       pull-requests: write
 
-    name: Release ✨
-    needs: setup
-    environment:
-      name: ${{ needs.setup.outputs.environment }}
+    name: Release
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ env.environment }}
+
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
 
     steps:
-      - name: Repository
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Create
+      - name: Release
+        id: release
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          release-type: node
+          release-type: simple
+
+  attest:
+    needs: release
+    if: ${{ needs.release.outputs.release_created }}
+
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+
+    name: Attest
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ env.environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Attest
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
+        with:
+          subject-path: scripts/gitleaks.sh

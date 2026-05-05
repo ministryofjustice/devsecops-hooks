@@ -1,44 +1,11 @@
-# OpenSSF Scorecard Security Workflow
-#
-# Purpose:
-#   Runs OpenSSF Scorecard to assess the security posture of the repository
-#   against best practices for open source security.
-#
-# Triggers:
-#   - schedule: Daily at midnight (00:00 UTC)
-#   - push: When code is pushed to the main branch
-#   - branch_protection_rule: When branch protection rules are modified
-#
-# Permissions:
-#   - contents: read - Access repository contents for scanning
-#   - security-events: write - Upload security scan results to GitHub Security
-#   - id-token: write - Required for publishing scorecard results
-#
-# Concurrency:
-#   Ensures only one OSSF scan runs at a time per workflow reference.
-#   Cancels in-progress runs when a new one is triggered.
-#
-# Jobs:
-#   ossf:
-#     - Checks out the repository with full history
-#     - Runs OpenSSF Scorecard security assessment
-#     - Generates results in SARIF format
-#     - Uploads results to GitHub Code Scanning for visibility
-#
-# Output:
-#   Security findings are available in the repository's Security tab
-#   under Code Scanning alerts.
-
-name: 🛡 OpenSSF
-run-name: Open source security foundation scan
+name: OpenSSF Scorecard
+run-name: OpenSSF Scorecard
 
 on:
   schedule:
     - cron: "0 0 * * *"
-
   push:
     branches: ["main"]
-
   branch_protection_rule:
 
 permissions: {}
@@ -54,11 +21,11 @@ jobs:
       security-events: write
       id-token: write
 
-    name: Score ⚙️
-    runs-on: ["ubuntu-latest"]
+    name: Scorecard
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Repository
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
@@ -70,7 +37,7 @@ jobs:
           results_format: sarif
           publish_results: true
 
-      - name: Upload
+      - name: Upload results
         if: always()
         uses: github/codeql-action/upload-sarif@95e58e9a2cdfd71adc6e0353d5c52f41a045d225 # v4.35.2
         with:

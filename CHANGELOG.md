@@ -1,5 +1,23 @@
 # Changelog
 
+## [Unreleased]
+
+### Features
+
+* Remove Docker entirely — hook now runs as `language: script` using a host-installed gitleaks binary
+* Add `.gitleaks.override.toml` extension mechanism for additive team-level rules
+* Switch from `gitleaks detect --pipe` to `gitleaks protect --staged` — reports file name and line number for each finding
+* Add checksums-verified gitleaks install step to CI
+* Add SLSA build provenance attestation to release workflow
+* Rewrite `.gitleaks.toml`: extend gitleaks defaults via `useDefault = true`; custom rules reduced to UK government-specific patterns (NHS numbers, NI numbers, bank accounts, sort codes)
+
+### Breaking Changes
+
+* `language: docker_image` replaced with `language: script` — gitleaks must be installed on the host
+* `commit` hook removed — conventional commit validation is no longer enforced by this tooling
+* All environment variable knobs removed (`VERSION`, `GIT_MODE`, `STAGE_MODE`, `GITLEAKS_CONFIGURATION_FILE`, `GITLEAKS_IGNORE_FILE`)
+* Custom gitleaks config must now use `.gitleaks.override.toml` (additive only); replacing the MoJ base config is not supported
+
 ## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-17)
 
 
