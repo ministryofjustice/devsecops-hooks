@@ -6,7 +6,7 @@
 
 * Remove Docker entirely — hook now runs as `language: script` using a host-installed gitleaks binary
 * Add `.gitleaks.override.toml` extension mechanism for additive team-level rules
-* Switch from `gitleaks detect --pipe` to `gitleaks protect --staged` — reports file name and line number for each finding
+* Switch from `gitleaks git` / `gitleaks detect` via `scripts/scan.sh` to `gitleaks protect --staged` — reports file name and line number for each finding
 * Add checksums-verified gitleaks install step to CI
 * Add SLSA build provenance attestation to release workflow
 * Rewrite `.gitleaks.toml`: extend gitleaks defaults via `useDefault = true`; custom rules reduced to UK government-specific patterns (NHS numbers, NI numbers, bank accounts, sort codes)
