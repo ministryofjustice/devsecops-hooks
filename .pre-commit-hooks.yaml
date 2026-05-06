@@ -1,6 +1,6 @@
 - id: baseline
   name: "MoJ secret scanner"
-  description: "Scans staged and unstaged changes for hardcoded secrets using gitleaks."
+  description: "Scans staged changes for hardcoded secrets using gitleaks."
   entry: scripts/gitleaks.sh
   language: script
   pass_filenames: false
