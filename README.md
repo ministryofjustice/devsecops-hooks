@@ -64,7 +64,7 @@ gitleaks protect --staged ...
 
 Using `protect --staged` scans exactly what will be committed, reports the file name and line number for each finding, and is the purpose-built gitleaks command for pre-commit use. Secrets in unstaged changes are not flagged — only what is about to be committed matters.
 
-The MoJ ruleset (`.gitleaks.toml`) is always applied. It extends the gitleaks default rules with additional patterns for common services, private keys, and UK government-specific identifiers.
+The MoJ ruleset (`.gitleaks.toml`) is always applied. It enables the gitleaks default rules and adds Ministry of Justice and wider UK government-specific identifier patterns.
 
 ---
 
