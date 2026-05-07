@@ -27,6 +27,8 @@ jobs:
 
       - name: Install gitleaks
         run: |
+          set -euo pipefail
+
           FILE="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
           BASE_URL="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
 
@@ -41,7 +43,7 @@ jobs:
           rm -f "$FILE" checksums.txt gitleaks
 
       - name: Install pre-commit
-        run: pip install pre-commit
+        run: pip install pre-commit==4.0.1
 
       - name: Run hooks
         run: pre-commit run --all-files
