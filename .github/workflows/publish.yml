@@ -38,7 +38,7 @@ jobs:
 
   attest:
     needs: release
-    if: ${{ needs.release.outputs.release_created }}
+    if: ${{ needs.release.outputs.release_created == 'true' }}
 
     permissions:
       contents: read
