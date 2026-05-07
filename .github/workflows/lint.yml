@@ -160,7 +160,7 @@ jobs:
 
       # SLSA included
       - name: Commit
-        uses: ministryofjustice/devsecops-actions/github/commit@3c9eadd9aa734725eecf0e11f463994eecb58403 # v1.5.0
+        uses: ministryofjustice/devsecops-actions/github/commit@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
 
       - name: Install
         run: npm ci --ignore-scripts
