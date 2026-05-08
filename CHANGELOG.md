@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.7.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.6.0...v1.7.0) (2026-05-08)
+
+
+### Features
+
+* **deps:** update dependency filelock to v3.29.0 ([#234](https://github.com/ministryofjustice/devsecops-hooks/issues/234)) ([cc3054a](https://github.com/ministryofjustice/devsecops-hooks/commit/cc3054ab77ba279d21aaed8c488ad683738fcf2f))
+* **deps:** update dependency python-discovery to v1.2.0 ([#210](https://github.com/ministryofjustice/devsecops-hooks/issues/210)) ([83b95fa](https://github.com/ministryofjustice/devsecops-hooks/commit/83b95fa533ecd249086fad83561faa9da23001d0))
+* **deps:** update renovate: github-actions ([#219](https://github.com/ministryofjustice/devsecops-hooks/issues/219)) ([6bb8bd7](https://github.com/ministryofjustice/devsecops-hooks/commit/6bb8bd74fb59d440b532d6b5d8b447e9c67bb098))
+* **slsa:** added SLSA step ([#217](https://github.com/ministryofjustice/devsecops-hooks/issues/217)) ([868008a](https://github.com/ministryofjustice/devsecops-hooks/commit/868008a57b3948bd41109e07ed80f1fdbdcee82c))
+
+
+### Bug Fixes
+
+* **deps:** update dependency identify to v2.6.19 ([#233](https://github.com/ministryofjustice/devsecops-hooks/issues/233)) ([9fadbda](https://github.com/ministryofjustice/devsecops-hooks/commit/9fadbdadbea5b7465c27ed1a36d4e1fc1696d7fb))
+* **deps:** update dependency platformdirs to v4.9.6 ([#228](https://github.com/ministryofjustice/devsecops-hooks/issues/228)) ([e8918dc](https://github.com/ministryofjustice/devsecops-hooks/commit/e8918dc4d40cd00135f4d521536220a15eda8176))
+* **deps:** update renovate: npm to ^20.5.0 ([#203](https://github.com/ministryofjustice/devsecops-hooks/issues/203)) ([b451f5d](https://github.com/ministryofjustice/devsecops-hooks/commit/b451f5d0ca7d1bc38c9f5bf35d0d61430f6bafe4))
+
 ## [1.6.0](https://github.com/ministryofjustice/devsecops-hooks/compare/v1.5.0...v1.6.0) (2026-03-17)
 
 
