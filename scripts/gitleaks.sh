@@ -24,4 +24,4 @@ else
     CONFIG="$BUNDLED_CONFIG"
 fi
 
-gitleaks protect --staged --no-banner --redact --verbose --exit-code 1 --config "$CONFIG"
+gitleaks git --pre-commit --staged --no-banner --redact --verbose --exit-code 1 --config "$CONFIG"

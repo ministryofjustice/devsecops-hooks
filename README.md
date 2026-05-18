@@ -59,10 +59,10 @@ git ls-remote https://github.com/ministryofjustice/devsecops-hooks refs/tags/v<v
 On each commit, `scripts/gitleaks.sh` scans all staged changes using gitleaks:
 
 ```bash
-gitleaks protect --staged ...
+gitleaks git --pre-commit --staged ...
 ```
 
-Using `protect --staged` scans exactly what will be committed, reports the file name and line number for each finding, and is the purpose-built gitleaks command for pre-commit use. Secrets in unstaged changes are not flagged — only what is about to be committed matters.
+Using `git --pre-commit --staged` scans exactly what will be committed, reports the file name and line number for each finding, and is the purpose-built gitleaks command for pre-commit use. Secrets in unstaged changes are not flagged — only what is about to be committed matters.
 
 The MoJ ruleset (`.gitleaks.toml`) is always applied. It enables the gitleaks default rules and adds Ministry of Justice and wider UK government-specific identifier patterns.
 
