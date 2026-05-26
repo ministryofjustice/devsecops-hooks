@@ -4,7 +4,7 @@
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/11923/badge)](https://www.bestpractices.dev/projects/11923)
 [![Ministry of Justice Repository Compliance](https://github-community.service.justice.gov.uk/repository-standards/api/devsecops-hooks/badge)](https://github-community.service.justice.gov.uk/repository-standards/devsecops-hooks)
 
-Pre-commit hooks for detecting hardcoded secrets and credentials in Ministry of Justice repositories, using [gitleaks](https://github.com/gitleaks/gitleaks).
+Pre-commit hooks for Ministry of Justice repositories.
 
 ---
 
@@ -54,42 +54,11 @@ git ls-remote https://github.com/ministryofjustice/devsecops-hooks refs/tags/v<v
 
 ---
 
-## How it works
+## Hooks
 
-On each commit, `scripts/gitleaks.sh` scans all staged changes using gitleaks:
-
-```bash
-gitleaks git --pre-commit --staged ...
-```
-
-Using `git --pre-commit --staged` scans exactly what will be committed, reports the file name and line number for each finding, and is the purpose-built gitleaks command for pre-commit use. Secrets in unstaged changes are not flagged — only what is about to be committed matters.
-
-The MoJ ruleset (`.gitleaks.toml`) is always applied. It enables the gitleaks default rules and adds Ministry of Justice and wider UK government-specific identifier patterns.
-
----
-
-## Configuration
-
-### Suppressing false positives
-
-Create a `.gitleaksignore` file in your repository root. Add the `Fingerprint` value from any false positive finding:
-
-```
-f3a930047bf1373b540608f54fcd7619b57801c8:README.md:generic-api-key:161
-```
-
-### Adding custom rules
-
-Create a `.gitleaks.override.toml` file in your repository root. The file must not contain `[extend]` — the hook injects that automatically to ensure the MoJ base rules are always loaded.
-
-```toml
-[[rules]]
-id = "my-custom-rule"
-description = "Internal service token"
-regex = '''myservice-[A-Za-z0-9]{32}'''
-```
-
-The override file is additive only. It cannot remove or replace MoJ base rules.
+| Hook | Description |
+|---|---|
+| [`baseline`](hooks/gitleaks/README.md) | Scans staged changes for hardcoded secrets using gitleaks |
 
 ---
 
