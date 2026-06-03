@@ -72,10 +72,10 @@ jobs:
 
     steps:
       - name: Repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Archive
-        uses: ministryofjustice/devsecops-actions/github/repository/archive@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
+        uses: ministryofjustice/devsecops-actions/github/repository/archive@7dc13c20e2bf541b8a77fa1320a04983b18846f6 # v1.6.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           archival-days: ${{ vars.ARCHIVAL_DAYS }}
