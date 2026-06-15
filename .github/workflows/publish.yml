@@ -4,6 +4,16 @@ run-name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump type
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 permissions: {}
 
@@ -29,12 +39,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
+      - name: Compute release version
+        if: github.event_name == 'workflow_dispatch'
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          current=$(jq -r '.["."]' .release-please-manifest.json)
+          IFS='.' read -r major minor patch <<< "$current"
+          case "$BUMP" in
+            major) echo "release_as=$((major+1)).0.0" >> "$GITHUB_OUTPUT" ;;
+            minor) echo "release_as=${major}.$((minor+1)).0" >> "$GITHUB_OUTPUT" ;;
+            patch) echo "release_as=${major}.${minor}.$((patch+1))" >> "$GITHUB_OUTPUT" ;;
+            *) echo "Unknown bump type: $BUMP" >&2; exit 1 ;;
+          esac
+
       - name: Release
         id: release
         uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: simple
+          release-as: ${{ steps.version.outputs.release_as }}
 
   attest:
     needs: release
