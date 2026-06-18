@@ -1,9 +1,5 @@
-# Executes all pre-commit hooks on pull requests
-# Includes security scanning, linting, spellcheck, and config validation
-# Trigger: pull_request (all branches) | Permissions: contents:read, issues:read, pull-requests:read
-
-name: Git hooks 🪝
-run-name: Git hooks 🪝
+name: Hooks
+run-name: Hooks
 
 on:
   pull_request:
@@ -13,58 +9,41 @@ permissions: {}
 
 env:
   environment: base
-  timezone: ${{ vars.TIMEZONE }}
+  GITLEAKS_VERSION: "8.30.1"
 
 jobs:
-  # 1. Setup infrastructure
-  setup:
-    name: Infrastructure 🔧
-    runs-on: ubuntu-latest
-    outputs:
-      environment: ${{ env.environment }}
-      timezone: ${{ env.timezone }}
-    steps:
-      - name: Environment 🧪
-        run: echo "Environment set to ${{ env.environment }}"
-
-      - name: Timezone 🌐
-        run: echo "Timezone set to ${{ env.timezone }}"
-
-  # 2. Execute pre-commit hooks
   hooks:
     permissions:
       contents: read
-      issues: read
-      pull-requests: read
 
-    name: Hooks 🪝
-    needs: setup
-    environment:
-      name: ${{ needs.setup.outputs.environment }}
+    name: Hooks
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ env.environment }}
 
     steps:
-      - name: Repository
+      - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Python
-        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-        with:
-          python-version-file: ./.python-version
-
-      - name: Node
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: ${{ vars.NODE_VERSION }}
-
-      - name: SLSA
-        uses: ministryofjustice/devsecops-actions/sca/slsa@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
-
-      - name: Install
-        working-directory: ./
+      - name: Install gitleaks
         run: |
-          python -m pip install -r requirements.txt
-          npm ci --ignore-scripts
+          set -euo pipefail
 
-      - name: Execute
+          FILE="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          BASE_URL="https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}"
+
+          curl -sSfL -o "$FILE" "${BASE_URL}/${FILE}"
+          curl -sSfL -o checksums.txt "${BASE_URL}/gitleaks_${GITLEAKS_VERSION}_checksums.txt"
+
+          # Verify binary against the official release checksums
+          grep "$FILE" checksums.txt | sha256sum --check --status
+
+          tar -xzf "$FILE" gitleaks
+          sudo install -m 755 gitleaks /usr/local/bin/gitleaks
+          rm -f "$FILE" checksums.txt gitleaks
+
+      - name: Install pre-commit
+        run: pip install pre-commit==4.0.1
+
+      - name: Run hooks
         run: pre-commit run --all-files

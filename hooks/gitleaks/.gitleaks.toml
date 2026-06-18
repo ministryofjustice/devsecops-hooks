@@ -1,0 +1,48 @@
+title = "MoJ Secret Detection"
+
+# Extend gitleaks default rules (AWS, GitHub, GitLab, private keys, etc.)
+[extend]
+useDefault = true
+
+###################
+# UK Government Specific
+###################
+
+[[rules]]
+id = "uk-nhs-number"
+description = "UK NHS number"
+regex = '''(?i)(nhs[_-]?number|nhs[_-]?id)\s*[:=]\s*["']?(\d{10})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-ni-number"
+description = "UK National Insurance number"
+regex = '''(?i)(ni[_-]?number|national[_-]?insurance)\s*[:=]\s*["']?([A-Z]{2}\d{6}[A-Z])["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-bank-account"
+description = "UK bank account details"
+regex = '''(?i)(account[_-]?number|bank[_-]?account)\s*[:=]\s*["']?(\d{8})["']?'''
+secretGroup = 2
+
+[[rules]]
+id = "uk-sort-code"
+description = "UK bank sort code"
+regex = '''(?i)(sort[_-]?code)\s*[:=]\s*["']?(\d{2}-\d{2}-\d{2}|\d{6})["']?'''
+secretGroup = 2
+
+###################
+# Allowlist
+###################
+
+[allowlist]
+description = "Allowlisted paths and patterns"
+paths = [
+    "node_modules/",
+    "vendor/",
+    ".git/",
+]
+regexes = [
+    '''(?i)\b(fake|dummy|example|placeholder|sample)\b''',
+]
