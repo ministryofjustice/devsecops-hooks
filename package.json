@@ -29,15 +29,15 @@
   },
   "overrides": {
     "shellcheck": {
-      "file-type": "~22.0.0"
+      "file-type": "~22.0.1"
     }
   },
   "devDependencies": {
     "bats": "^1.13.0",
-    "cspell": "^10.0.0",
+    "cspell": "^10.0.1",
     "markdownlint-cli": "^0.48.0",
     "shellcheck": "^4.1.0",
-    "sort-package-json": "^3.6.1",
+    "sort-package-json": "^3.7.1",
     "yaml-lint": "^1.7.0"
   }
 }
