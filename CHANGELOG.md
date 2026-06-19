@@ -4,6 +4,13 @@
 
 ### Features
 
+* Re-introduce `GITLEAKS_CONFIGURATION_FILE` environment variable as an alias for `GITLEAKS_CONFIG`, restoring backwards compatibility for HMPPS consumers
+* Add `GITLEAKS_IGNORE_FILE` environment variable support when using a custom config — defaults to `.gitleaksignore`, allowing teams to suppress known false positives by committing a `.gitleaksignore` file to their repository. (This ignores missing files so should be backwards compatible)
+
+## [2.0.0]
+
+### Features
+
 * Remove Docker entirely — hook now runs as `language: script` using a host-installed gitleaks binary
 * Add `.gitleaks.override.toml` extension mechanism for additive team-level rules
 * Switch from `gitleaks git` / `gitleaks detect` via `scripts/scan.sh` to `gitleaks git --pre-commit --staged` — reports file name and line number for each finding

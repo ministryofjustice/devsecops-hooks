@@ -9,8 +9,13 @@ if ! command -v gitleaks >/dev/null 2>&1; then
     exit 1
 fi
 
+if [ -n "${GITLEAKS_CONFIGURATION_FILE:-}" ]; then
+    GITLEAKS_CONFIG="${GITLEAKS_CONFIGURATION_FILE}"
+fi
+
 if [ -n "${GITLEAKS_CONFIG:-}" ] || [ -n "${GITLEAKS_CONFIG_TOML:-}" ]; then
-    exec gitleaks git --pre-commit --staged --no-banner --redact --verbose --exit-code 1
+    exec gitleaks git --pre-commit --staged --no-banner --redact --verbose --exit-code 1 \
+        --gitleaks-ignore-path "${GITLEAKS_IGNORE_FILE:-.gitleaksignore}"
 fi
 
 BASE_CONFIG="${GITLEAKS_BASE_CONFIG:-$BUNDLED_CONFIG}"
