@@ -10,7 +10,7 @@ if ! command -v gitleaks >/dev/null 2>&1; then
 fi
 
 if [ -n "${GITLEAKS_CONFIGURATION_FILE:-}" ]; then
-    GITLEAKS_CONFIG="${GITLEAKS_CONFIGURATION_FILE}"
+    export GITLEAKS_CONFIG="${GITLEAKS_CONFIGURATION_FILE}"
 fi
 
 if [ -n "${GITLEAKS_CONFIG:-}" ] || [ -n "${GITLEAKS_CONFIG_TOML:-}" ]; then
