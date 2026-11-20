@@ -19,7 +19,7 @@ jobs:
     name: Hooks
     runs-on: ubuntu-latest
     environment:
-      name: ${{ env.environment }}
+      name: base
 
     steps:
       - name: Checkout

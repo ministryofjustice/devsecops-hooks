@@ -18,7 +18,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     environment:
-      name: ${{ env.environment }}
+      name: base
 
     steps:
       - name: Checkout
