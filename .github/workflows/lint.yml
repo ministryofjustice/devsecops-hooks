@@ -18,14 +18,14 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     environment:
-      name: ${{ env.environment }}
+      name: base
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Install pre-commit
-        run: pip install pre-commit==4.0.1
+        run: pip install pre-commit==4.3.0 virtualenv==21.15.9 filelock==4.2.1
 
       - name: Validate hook manifests
         run: |

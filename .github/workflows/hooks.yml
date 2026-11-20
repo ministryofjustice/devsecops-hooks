@@ -19,7 +19,7 @@ jobs:
     name: Hooks
     runs-on: ubuntu-latest
     environment:
-      name: ${{ env.environment }}
+      name: base
 
     steps:
       - name: Checkout
@@ -43,7 +43,7 @@ jobs:
           rm -f "$FILE" checksums.txt gitleaks
 
       - name: Install pre-commit
-        run: pip install pre-commit==4.0.1
+        run: pip install pre-commit==4.3.0 virtualenv==21.15.9 filelock==4.2.1
 
       - name: Run hooks
         run: pre-commit run --all-files
